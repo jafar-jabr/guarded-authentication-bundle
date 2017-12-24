@@ -61,14 +61,11 @@ public function registerBundles()
 
 Bundle configuration
 ---------------------
-
-### default configuration
+Necessary configuration in your `config.yml` :
 
 ``` yaml
-# app/config/config.yml
-# ...
 jafar_guarded_authentication:
-    #address to the login form class
+   #address to the login form class
     login_form: AuthBundle\Form\LoginForm
 	#the route name of login page
     login_route: ''
