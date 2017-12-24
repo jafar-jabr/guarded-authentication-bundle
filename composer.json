@@ -1,0 +1,34 @@
+{
+    "name": "jafar/guarded-authentication-bundle",
+    "description": "This bundle provides full authentication for login form and also api ( using JWT ) based on symfony Guard",
+    "keywords": ["authentication","guard", "Symfony", "bundle", "jwt", "jws", "authentication", "api", "rest"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jafar Jabr",
+            "email": "jafaronly@yahoo.com"
+        }
+    ],
+    "require": {
+        "php": "^5.5|^7.0",
+        "symfony/framework-bundle": "^2.8|^3.0|^4.0",
+        "symfony/security-bundle": "^2.8|^3.0|^4.0",
+        "namshi/jose": "^7.2"
+    },
+    "require-dev": {
+
+    },
+    "suggest": {
+
+    },
+    "autoload": {
+        "psr-4": { "Jafar\\Bundle\\GuardedAuthenticationBundle\\": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}

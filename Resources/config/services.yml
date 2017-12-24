@@ -1,0 +1,52 @@
+services:
+      app.security.login_form_authenticator:
+             class: Jafar\Bundle\GuardedAuthenticationBundle\Guard\LoginFormAuthenticator
+             autowire: true
+             arguments:
+                  $loginForm: '%jafar_guarded_authentication.login_form%'
+                  $loginRoute: '%jafar_guarded_authentication.login_route%'
+                  $homeRoute: '%jafar_guarded_authentication.home_page_route%'
+      app.security.jwt_token_authenticator:
+             class: Jafar\Bundle\GuardedAuthenticationBundle\Guard\JwtAuthenticator
+             autowire: true
+             arguments:
+                  $loginRoute: '%jafar_guarded_authentication.api_login_route%'
+                  $homeRoute: '%jafar_guarded_authentication.api_home_page_route%'
+      api_exception_subscriber:
+             class: Jafar\Bundle\GuardedAuthenticationBundle\EventListener\ApiExceptionSubscriber
+             autowire: true
+             arguments:
+                 $debug: '%kernel.debug%'
+                 $responseFactory: '@Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory'
+      Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory:
+             class: Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory
+             autowire: true
+      jafar_guarded_authentication.encoder:
+             class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder\JWTEncoder
+             autowire: true
+             public: true
+             arguments: ['@Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider\JWSProviderInterface']
+      Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider\JWSProviderInterface:
+             alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider\JWSProvider
+
+      Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider\JWSProvider:
+             class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider\JWSProvider
+             public: false
+             autowire: true
+             arguments:
+                  $ttl: '%jafar_guarded_authentication.token_ttl%'
+
+      Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\AbstractKeyLoader:
+             abstract: true
+             public: false
+             arguments: ['%jafar_guarded_authentication.pass_phrase%']
+
+      jafar_guarded_authentication.key_loader.openssl:
+             class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\OpenSSLKeyLoader
+             parent: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\AbstractKeyLoader
+
+
+
+
+
+
