@@ -208,7 +208,7 @@ class ApiLoginController extends Controller
 Now you can submit the login form for authentication or send (curl or postman) request
 
 ```bash
-curl -X POST http://localhost:8000/api/your_api_login_route -d username=your_email -d password=your_password
+curl -X POST http://localhost:8000/api/your_api_login_url -d username=your_email -d password=your_password
 ``` 
 
 ### Use the token
