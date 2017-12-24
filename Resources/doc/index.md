@@ -11,6 +11,7 @@ preparation
 
 ### for start using this package you need to :
 1- to create your won user table and to make it implements AdvancedUserInterface
+
 2- to implement UserLoaderInterface in the user repository for loadUserByUsername() method for example :
 ```php
      /**
@@ -66,13 +67,13 @@ Necessary configuration in your `config.yml` :
 jafar_guarded_authentication:
    #address to the login form class
     login_form: AuthBundle\Form\LoginForm
-	#the route name of login page
+   #the route name of login page
     login_route: ''
-	#route name of home page 
+   #route name of home page 
     home_page_route: ''
-	#route name for Api login url
+   #route name for Api login url
     api_login_route: ''
-	#route name for Api home page
+   #route name for Api home page
     api_home_page_route: ''
     # ssh key pass phrase
     pass_phrase:         '' #you just used to generate keys in command line
@@ -82,21 +83,21 @@ jafar_guarded_authentication:
 
 Security configuration
 -----------------------
-
+in your `app/config/security.yml`
 ```yaml
-# app/config/security.yml
+
 security:
     encoders:
         AuthBundle\Entity\Users:  #your own user table
             algorithm: bcrypt #or whatever
-	providers:
+    providers:
       # ...
-	  user_provider:
+        user_provider:
           entity:
-                  class: AuthBundle:Users #your own user table
+              class: AuthBundle:Users #your own user table
     
     firewalls:
-	# ...
+      # ...
         api:
             pattern: ^/api/
             anonymous: ~
@@ -207,13 +208,13 @@ class ApiLoginController extends Controller
 Now you can submit the login form for authentication or send (curl or postman) request
 
 ```bash
-curl -X POST http://localhost:8000/api/your_api_login_route -d username=your_email -d password=your_password
+curl -X POST http://localhost:8000/api/your_api_login_url -d username=your_email -d password=your_password
 ``` 
 
 ### Use the token
 
-from now and on you have to include the JWT on each request to the protected firewall as an authorization header
- `Authorization: Bearer {token}`
+from now and on you have to include the JWT on each request to the Api protected firewall as an authorization header
+ `Authorization: Bearer token`
 
 Notes
 -----
@@ -221,5 +222,4 @@ Notes
 ### token life time "ttl"
 
 Each request after token expiration will result in a 401 response.
-go to Api login again to get a new token. 
-
+go to Api login again to get a new token.
