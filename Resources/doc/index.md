@@ -67,13 +67,13 @@ Necessary configuration in your `config.yml` :
 jafar_guarded_authentication:
    #address to the login form class
     login_form: AuthBundle\Form\LoginForm
-	#the route name of login page
+   #the route name of login page
     login_route: ''
-	#route name of home page 
+   #route name of home page 
     home_page_route: ''
-	#route name for Api login url
+   #route name for Api login url
     api_login_route: ''
-	#route name for Api home page
+   #route name for Api home page
     api_home_page_route: ''
     # ssh key pass phrase
     pass_phrase:         '' #you just used to generate keys in command line
@@ -83,21 +83,21 @@ jafar_guarded_authentication:
 
 Security configuration
 -----------------------
-
+in your `app/config/security.yml`
 ```yaml
-# app/config/security.yml
+
 security:
     encoders:
         AuthBundle\Entity\Users:  #your own user table
             algorithm: bcrypt #or whatever
-	providers:
+    providers:
       # ...
-	  user_provider:
+	user_provider:
           entity:
-                  class: AuthBundle:Users #your own user table
+              class: AuthBundle:Users #your own user table
     
     firewalls:
-	    # ...
+      # ...
         api:
             pattern: ^/api/
             anonymous: ~
