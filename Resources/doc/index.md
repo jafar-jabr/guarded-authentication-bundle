@@ -60,14 +60,11 @@ public function registerBundles()
 
 Bundle configuration
 ---------------------
-
-### default configuration
+Necessary configuration in your `config.yml` :
 
 ``` yaml
-# app/config/config.yml
-# ...
 jafar_guarded_authentication:
-    #address to the login form class
+   #address to the login form class
     login_form: AuthBundle\Form\LoginForm
 	#the route name of login page
     login_route: ''
@@ -99,7 +96,7 @@ security:
                   class: AuthBundle:Users #your own user table
     
     firewalls:
-	    # ...
+	# ...
         api:
             pattern: ^/api/
             anonymous: ~
@@ -221,7 +218,7 @@ from now and on you have to include the JWT on each request to the protected fir
 Notes
 -----
 
-####token life time "ttl"
+### token life time "ttl"
 
 Each request after token expiration will result in a 401 response.
 go to Api login again to get a new token. 
