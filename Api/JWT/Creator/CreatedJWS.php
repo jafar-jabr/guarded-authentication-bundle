@@ -31,7 +31,6 @@ class CreatedJWS
     public function __construct($token, $isSigned)
     {
         $this->token = $token;
-
         if (true === $isSigned) {
             $this->state = self::SIGNED;
         }

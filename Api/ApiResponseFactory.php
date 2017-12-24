@@ -1,5 +1,6 @@
 <?php
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api;
+
 /**
  * Created by PhpStorm.
  * User: Jafar Jabr
@@ -17,7 +18,7 @@ final class ApiResponseFactory
     {
         $data = $apiProblem->toArray();
         if ($data['type'] != 'about:blank') {
-            $data['type'] = 'http://localhost/mcd-crm/web/errors#' . $data['type'];
+            $data['type'] = 'http://localhost/just_url/web/errors#' . $data['type'];
         }
         $response = new JsonResponse($data, $apiProblem->getStatusCode());
         $response->headers->set('Content-Type', 'application/problem+json');

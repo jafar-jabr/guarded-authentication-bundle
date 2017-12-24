@@ -33,9 +33,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         FormFactoryInterface $formFactory,
         RouterInterface $router,
         UserPasswordEncoderInterface $passwordEncoder,
-        string $loginForm,
-        string $loginRoute,
-        string $homeRoute
+        $loginForm,
+        $loginRoute,
+        $homeRoute
     )
     {
         $this->formFactory = $formFactory;

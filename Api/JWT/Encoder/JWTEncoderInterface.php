@@ -28,7 +28,7 @@ interface JWTEncoderInterface
      * @return array
      *
      * @throws ApiException If an error occurred while trying to load the token
-     *                                   (invalid signature, invalid crypto key, expired token...)
+     *                                   (invalid signature, invalid crept key, expired token...)
      */
     public function decode($token);
 }

@@ -34,10 +34,13 @@ class JWTEncoder implements JWTEncoderInterface
         try {
             $jws = $this->jwsProvider->create($payload);
         } catch (\InvalidArgumentException $e) {
-            throw new ApiException(ApiException::INVALID_CONFIG, 'An error occured while trying to encode the JWT token. Please verify your configuration (private key/passphrase)', $e);
+            throw new ApiException(ApiException::INVALID_CONFIG,
+                'An error occurred while trying 
+                to encode the JWT token. Please verify your configuration (private key/passphrase)', $e);
         }
         if (!$jws->isSigned()) {
-            throw new ApiException(ApiException::UNSIGNED_TOKEN, 'Unable to create a signed JWT from the given configuration.');
+            throw new ApiException(ApiException::UNSIGNED_TOKEN,
+                'Unable to create a signed JWT from the given configuration.');
         }
         return $jws->getToken();
     }
@@ -59,7 +62,10 @@ class JWTEncoder implements JWTEncoderInterface
             throw new ApiException(ApiException::EXPIRED_TOKEN, 'Expired JWT Token');
         }
         if (!$jws->isVerified()) {
-            throw new ApiException(ApiException::UNVERIFIED_TOKEN, 'Unable to verify the given JWT through the given configuration. If the "lexik_jwt_authentication.encoder" encryption options have been changed since your last authentication, please renew the token. If the problem persists, verify that the configured keys/passphrase are valid.');
+            throw new ApiException(ApiException::UNVERIFIED_TOKEN,
+                'Unable to verify the given JWT through the given configuration.
+                 If the encryption options have been changed since your last authentication, please renew the token.
+                 If the problem persists, verify that the configured passphrase are valid.');
         }
         return $jws->getPayload();
     }

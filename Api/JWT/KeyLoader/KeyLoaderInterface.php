@@ -22,5 +22,5 @@ interface KeyLoaderInterface
     /**
      * @return string
      */
-    public function getPassphrase();
+    public function getPassPhrase();
 }

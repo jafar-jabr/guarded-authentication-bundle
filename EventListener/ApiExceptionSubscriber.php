@@ -37,11 +37,6 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
         if ($this->debug && $statusCode >= 500) {
             return;
         }
-//        if($e instanceof ApiProblemException){
-//            $apiProblem = $e->getApiProblem();
-//        }else{
-//            $apiProblem = new ApiProblem($statusCode);
-//        }
         $apiProblem = new ApiProblem($statusCode);
         if ($e instanceof HttpExceptionInterface) {
             $apiProblem->set('details', $e->getMessage());

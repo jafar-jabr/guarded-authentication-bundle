@@ -15,7 +15,6 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiProblem;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
@@ -26,18 +25,18 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder\JWTEncoderInterface
 class JwtAuthenticator extends AbstractGuardAuthenticator
 {
     private $jwtEncoder;
-    //private $em;
     private $router;
     private $responseFactory;
     private $loginRoute;
     private $homeRoute;
 
-    public function __construct(JWTEncoderInterface $jwtEncoder,
-                                EntityManagerInterface $em,
-                                RouterInterface $router,
-                                ApiResponseFactory $responseFactory,
-                                string $loginRoute,
-                                string $homeRoute)
+    public function __construct(
+        JWTEncoderInterface $jwtEncoder,
+        RouterInterface $router,
+        ApiResponseFactory $responseFactory,
+        $loginRoute,
+        $homeRoute
+    )
     {
         $this->jwtEncoder = $jwtEncoder;
         //$this->em = $em;

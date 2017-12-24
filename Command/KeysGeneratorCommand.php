@@ -21,12 +21,12 @@ class KeysGeneratorCommand extends Command
             ->setName('jafar:generate-keys')
             ->setDescription('Generate private and public key for JWT encryption')
             ->setHelp('Generate password protected private and public key for JWT encryption')
-            ->addArgument('passphrase', InputArgument::REQUIRED, 'Pass phrase for Openssl keyspair.');
+            ->addArgument('passPhrase', InputArgument::REQUIRED, 'Pass phrase for Openssl keysPair.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $passPhrase = $input->getArgument('passphrase');
+        $passPhrase = $input->getArgument('passPhrase');
         $key_directory = dirname(dirname(__FILE__)) . '\Api\JWT\KeyLoader\Keys';
         $privateKey = openssl_pkey_new([
             'private_key_bits' => 4096,

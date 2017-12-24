@@ -26,28 +26,26 @@ abstract class AbstractKeyLoader implements KeyLoaderInterface
     /**
      * @var string
      */
-    private $passphrase;
+    private $passPhrase;
 
     /**
      * Constructor.
      *
-     * @param string $privateKey
-     * @param string $publicKey
-     * @param string $passphrase
+     * @param string $passPhrase
      */
-    public function __construct($passphrase)
+    public function __construct($passPhrase)
     {
         $this->privateKey = dirname(__FILE__).'/Keys/private.pem';
         $this->publicKey  = dirname(__FILE__).'/Keys/public.pem';
-        $this->passphrase = $passphrase;
+        $this->passPhrase = $passPhrase;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPassphrase()
+    public function getPassPhrase()
     {
-        return $this->passphrase;
+        return $this->passPhrase;
     }
 
     /**
@@ -60,7 +58,8 @@ abstract class AbstractKeyLoader implements KeyLoaderInterface
     protected function getKeyPath($type)
     {
         if (!in_array($type, [self::TYPE_PUBLIC, self::TYPE_PRIVATE])) {
-            throw new \InvalidArgumentException(sprintf('The key type must be "public" or "private", "%s" given.', $type));
+            throw new \InvalidArgumentException(
+                sprintf('The key type must be "public" or "private", "%s" given.', $type));
         }
 
         $path = null;
@@ -75,10 +74,10 @@ abstract class AbstractKeyLoader implements KeyLoaderInterface
 
         if (!is_file($path) || !is_readable($path)) {
             throw new \RuntimeException(
-                sprintf('%s key "%s" does not exist or is not readable. Did you correctly set the config option?', ucfirst($type), $path, $type)
+                sprintf('%s key "%s" does not exist or is not readable. Did you correctly set the config option?',
+                    ucfirst($type), $path, $type)
             );
         }
-
         return $path;
     }
 }

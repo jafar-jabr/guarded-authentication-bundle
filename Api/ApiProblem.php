@@ -22,14 +22,14 @@ class ApiProblem
     private $type;
     private $title;
     private $detail;
-    private $extranData = [];
 
     public function __construct($statusCode, $type = null)
     {
         $this->statusCode = $statusCode;
         if ($type === null) {
             $this->type = 'about:blank';
-            $this->title = Response::$statusTexts[$statusCode] ?? 'Unknown status code';
+            $this->title = isset(Response::$statusTexts[$statusCode]) ?
+                Response::$statusTexts[$statusCode] : 'Unknown status code';
         } else {
             if (!isset(self::$titles[$type])) {
                 throw new\InvalidArgumentException('not= title for ' . $type);

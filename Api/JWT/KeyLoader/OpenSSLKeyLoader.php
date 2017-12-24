@@ -3,7 +3,7 @@
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader;
 
 /**
- * Load crypto keys for the OpenSSL crypto engine.
+ * Load crypt keys for the OpenSSL cryptionEngine.
  *
  * @author Jafar Jabr <Jafaronly@yahoo.com>
  */
@@ -13,7 +13,7 @@ class OpenSSLKeyLoader extends AbstractKeyLoader
      * {@inheritdoc}
      *
      * @throws \RuntimeException If the key cannot be read
-     * @throws \RuntimeException Either the key or the passphrase is not valid
+     * @throws \RuntimeException Either the key or the passPhrase is not valid
      */
     public function loadKey($type)
     {
@@ -21,7 +21,7 @@ class OpenSSLKeyLoader extends AbstractKeyLoader
         $encryptedKey = file_get_contents($path);
         $key          = call_user_func_array(
             sprintf('openssl_pkey_get_%s', $type),
-            self::TYPE_PRIVATE == $type ? [$encryptedKey, $this->getPassphrase()] : [$encryptedKey]
+            self::TYPE_PRIVATE == $type ? [$encryptedKey, $this->getPassPhrase()] : [$encryptedKey]
         );
 
         if (!$key) {

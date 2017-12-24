@@ -30,8 +30,10 @@ class LoadedJWS
     private $hasLifetime;
 
     /**
+     * LoadedJWS constructor.
      * @param array $payload
-     * @param bool  $isVerified
+     * @param $isVerified
+     * @param bool $hasLifetime
      */
     public function __construct(array $payload, $isVerified, $hasLifetime = true)
     {
@@ -41,7 +43,6 @@ class LoadedJWS
         if (true === $isVerified) {
             $this->state = self::VERIFIED;
         }
-
         $this->checkIssuedAt();
         $this->checkExpiration();
     }

@@ -73,10 +73,10 @@ class JWSProvider implements JWSProviderInterface
      */
     public function load($token)
     {
-        $jws = JWS::load($token, false, null, $this->cryptoEngine);
+        $jws = JWS::load($token, false, null, self::CRYPTIONENGINE);
         return new LoadedJWS(
             $jws->getPayload(),
-            $jws->verify($this->keyLoader->loadKey('public'), $this->signatureAlgorithm),
+            $jws->verify($this->keyLoader->loadKey('public'), self::SIGNATUREALGORITHM),
             null !== $this->ttl
         );
     }
