@@ -213,8 +213,8 @@ curl -X POST http://localhost:8000/api/your_api_login_route -d username=your_ema
 
 ### Use the token
 
-from now and on you have to include the JWT on each request to the protected firewall as an authorization header
- `Authorization: Bearer {token}`
+from now and on you have to include the JWT on each request to the Api protected firewall as an authorization header
+ `Authorization: Bearer token`
 
 Notes
 -----
