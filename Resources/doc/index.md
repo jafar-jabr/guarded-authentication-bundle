@@ -11,6 +11,7 @@ preparation
 
 ### for start using this package you need to :
 1- to create your won user table and to make it implements AdvancedUserInterface
+
 2- to implement UserLoaderInterface in the user repository for loadUserByUsername() method for example :
 ```php
      /**
