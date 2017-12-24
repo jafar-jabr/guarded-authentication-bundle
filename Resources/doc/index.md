@@ -222,7 +222,7 @@ from now and on you have to include the JWT on each request to the protected fir
 Notes
 -----
 
-####token life time "ttl"
+###token life time "ttl"
 
 Each request after token expiration will result in a 401 response.
 go to Api login again to get a new token. 
