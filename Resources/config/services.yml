@@ -21,11 +21,6 @@ services:
       Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory
              autowire: true
-      jafar_guarded_authentication.encoder:
-             class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder\JWTEncoder
-             autowire: true
-             public: true
-             arguments: ['@Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider\JWSProviderInterface']
       Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider\JWSProviderInterface:
              alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider\JWSProvider
 
@@ -41,12 +36,13 @@ services:
              public: false
              arguments: ['%jafar_guarded_authentication.pass_phrase%']
 
-      jafar_guarded_authentication.key_loader.openssl:
+      Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\KeyLoaderInterface:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\OpenSSLKeyLoader
              parent: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\AbstractKeyLoader
-
-
-
-
-
-
+      Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder\JWTEncoderInterface:
+             class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder\JWTEncoder
+             public: true
+             autowire: true
+             arguments: ['@Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider\JWSProviderInterface']
+      jafar_guarded_authentication.encoder:
+             alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder\JWTEncoderInterface
