@@ -45,7 +45,7 @@ Installation
 Add [`jafar/guard-authentication-bundle`](https://packagist.org/packages/jafar/guard-authentication-bundle)
 to your `composer.json` file:
 
-    composer require jafar/guard-authentication-bundle "dev-master"
+    composer require jafar/guarded-authentication-bundle "dev-master"
 
 Register the bundle in `app/AppKernel.php`:
 
