@@ -57,10 +57,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $form = $this->formFactory->create($loginForm);
         $form->handleRequest($request);
         $data = $form->getData();
-        $request->getSession()->set(
-            Security::LAST_USERNAME,
-            $data['_username']
-        );
+        if($request->getSession()){
+            $request->getSession()->set(
+                Security::LAST_USERNAME,
+                $data['_username']
+            );
+        }
         return $data;
     }
 
