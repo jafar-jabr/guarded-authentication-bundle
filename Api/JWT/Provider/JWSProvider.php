@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Jafar Jabr
- * Date: 12/21/2017
- * Time: 9:12 PM
+/*
+ * This file is part of the Guarded Authentication package.
+ *
+ * (c) Jafar Jabr <jafaronly@yahoo.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider;
@@ -13,6 +15,10 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\KeyLoaderInterfac
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Creator\CreatedJWS;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\LoadedJWS;
 
+/**
+ * @author Jafar Jabr <jafaronly@yahoo.com>
+ * Date: 11/02/2017
+ */
 class JWSProvider implements JWSProviderInterface
 {
     const CRYPTIONENGINE = 'OpenSSL';

@@ -1,14 +1,21 @@
 <?php
+/*
+ * This file is part of the Guarded Authentication package.
+ *
+ * (c) Jafar Jabr <jafaronly@yahoo.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api;
 
-/**
- * Created by PhpStorm.
- * User: Jafar Jabr
- * Date: 12/8/2017
- * Time: 12:09 PM
- */
 use Symfony\Component\HttpFoundation\Response;
+
+/**
+ * @author Jafar Jabr <jafaronly@yahoo.com>
+ * Date: 11/02/2017
+ */
 
 class ApiProblem
 {
