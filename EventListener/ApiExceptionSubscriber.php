@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Jafar Jabr
- * Date: 12/8/2017
- * Time: 12:53 PM
+/*
+ * This file is part of the Guarded Authentication package.
+ *
+ * (c) Jafar Jabr <jafaronly@yahoo.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\EventListener;
@@ -15,6 +17,10 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
+/**
+ * @author Jafar Jabr <jafaronly@yahoo.com>
+ * Date: 11/02/2017
+ */
 class ApiExceptionSubscriber implements EventSubscriberInterface
 {
 

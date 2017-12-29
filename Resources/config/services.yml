@@ -18,6 +18,7 @@ services:
              arguments:
                  $debug: '%kernel.debug%'
                  $responseFactory: '@Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory'
+             tags: [kernel.event_subscriber]
       Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory
              autowire: true

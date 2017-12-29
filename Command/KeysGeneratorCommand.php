@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Jafar Jabr
- * Date: 12/14/2017
- * Time: 10:07 AM
+/*
+ * This file is part of the Guarded Authentication package.
+ *
+ * (c) Jafar Jabr <jafaronly@yahoo.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Command;
@@ -13,6 +15,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * @author Jafar Jabr <jafaronly@yahoo.com>
+ * Date: 11/02/2017
+ */
 class KeysGeneratorCommand extends Command
 {
     protected function configure()

@@ -1,12 +1,20 @@
 <?php
+/*
+ * This file is part of the Guarded Authentication package.
+ *
+ * (c) Jafar Jabr <jafaronly@yahoo.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader;
 
 /**
- * Load crypt keys for the OpenSSL cryptionEngine.
- *
- * @author Jafar Jabr <Jafaronly@yahoo.com>
+ * @author Jafar Jabr <jafaronly@yahoo.com>
+ * Date: 11/02/2017
  */
+
 class OpenSSLKeyLoader extends AbstractKeyLoader
 {
     /**

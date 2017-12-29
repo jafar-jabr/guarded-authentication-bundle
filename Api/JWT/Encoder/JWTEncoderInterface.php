@@ -1,14 +1,21 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Jafar Jabr
- * Date: 12/21/2017
- * Time: 10:20 AM
+/*
+ * This file is part of the Guarded Authentication package.
+ *
+ * (c) Jafar Jabr <jafaronly@yahoo.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder;
 
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiException;
+
+/**
+ * @author Jafar Jabr <jafaronly@yahoo.com>
+ * Date: 11/02/2017
+ */
 
 interface JWTEncoderInterface
 {
@@ -18,7 +25,7 @@ interface JWTEncoderInterface
      * @return string the encoded token string
      *
      * @throws ApiException If an error occurred while trying to create
-     *                                   the token (invalid crypto key, invalid payload...)
+     *         the token (invalid crypto key, invalid payload...)
      */
     public function encode(array $data);
 
