@@ -25,15 +25,32 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiException;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder\JWTEncoderInterface;
 
 /**
+ * {@inheritdoc}
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Class JwtAuthenticator
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Guard
  */
 class JwtAuthenticator extends AbstractGuardAuthenticator
 {
+    /**
+     * @var JWTEncoderInterface
+     */
     private $jwtEncoder;
+    /**
+     * @var RouterInterface
+     */
     private $router;
+    /**
+     * @var ApiResponseFactory
+     */
     private $responseFactory;
+    /**
+     * @var string
+     */
     private $loginRoute;
+    /**
+     * @var string
+     */
     private $homeRoute;
 
     public function __construct(
@@ -45,13 +62,15 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
     )
     {
         $this->jwtEncoder = $jwtEncoder;
-        //$this->em = $em;
         $this->router = $router;
         $this->responseFactory = $responseFactory;
         $this->loginRoute = $loginRoute;
         $this->homeRoute = $homeRoute;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCredentials(Request $request)
     {
         $extractor = new TokenExtractor(
@@ -65,6 +84,9 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
         return $token;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         try {
@@ -81,17 +103,26 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function checkCredentials($credentials, UserInterface $user)
     {
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getLoginUrl()
     {
         $loginRoute = $this->loginRoute;
         return $this->router->generate($loginRoute);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function supportsRememberMe()
     {
         return false;
@@ -107,6 +138,9 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
         return $this->responseFactory->createResponse($apiProblem);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function start(Request $request, AuthenticationException $authException = null)
     {
         $apiProblem = new ApiProblem(401);
@@ -115,11 +149,17 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
         return $this->responseFactory->createResponse($apiProblem);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         return;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getDefaultSuccessRedirectUrl()
     {
         $homeRoute = $this->homeRoute;

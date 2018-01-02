@@ -15,7 +15,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Class JafarGuardedAuthenticationBundle
+ * @package Jafar\Bundle\GuardedAuthenticationBundle
  */
 class JafarGuardedAuthenticationBundle extends Bundle
 {

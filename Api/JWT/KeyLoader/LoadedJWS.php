@@ -12,9 +12,9 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Class LoadedJWS
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader
  */
-
 class LoadedJWS
 {
     const VERIFIED = 'verified';

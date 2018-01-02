@@ -17,12 +17,13 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\LoadedJWS;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Class JWSProvider
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider
  */
 class JWSProvider implements JWSProviderInterface
 {
     const CRYPTIONENGINE = 'OpenSSL';
-    const SIGNATUREALGORITHM ='RS256';
+    const SIGNATUREALGORITHM = 'RS256';
 
     /**
      * @var KeyLoaderInterface
@@ -38,22 +39,15 @@ class JWSProvider implements JWSProviderInterface
      * @param KeyLoaderInterface $keyLoader
      * @param int $ttl
      *
-     * @throws \InvalidArgumentException If the given algorithm is not supported
+     * @throws \InvalidArgumentException If the given ttl is not numeric
      */
     public function __construct(KeyLoaderInterface $keyLoader, $ttl)
     {
         if (null !== $ttl && !is_numeric($ttl)) {
             throw new \InvalidArgumentException(sprintf('The TTL should be a numeric value, got %s instead.', $ttl));
         }
-        $cryptoEngine = self::CRYPTIONENGINE;
-        $signatureAlgorithm = self::SIGNATUREALGORITHM;
-        if (!$this->isAlgorithmSupportedForEngine($cryptoEngine, $signatureAlgorithm)) {
-            throw new \InvalidArgumentException(
-                sprintf('The algorithm "%s" is not supported for %s', $signatureAlgorithm, $cryptoEngine)
-            );
-        }
-        $this->keyLoader  = $keyLoader;
-        $this->ttl        = $ttl;
+        $this->keyLoader = $keyLoader;
+        $this->ttl = $ttl;
     }
 
     /**
@@ -61,7 +55,7 @@ class JWSProvider implements JWSProviderInterface
      */
     public function create(array $payload)
     {
-        $jws    = new JWS(['alg' => self::SIGNATUREALGORITHM], self::CRYPTIONENGINE);
+        $jws = new JWS(['alg' => self::SIGNATUREALGORITHM], self::CRYPTIONENGINE);
         $claims = ['iat' => time()];
         if (null !== $this->ttl) {
             $claims['exp'] = time() + $this->ttl;

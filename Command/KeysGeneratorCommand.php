@@ -17,7 +17,8 @@ use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Class KeysGeneratorCommand
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Command
  */
 class KeysGeneratorCommand extends Command
 {

@@ -15,7 +15,6 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider\JWSProviderInterfa
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
  */
 
 class JWTEncoder implements JWTEncoderInterface

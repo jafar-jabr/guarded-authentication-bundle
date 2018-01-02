@@ -12,7 +12,8 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Class ApiException
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api
  */
 final class ApiException extends \Exception
 {

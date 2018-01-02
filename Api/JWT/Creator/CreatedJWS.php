@@ -12,7 +12,8 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Creator;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Class CreatedJWS
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Creator
  */
 class CreatedJWS
 {
@@ -31,8 +32,9 @@ class CreatedJWS
     private $state;
 
     /**
-     * @param string $token
-     * @param bool   $isSigned
+     * CreatedJWS constructor.
+     * @param $token
+     * @param $isSigned
      */
     public function __construct($token, $isSigned)
     {

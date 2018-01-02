@@ -14,9 +14,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Class ApiResponseFactory
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api
  */
-
 final class ApiResponseFactory
 {
     public function createResponse(ApiProblem $apiProblem)

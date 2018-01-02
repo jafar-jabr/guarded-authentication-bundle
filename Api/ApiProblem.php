@@ -14,9 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Class ApiProblem
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api
  */
-
 class ApiProblem
 {
     const VALIDATION_ERROR_TYPE = 'Validation_Error';
@@ -30,6 +30,11 @@ class ApiProblem
     private $title;
     private $detail;
 
+    /**
+     * ApiProblem constructor.
+     * @param $statusCode
+     * @param null $type
+     */
     public function __construct($statusCode, $type = null)
     {
         $this->statusCode = $statusCode;

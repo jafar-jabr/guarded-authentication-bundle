@@ -14,9 +14,9 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiException;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Interface JWTEncoderInterface
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder
  */
-
 interface JWTEncoderInterface
 {
     /**
@@ -35,7 +35,7 @@ interface JWTEncoderInterface
      * @return array
      *
      * @throws ApiException If an error occurred while trying to load the token
-     *                                   (invalid signature, invalid crept key, expired token...)
+     *         (invalid signature, invalid crept key, expired token...)
      */
     public function decode($token);
 }

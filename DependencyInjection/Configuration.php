@@ -15,7 +15,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Class Configuration
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\DependencyInjection
  */
 class Configuration implements ConfigurationInterface
 {
@@ -30,25 +31,19 @@ class Configuration implements ConfigurationInterface
             ->addDefaultsIfNotSet()
             ->children()
             ->scalarNode('pass_phrase')
-            ->defaultValue('')
             ->end()
             ->scalarNode('token_ttl')
             ->defaultValue(3600)
             ->end()
             ->scalarNode('login_form')
-            ->defaultValue('')
             ->end()
             ->scalarNode('login_route')
-            ->defaultValue('')
             ->end()
             ->scalarNode('home_page_route')
-            ->defaultValue('')
             ->end()
             ->scalarNode('api_login_route')
-            ->defaultValue('')
             ->end()
             ->scalarNode('api_home_page_route')
-            ->defaultValue('')
             ->end();
         return $treeBuilder;
     }

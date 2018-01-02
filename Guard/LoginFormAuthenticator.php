@@ -22,11 +22,18 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Class LoginFormAuthenticator
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Guard
  */
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
+    /**
+     * @var FormFactoryInterface
+     */
     private $formFactory;
+    /**
+     * @var RouterInterface
+     */
     private $router;
     private $passwordEncoder;
     private $loginForm;
@@ -52,6 +59,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $this->homeRoute = $homeRoute;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCredentials(Request $request)
     {
         $loginForm = $this->loginForm;
@@ -72,6 +82,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $data;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $username = $credentials['_username'];
@@ -82,6 +95,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         throw new CustomUserMessageAuthenticationException($this->wrongEmail);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function checkCredentials($credentials, UserInterface $user)
     {
         $password = $credentials['_password'];
@@ -91,18 +107,27 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         throw new CustomUserMessageAuthenticationException($this->wrongPassword);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getLoginUrl()
     {
         $loginRoute =  $this->loginRoute;
         return $this->router->generate($loginRoute);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getDefaultSuccessRedirectUrl()
     {
         $homeRoute = $this->homeRoute;
         return $this->router->generate($homeRoute);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function supportsRememberMe()
     {
         return true;

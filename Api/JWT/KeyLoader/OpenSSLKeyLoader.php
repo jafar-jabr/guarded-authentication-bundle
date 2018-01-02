@@ -12,9 +12,9 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Class OpenSSLKeyLoader
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader
  */
-
 class OpenSSLKeyLoader extends AbstractKeyLoader
 {
     /**
@@ -25,27 +25,24 @@ class OpenSSLKeyLoader extends AbstractKeyLoader
      */
     public function loadKey($type)
     {
-        $path         = $this->getKeyPath($type);
+        $path = $this->getKeyPath($type);
         $encryptedKey = file_get_contents($path);
-        $key          = call_user_func_array(
+        $key = call_user_func_array(
             sprintf('openssl_pkey_get_%s', $type),
             self::TYPE_PRIVATE == $type ? [$encryptedKey, $this->getPassPhrase()] : [$encryptedKey]
         );
-
         if (!$key) {
             $sslError = '';
             while ($msg = trim(openssl_error_string(), " \n\r\t\0\x0B\"")) {
                 if ('error:' === substr($msg, 0, 6)) {
                     $msg = substr($msg, 6);
                 }
-                $sslError .= "\n ".$msg;
+                $sslError .= "\n " . $msg;
             }
-
             throw new \RuntimeException(
                 sprintf('Failed to load %s key "%s": %s', $type, $path, $sslError)
             );
         }
-
         return $key;
     }
 }

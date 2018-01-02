@@ -12,9 +12,9 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Interface KeyLoaderInterface
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader
  */
-
 interface KeyLoaderInterface
 {
     /**

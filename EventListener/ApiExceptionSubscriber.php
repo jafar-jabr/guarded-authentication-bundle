@@ -18,8 +18,10 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
+ * {@inheritdoc}
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Class ApiExceptionSubscriber
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\EventListener
  */
 class ApiExceptionSubscriber implements EventSubscriberInterface
 {
@@ -27,12 +29,21 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
     private $debug;
     private $responseFactory;
 
+    /**
+     * {@inheritdoc}
+     * ApiExceptionSubscriber constructor.
+     * @param $debug
+     * @param ApiResponseFactory $responseFactory
+     */
     public function __construct($debug, ApiResponseFactory $responseFactory)
     {
         $this->debug = $debug;
         $this->responseFactory = $responseFactory;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         if (strpos($event->getRequest()->getPathInfo(), '/api') !== 0) {
@@ -51,6 +62,9 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
         $event->setResponse($response);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function getSubscribedEvents()
     {
         return [

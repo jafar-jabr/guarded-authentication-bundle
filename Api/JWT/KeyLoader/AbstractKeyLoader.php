@@ -12,7 +12,8 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Date: 11/02/2017
+ * Class AbstractKeyLoader
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader
  */
 abstract class AbstractKeyLoader implements KeyLoaderInterface
 {
@@ -57,27 +58,23 @@ abstract class AbstractKeyLoader implements KeyLoaderInterface
     /**
      * @param string $type One of "public" or "private"
      *
-     * @return string The path of the key
+     * @return null|string The path of the key
      *
      * @throws \InvalidArgumentException If the given type is not valid
-     */
+    */
     protected function getKeyPath($type)
     {
         if (!in_array($type, [self::TYPE_PUBLIC, self::TYPE_PRIVATE])) {
-            throw new \InvalidArgumentException(
-                sprintf('The key type must be "public" or "private", "%s" given.', $type));
+          throw new InvalidArgumentException(
+               sprintf('The key type must be "public" or "private", "%s" given.', $type));
         }
-
         $path = null;
-
         if (self::TYPE_PUBLIC === $type) {
             $path = $this->publicKey;
         }
-
         if (self::TYPE_PRIVATE === $type) {
             $path = $this->privateKey;
         }
-
         if (!is_file($path) || !is_readable($path)) {
             throw new \RuntimeException(
                 sprintf('%s key "%s" does not exist or is not readable. Did you correctly set the config option?',
@@ -86,4 +83,4 @@ abstract class AbstractKeyLoader implements KeyLoaderInterface
         }
         return $path;
     }
-}
+ }
