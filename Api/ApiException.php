@@ -36,8 +36,7 @@ final class ApiException extends \Exception
     public function __construct($reason, $message, \Exception $previous = null)
     {
         $this->reason = $reason;
-
-        parent::__construct($message, 0, $previous);
+        parent::__construct($message, 500, $previous);
     }
 
     /**

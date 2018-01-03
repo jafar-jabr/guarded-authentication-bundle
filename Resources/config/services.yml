@@ -12,13 +12,6 @@ services:
              arguments:
                   $loginRoute: '%jafar_guarded_authentication.api_login_route%'
                   $homeRoute: '%jafar_guarded_authentication.api_home_page_route%'
-      api_exception_subscriber:
-             class: Jafar\Bundle\GuardedAuthenticationBundle\EventListener\ApiExceptionSubscriber
-             autowire: true
-             arguments:
-                 $debug: '%kernel.debug%'
-                 $responseFactory: '@Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory'
-             tags: [kernel.event_subscriber]
       Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory
              autowire: true
