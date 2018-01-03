@@ -11,6 +11,9 @@
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Guard;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
@@ -19,6 +22,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
@@ -31,24 +35,52 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * @var FormFactoryInterface
      */
     private $formFactory;
+
     /**
      * @var RouterInterface
      */
     private $router;
+    /**
+     * @var UserPasswordEncoderInterface
+     */
     private $passwordEncoder;
+    /**
+     * @var string
+     */
     private $loginForm;
+    /**
+     * @var string
+     */
     private $loginRoute;
+    /**
+     * @var string
+     */
     private $homeRoute;
+    /**
+     * @var string
+     */
     private $wrongEmail = 'Incorrect Email Provided!';
+    /**
+     * @var string
+     */
     private $wrongPassword = 'Incorrect Password Provided!';
 
+    /**
+     * LoginFormAuthenticator constructor.
+     * @param FormFactoryInterface $formFactory
+     * @param RouterInterface $router
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param $loginForm
+     * @param $loginRoute
+     * @param $homeRoute
+     */
     public function __construct(
         FormFactoryInterface $formFactory,
         RouterInterface $router,
         UserPasswordEncoderInterface $passwordEncoder,
-        $loginForm,
-        $loginRoute,
-        $homeRoute
+        string $loginForm,
+        string $loginRoute,
+        string $homeRoute
     )
     {
         $this->formFactory = $formFactory;
@@ -73,7 +105,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $form = $this->formFactory->create($loginForm);
         $form->handleRequest($request);
         $data = $form->getData();
-        if($request->getSession()){
+        if ($request->getSession()) {
             $request->getSession()->set(
                 Security::LAST_USERNAME,
                 $data['_username']
@@ -110,19 +142,19 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     /**
      * {@inheritdoc}
      */
-    protected function getLoginUrl()
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        $loginRoute =  $this->loginRoute;
-        return $this->router->generate($loginRoute);
+        $homeRoute = $this->homeRoute;
+        $url = $this->router->generate($homeRoute);
+        return new RedirectResponse($url);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getDefaultSuccessRedirectUrl()
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        $homeRoute = $this->homeRoute;
-        return $this->router->generate($homeRoute);
+        return parent::onAuthenticationFailure($request, $exception);
     }
 
     /**
@@ -131,5 +163,30 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function supportsRememberMe()
     {
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function start(Request $request, AuthenticationException $authException = null)
+    {
+        return parent::start($request, $authException);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getLoginUrl()
+    {
+        $loginRoute = $this->loginRoute;
+        return $this->router->generate($loginRoute);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supports(Request $request)
+    {
+        return $this->getCredentials($request);
     }
 }

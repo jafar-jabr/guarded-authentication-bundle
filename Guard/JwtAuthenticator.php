@@ -40,6 +40,7 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
      * @var RouterInterface
      */
     private $router;
+
     /**
      * @var ApiResponseFactory
      */
@@ -164,5 +165,10 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
     {
         $homeRoute = $this->homeRoute;
         return $this->router->generate($homeRoute);
+    }
+
+    public function supports(Request $request)
+    {
+        // TODO: Implement supports() method.
     }
 }
