@@ -43,3 +43,11 @@ services:
       jafar_guarded_authentication.encoder:
              public: true
              alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder\JWTEncoderInterface
+
+      jafar.command.key_generator:
+             public: false
+             class: Jafar\Bundle\GuardedAuthenticationBundle\Command\KeysGeneratorCommand
+             tags:
+                 - { name: console.command, command: jafar:generate-keys }
+
+

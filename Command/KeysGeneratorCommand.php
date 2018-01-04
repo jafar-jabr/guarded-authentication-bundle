@@ -22,15 +22,27 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class KeysGeneratorCommand extends Command
 {
+    protected static $defaultName = 'jafar:generate-keys';
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
-            ->setName('jafar:generate-keys')
             ->setDescription('Generate private and public key for JWT encryption')
             ->setHelp('Generate password protected private and public key for JWT encryption')
             ->addArgument('passPhrase', InputArgument::REQUIRED, 'Pass phrase for Openssl keysPair.');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $passPhrase = $input->getArgument('passPhrase');
