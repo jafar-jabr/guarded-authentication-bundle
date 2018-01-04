@@ -33,10 +33,13 @@ services:
       Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\KeyLoaderInterface:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\OpenSSLKeyLoader
              parent: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\AbstractKeyLoader
+
       Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder\JWTEncoderInterface:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder\JWTEncoder
              public: true
              autowire: true
              arguments: ['@Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider\JWSProviderInterface']
+
       jafar_guarded_authentication.encoder:
+             public: true
              alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder\JWTEncoderInterface
