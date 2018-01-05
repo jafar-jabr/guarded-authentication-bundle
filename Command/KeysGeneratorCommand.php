@@ -24,8 +24,11 @@ class KeysGeneratorCommand extends Command
 {
     protected static $defaultName = 'jafar:generate-keys';
 
-    public function __construct()
+    private $keysDir;
+
+    public function __construct(string $keys_dir)
     {
+        $this->keysDir = $keys_dir;
         parent::__construct();
     }
 
@@ -35,6 +38,7 @@ class KeysGeneratorCommand extends Command
     protected function configure()
     {
         $this
+            ->setName('jafar:generate-keys')
             ->setDescription('Generate private and public key for JWT encryption')
             ->setHelp('Generate password protected private and public key for JWT encryption')
             ->addArgument('passPhrase', InputArgument::REQUIRED, 'Pass phrase for Openssl keysPair.');
@@ -46,7 +50,7 @@ class KeysGeneratorCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $passPhrase = $input->getArgument('passPhrase');
-        $key_directory = dirname(dirname(__FILE__)) . '\Api\JWT\KeyLoader\Keys';
+        $key_directory = $this->prepareTheRoute();
         $privateKey = openssl_pkey_new([
             'private_key_bits' => 4096,
             'private_key_type' => OPENSSL_KEYTYPE_RSA,
@@ -54,9 +58,20 @@ class KeysGeneratorCommand extends Command
         openssl_pkey_export($privateKey, $privkey, $passPhrase);
         $pubkey = openssl_pkey_get_details($privateKey);
         $pubkey = $pubkey["key"];
-        file_put_contents($key_directory.'\private.pem', $privkey);
-        file_put_contents($key_directory.'\public.pem', $pubkey);
+        file_put_contents($key_directory . 'private.pem', $privkey);
+        file_put_contents($key_directory . 'public.pem', $pubkey);
         $output->writeln('<info>private and public keys generated successfully.</info>');
         return 0;
+    }
+
+    /**
+     * @return string
+     */
+    private function prepareTheRoute()
+    {
+        if (!is_dir($this->keysDir) || !is_readable($this->keysDir)) {
+            mkdir($this->keysDir, 0777);
+        }
+        return $this->keysDir;
     }
 }
