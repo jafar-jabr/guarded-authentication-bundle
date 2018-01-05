@@ -98,7 +98,6 @@ Usage
 Jafar\Bundle\GuardedAuthenticationBundle\User\GuardedUserInterface;
      
 ```
-which means that it need to have at leat four fields
 
 2- the user repository has to extends :
 ```php
