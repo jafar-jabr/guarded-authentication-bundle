@@ -33,7 +33,6 @@ class JafarGuardedAuthenticationExtension extends Extension
         $loader->load('services.yml');
         $container->setParameter('jafar_guarded_authentication.pass_phrase', $config['pass_phrase'] ?? "");
         $container->setParameter('jafar_guarded_authentication.token_ttl', $config['token_ttl'] ?? 3600);
-        $container->setParameter('jafar_guarded_authentication.login_form', $config['login_form'] ?? "");
         $container->setParameter('jafar_guarded_authentication.login_route', $config['login_route'] ?? "" );
         $container->setParameter('jafar_guarded_authentication.home_page_route', $config['home_page_route'] ?? "");
         $container->setParameter('jafar_guarded_authentication.api_login_route', $config['api_login_route'] ?? "");

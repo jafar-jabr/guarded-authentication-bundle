@@ -23,6 +23,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Jafar\Bundle\GuardedAuthenticationBundle\Form\GuardedLoginForm;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
@@ -44,10 +45,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * @var UserPasswordEncoderInterface
      */
     private $passwordEncoder;
-    /**
-     * @var string
-     */
-    private $loginForm;
     /**
      * @var string
      */
@@ -78,7 +75,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         FormFactoryInterface $formFactory,
         RouterInterface $router,
         UserPasswordEncoderInterface $passwordEncoder,
-        string $loginForm,
         string $loginRoute,
         string $homeRoute
     )
@@ -86,7 +82,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $this->formFactory = $formFactory;
         $this->router = $router;
         $this->passwordEncoder = $passwordEncoder;
-        $this->loginForm = $loginForm;
         $this->loginRoute = $loginRoute;
         $this->homeRoute = $homeRoute;
     }
@@ -96,13 +91,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        $loginForm = $this->loginForm;
         $loginRoute = $this->loginRoute;
         $isLoginSubmit = $request->attributes->get('_route') == $loginRoute && $request->isMethod('POST');
         if (!$isLoginSubmit) {
             return null;
         }
-        $form = $this->formFactory->create($loginForm);
+        $form = $this->formFactory->create(GuardedLoginForm::class);
         $form->handleRequest($request);
         $data = $form->getData();
         if ($request->getSession()) {

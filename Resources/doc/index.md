@@ -4,40 +4,7 @@ Getting started
 Prerequisites
 -------------
 
-This bundle requires Symfony 3.3+ (and the OpenSSL library).
-
-preparation
------
-
-### for start using this package you need to :
-1- to create your won user table and to make it implements AdvancedUserInterface
-
-2- to implement UserLoaderInterface in the user repository for loadUserByUsername() method for example :
-```php
-     /**
-     * @param string $username
-     * @return AdvancedUserInterface|null
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     */
-    public function loadUserByUsername($username)
-    {
-        $user = $this->createQueryBuilder('u')
-            ->where('u.email = :email')
-            ->setParameter('email', $username)
-            ->getQuery()
-            ->getOneOrNullResult();
-        return $user;
-    }
-```
-3- create loginform class
-```php
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder->add('_username')
-            ->add('_password', Types\PasswordType::class);
-    }
-```
-
+This bundle requires Symfony 3.4+ , php 7+ (and the OpenSSL library).
 
 Installation
 ------------
@@ -45,28 +12,24 @@ Installation
 Add [`jafar/guard-authentication-bundle`](https://packagist.org/packages/jafar/guard-authentication-bundle)
 to your `composer.json` file:
 
-    composer require jafar/guarded-authentication-bundle "dev-master"
+    composer require jafar/guarded-authentication-bundle "version"
 
-Register the bundle in `app/AppKernel.php`:
+the bundle suppose to be automatically registered in `config/bundles.php` :
 
 ``` php
-public function registerBundles()
-{
-    return array(
-        // ...
-        new Jafar\Bundle\GuardedAuthenticationBundle\JafarGuardedAuthenticationBundle(),
-    );
-}
+return [
+     /.....
+     Jafar\Bundle\GuardedAuthenticationBundle\JafarGuardedAuthenticationBundle::class => ['all' => true],
+ ];
+
 ```
 
 Bundle configuration
 ---------------------
-Necessary configuration in your `config.yml` :
+Necessary configuration in your `config/packages` :
 
+Create `jafar_guarded_authentication.yaml`
 ``` yaml
-jafar_guarded_authentication:
-   #address to the login form class
-    login_form: AuthBundle\Form\LoginForm
    #the route name of login page
     login_route: ''
    #route name of home page 
@@ -83,18 +46,18 @@ jafar_guarded_authentication:
 
 Security configuration
 -----------------------
-in your `app/config/security.yml`
+in your `config/packages/security.yml`
 ```yaml
 
 security:
     encoders:
-        AuthBundle\Entity\Users:  #your own user table
+        App\Entity\Users:  #your own user table
             algorithm: bcrypt #or whatever
     providers:
       # ...
         user_provider:
           entity:
-              class: AuthBundle:Users #your own user table
+              class: App\Entity\User #your own user table
     
     firewalls:
       # ...
@@ -125,22 +88,36 @@ from your project directory run in command line "as administrator"
 ``` php
 php bin/console jafar:generate-keys  your_pass_phrase     
 ```
-#use this pass_phrase also in setting in config.yml file
+#use this pass_phrase also in setting in `jafar_guarded_authentication.yaml` file
 make sure that you have Openssl enabled on you computer.
 
 Usage
 -----
+1- to create your won user entity and to make it implements
+``` php
+Jafar\Bundle\GuardedAuthenticationBundle\User\GuardedUserInterface;
+     
+```
+which means that it need to have at leat four fields
 
-### with the above mentioned setting now your authentication system start to work
-after you create your routes for form login and API authentication 
-- login form controller can look like:
+2- the user repository has to extends :
+```php
+    Jafar\Bundle\GuardedAuthenticationBundle\User\GuardedUserRepository
+```
+
+3- for login method in the controller you can use:
+```php
+   Jafar\Bundle\GuardedAuthenticationBundle\Form\GuardedLoginForm
+```
+and it can looks like:
+
 ``` php
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AuthBundle\Form\LoginForm;
+use Jafar\Bundle\GuardedAuthenticationBundle\Form\GuardedLoginForm;
 
 /**
  * Class LoginController
- * @package AuthBundle\Controller
+ * @package App\Controller
  */
 class LoginController extends Controller
 {
@@ -152,10 +129,10 @@ class LoginController extends Controller
         $authUtils = $this->get('security.authentication_utils');
         $error = $authUtils->getLastAuthenticationError();
         $lastUsername = $authUtils->getLastUsername();
-        $form = $this->createForm(LoginForm::class, [
+        $form = $this->createForm(GuardedLoginForm::class, [
             '_username' => $lastUsername,
         ]);
-        return $this->render('AuthBundle:Pages:login.html.twig', [
+        return $this->render('Pages:login.html.twig', [
             'form' => $form->createView(),
             'error' => $error,
         ]);
@@ -166,51 +143,61 @@ class LoginController extends Controller
 
 - API login controller can look like:
 ``` php
+use App\Repository\UserRepository;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiProblem;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AuthBundle\Entity\Users;
 
-class ApiLoginController extends Controller
+class ApiLoginController extends AuthController
 {
-    private $responseFactory;
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
 
-    public function __construct(ApiResponseFactory $responseFactory)
+    /**
+     * ApiLoginController constructor.
+     * @param UserRepository $userRepository
+     */
+    public function __construct(UserRepository $userRepository)
     {
-        $this->responseFactory = $responseFactory;
+        $this->userRepository = $userRepository;
     }
 
-    public function indexAction(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function index(Request $request)
     {
         $username = $request->get('username');
         $password = $request->get('password');
-        $user = $this->getDoctrine()
-            ->getRepository(Users::class)->findOneBy(['email' => $username]);
+        $user = $this->userRepository->findOneBy(['email' => $username]);
         if (!$user) {
             $apiProblem = new ApiProblem(401);
             $apiProblem->set('detail', 'Invalid email');
-            return $this->responseFactory->createResponse($apiProblem);
+            return (new ApiResponseFactory())->createResponse($apiProblem);
         }
         $passwordValid = $this->get('security.password_encoder')->isPasswordValid($user, $password);
         if (!$passwordValid) {
             $apiProblem = new ApiProblem(401);
             $apiProblem->set('detail', 'Incorrect Password');
-            return $this->responseFactory->createResponse($apiProblem);
+            return (new ApiResponseFactory())->createResponse($apiProblem);
         }
         $token = $this->get('jafar_guarded_authentication.encoder')->encode(['username' => $username]);
         return new JsonResponse(['status' => 'Success', 'token' => 'Bearer ' . $token]);
     }
 }
 ```
-
+### with the above mentioned setting now your authentication system start to work
+after you create your routes for form login and API authentication and update `jafar_guarded_authentication.yaml`
+with real data
 Now you can submit the login form for authentication or send (curl or postman) request
 
 ```bash
 curl -X POST http://localhost:8000/api/your_api_login_url -d username=your_email -d password=your_password
 ``` 
-
 ### Use the token
 
 from now and on you have to include the JWT on each request to the Api protected firewall as an authorization header
@@ -218,6 +205,13 @@ from now and on you have to include the JWT on each request to the Api protected
 
 Notes
 -----
+### if you have problem with Api Authentication (autherization header not sent)
+you need to add
+```bash
+ RewriteCond %{HTTP:Authorization} ^(.*)
+ RewriteRule .* - [e=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+``` 
+in your `public/.htaccess` file
 
 ### token life time "ttl"
 
