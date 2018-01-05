@@ -169,6 +169,6 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
 
     public function supports(Request $request)
     {
-        return true;
+        return $this->getCredentials($request);
     }
 }
