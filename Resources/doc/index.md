@@ -208,8 +208,11 @@ Notes
 ### if you have problem with Api Authentication (autherization header not sent)
 you need to add
 ```bash
- RewriteCond %{HTTP:Authorization} ^(.*)
- RewriteRule .* - [e=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTP:Authorization} ^(.*)
+    RewriteRule .* - [e=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>
 ``` 
 in your `public/.htaccess` file
 
