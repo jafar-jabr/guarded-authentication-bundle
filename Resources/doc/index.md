@@ -95,7 +95,7 @@ Usage
 -----
 1- to create your won user entity and to make it implements
 ``` php
-Jafar\Bundle\GuardedAuthenticationBundle\User\GuardedUserInterface;
+Jafar\Bundle\GuardedAuthenticationBundle\User\GuardedUserInterface
      
 ```
 
@@ -103,6 +103,7 @@ Jafar\Bundle\GuardedAuthenticationBundle\User\GuardedUserInterface;
 ```php
     Jafar\Bundle\GuardedAuthenticationBundle\User\GuardedUserRepository
 ```
+instead of `ServiceEntityRepository`
 
 3- for login method in the controller you can use:
 ```php
