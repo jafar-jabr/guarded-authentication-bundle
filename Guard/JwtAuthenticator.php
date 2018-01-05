@@ -167,6 +167,9 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
         return $this->router->generate($homeRoute);
     }
 
+	/**
+     * {@inheritdoc}
+     */
     public function supports(Request $request)
     {
         return $this->getCredentials($request);
