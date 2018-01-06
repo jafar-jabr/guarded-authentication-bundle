@@ -4,7 +4,7 @@ Getting started
 Prerequisites
 -------------
 
-This bundle requires Symfony 3.4+ , php 7+ (and the OpenSSL library).
+This bundle requires php 7+, Symfony 3.4+ and the OpenSSL library.
 
 Installation
 ------------
@@ -14,7 +14,9 @@ to your `composer.json` file:
 
     composer require jafar/guarded-authentication-bundle "version"
 
-the bundle suppose to be automatically registered in `config/bundles.php` :
+Check https://packagist.org/packages/jafar/guarded-authentication-bundle for last version
+
+The bundle suppose to be automatically registered in `config/bundles.php` :
 
 ``` php
 return [
@@ -29,6 +31,7 @@ Bundle configuration
 Necessary configuration in your `config/packages` :
 
 Create `jafar_guarded_authentication.yaml`
+
 ``` yaml
    #the route name of login page
     login_route: ''
