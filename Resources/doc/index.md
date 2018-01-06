@@ -54,13 +54,13 @@ in your `config/packages/security.yml`
 
 security:
     encoders:
-        App\Entity\Users:  #your own user table
+        App\Entity\User:  #your own user Entity
             algorithm: bcrypt #or whatever
     providers:
       # ...
         user_provider:
           entity:
-              class: App\Entity\User #your own user table
+              class: App\Entity\User #your own user Entity
     
     firewalls:
       # ...
