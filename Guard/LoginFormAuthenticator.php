@@ -40,22 +40,27 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * @var RouterInterface
      */
     private $router;
+
     /**
      * @var UserPasswordEncoderInterface
      */
     private $passwordEncoder;
+
     /**
      * @var string
      */
     private $loginRoute;
+
     /**
      * @var string
      */
     private $homeRoute;
+
     /**
      * @var string
      */
     private $wrongEmail = 'Incorrect Email Provided!';
+
     /**
      * @var string
      */
@@ -66,8 +71,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * @param FormFactoryInterface $formFactory
      * @param RouterInterface $router
      * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param $loginRoute
-     * @param $homeRoute
+     * @param string $loginRoute
+     * @param string $homeRoute
      */
     public function __construct(
         FormFactoryInterface $formFactory,

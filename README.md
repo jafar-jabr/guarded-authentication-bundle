@@ -1,6 +1,6 @@
 This bundle provides full authentication for login form and also api ( using JWT ) based on symfony Guard.
 
-composer require jafar/guarded-authentication-bundle 
+check it at https://packagist.org/packages/jafar/guarded-authentication-bundle
 
 Documentation
 -------------
