@@ -16,7 +16,6 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class Configuration
- * @package Jafar\Bundle\GuardedAuthenticationBundle\DependencyInjection
  */
 class Configuration implements ConfigurationInterface
 {
@@ -48,6 +47,7 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('api_home_page_route')
             ->defaultValue('')
             ->end();
+
         return $treeBuilder;
     }
 }

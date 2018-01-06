@@ -13,7 +13,6 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class OpenSSLKeyLoader
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader
  */
 class OpenSSLKeyLoader extends AbstractKeyLoader
 {
@@ -37,12 +36,13 @@ class OpenSSLKeyLoader extends AbstractKeyLoader
                 if ('error:' === substr($msg, 0, 6)) {
                     $msg = substr($msg, 6);
                 }
-                $sslError .= "\n " . $msg;
+                $sslError .= "\n ".$msg;
             }
             throw new \RuntimeException(
                 sprintf('Failed to load %s key "%s": %s', $type, $path, $sslError)
             );
         }
+
         return $key;
     }
 }

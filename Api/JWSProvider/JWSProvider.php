@@ -18,7 +18,6 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\LoadedJWS;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JWSProvider
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider
  */
 class JWSProvider implements JWSProviderInterface
 {
@@ -37,7 +36,7 @@ class JWSProvider implements JWSProviderInterface
 
     /**
      * @param KeyLoaderInterface $keyLoader
-     * @param int $ttl
+     * @param int                $ttl
      *
      * @throws \InvalidArgumentException If the given ttl is not numeric
      */
@@ -65,6 +64,7 @@ class JWSProvider implements JWSProviderInterface
             $this->keyLoader->loadKey('private'),
             $this->keyLoader->getPassphrase()
         );
+
         return new JWSCreator($jws->getTokenString(), $jws->isSigned());
     }
 
@@ -74,6 +74,7 @@ class JWSProvider implements JWSProviderInterface
     public function load($token)
     {
         $jws = JWS::load($token, false, null, self::CRYPTIONENGINE);
+
         return new LoadedJWS(
             $jws->getPayload(),
             $jws->verify($this->keyLoader->loadKey('public'), self::SIGNATUREALGORITHM),

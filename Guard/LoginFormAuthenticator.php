@@ -27,7 +27,6 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Form\GuardedLoginForm;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class LoginFormAuthenticator
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Guard
  */
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
@@ -68,11 +67,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     /**
      * LoginFormAuthenticator constructor.
-     * @param FormFactoryInterface $formFactory
-     * @param RouterInterface $router
+     *
+     * @param FormFactoryInterface         $formFactory
+     * @param RouterInterface              $router
      * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param string $loginRoute
-     * @param string $homeRoute
+     * @param string                       $loginRoute
+     * @param string                       $homeRoute
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -107,6 +107,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
                 $data['_username']
             );
         }
+
         return $data;
     }
 
@@ -142,6 +143,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     {
         $homeRoute = $this->homeRoute;
         $url = $this->router->generate($homeRoute);
+
         return new RedirectResponse($url);
     }
 
@@ -175,6 +177,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     protected function getLoginUrl()
     {
         $loginRoute = $this->loginRoute;
+
         return $this->router->generate($loginRoute);
     }
 
@@ -183,6 +186,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function supports(Request $request)
     {
-        return (boolean) $this->getCredentials($request);
+        return (bool) $this->getCredentials($request);
     }
 }

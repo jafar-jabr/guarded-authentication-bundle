@@ -13,13 +13,12 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class LoadedJWS
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader
  */
 class LoadedJWS
 {
     const VERIFIED = 'verified';
-    const EXPIRED  = 'expired';
-    const INVALID  = 'invalid';
+    const EXPIRED = 'expired';
+    const INVALID = 'invalid';
 
     /**
      * @var array
@@ -38,13 +37,14 @@ class LoadedJWS
 
     /**
      * LoadedJWS constructor.
+     *
      * @param array $payload
-     * @param bool $isVerified
-     * @param bool $hasLifetime
+     * @param bool  $isVerified
+     * @param bool  $hasLifetime
      */
     public function __construct(array $payload, bool $isVerified, bool $hasLifetime = true)
     {
-        $this->payload     = $payload;
+        $this->payload = $payload;
         $this->hasLifetime = $hasLifetime;
 
         if (true === $isVerified) {
@@ -104,6 +104,7 @@ class LoadedJWS
         if (0 <= (new \DateTime())->format('U') - $this->payload['exp']) {
             return $this->state = self::EXPIRED;
         }
+
         return null;
     }
 
@@ -115,6 +116,7 @@ class LoadedJWS
         if (isset($this->payload['iat']) && (int) $this->payload['iat'] > time()) {
             return $this->state = self::INVALID;
         }
+
         return null;
     }
 }

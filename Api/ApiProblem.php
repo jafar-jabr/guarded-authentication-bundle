@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class ApiProblem
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api
  */
 final class ApiProblem
 {
@@ -23,7 +22,7 @@ final class ApiProblem
     const INVALID_REQUEST_BODY_FORMAT_TYPE = 'Invalid_body_format';
     private static $titles = [
         self::VALIDATION_ERROR_TYPE => 'There was a validation error',
-        self::INVALID_REQUEST_BODY_FORMAT_TYPE => 'Invalid Json format sent'
+        self::INVALID_REQUEST_BODY_FORMAT_TYPE => 'Invalid Json format sent',
     ];
     private $statusCode;
     private $type;
@@ -32,19 +31,20 @@ final class ApiProblem
 
     /**
      * ApiProblem constructor.
+     *
      * @param $statusCode
      * @param null $type
      */
     public function __construct($statusCode, $type = null)
     {
         $this->statusCode = $statusCode;
-        if ($type === null) {
+        if (null === $type) {
             $this->type = 'about:blank';
             $this->title = isset(Response::$statusTexts[$statusCode]) ?
                 Response::$statusTexts[$statusCode] : 'Unknown status code';
         } else {
             if (!isset(self::$titles[$type])) {
-                throw new\InvalidArgumentException('not title for ' . $type);
+                throw new\InvalidArgumentException('not title for '.$type);
             }
         }
     }
@@ -61,7 +61,6 @@ final class ApiProblem
             'status' => $this->statusCode,
             'type' => $this->type,
             'title' => $this->title,
-
         ];
     }
 

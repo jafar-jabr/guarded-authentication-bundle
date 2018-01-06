@@ -13,7 +13,6 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSCreator;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JWSCreator
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSCreator
  */
 class JWSCreator implements JWSCreatorInterface
 {
@@ -33,8 +32,9 @@ class JWSCreator implements JWSCreatorInterface
 
     /**
      * JWSCreator constructor.
+     *
      * @param string $token
-     * @param bool $isSigned
+     * @param bool   $isSigned
      */
     public function __construct(string $token, bool $isSigned)
     {

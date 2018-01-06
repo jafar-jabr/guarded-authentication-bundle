@@ -15,19 +15,18 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class TokenExtractor
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSExtractor
  */
 final class TokenExtractor implements TokenExtractorInterface
 {
     /**
      * @var string
      */
-    protected $prefix;
+    private $prefix;
 
     /**
      * @var string
      */
-    protected $name;
+    private $name;
 
     /**
      * @param string $prefix
@@ -36,7 +35,7 @@ final class TokenExtractor implements TokenExtractorInterface
     public function __construct(string $prefix, string $name)
     {
         $this->prefix = $prefix;
-        $this->name   = $name;
+        $this->name = $name;
     }
 
     /**
@@ -55,6 +54,7 @@ final class TokenExtractor implements TokenExtractorInterface
         if (!(2 === count($headerParts) && $headerParts[0] === $this->prefix)) {
             return false;
         }
+
         return $headerParts[1];
     }
 }

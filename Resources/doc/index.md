@@ -4,7 +4,7 @@ Getting started
 Prerequisites
 -------------
 
-This bundle requires php 7+, Symfony 3.4+ and the OpenSSL library.
+This bundle requires php 7+, Symfony 3.4+ and OpenSSL library.
 
 Installation
 ------------

@@ -15,18 +15,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class ApiResponseFactory
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api
  */
 final class ApiResponseFactory
 {
     public function createResponse(ApiProblem $apiProblem)
     {
         $data = $apiProblem->toArray();
-        if ($data['type'] != 'about:blank') {
-            $data['type'] = 'http://localhost/just_url/web/errors#' . $data['type'];
+        if ('about:blank' != $data['type']) {
+            $data['type'] = 'http://localhost/just_url/web/errors#'.$data['type'];
         }
         $response = new JsonResponse($data, $apiProblem->getStatusCode());
         $response->headers->set('Content-Type', 'application/problem+json');
+
         return $response;
     }
 }

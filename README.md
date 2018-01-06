@@ -1,4 +1,4 @@
-This bundle provides full authentication for login form and also Api with JWS (signed JWT) based on Symfony Guard.
+This bundle provides full authentication for login form and also api with using JWS (signed JWT) based on Symfony Guard.
 
 check it at https://packagist.org/packages/jafar/guarded-authentication-bundle
 

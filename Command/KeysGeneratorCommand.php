@@ -18,7 +18,6 @@ use Symfony\Component\Console\Input\InputArgument;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class KeysGeneratorCommand
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Command
  */
 class KeysGeneratorCommand extends Command
 {
@@ -26,7 +25,7 @@ class KeysGeneratorCommand extends Command
 
     private $keysDir;
 
-    public function __construct(string $keys_dir = "")
+    public function __construct(string $keys_dir = '')
     {
         $this->keysDir = $keys_dir;
         parent::__construct();
@@ -57,10 +56,11 @@ class KeysGeneratorCommand extends Command
         ]);
         openssl_pkey_export($privateKey, $privkey, $passPhrase);
         $pubkey = openssl_pkey_get_details($privateKey);
-        $pubkey = $pubkey["key"];
-        file_put_contents($key_directory . 'private.pem', $privkey);
-        file_put_contents($key_directory . 'public.pem', $pubkey);
+        $pubkey = $pubkey['key'];
+        file_put_contents($key_directory.'private.pem', $privkey);
+        file_put_contents($key_directory.'public.pem', $pubkey);
         $output->writeln('<info>private and public keys generated successfully.</info>');
+
         return 0;
     }
 
@@ -72,6 +72,7 @@ class KeysGeneratorCommand extends Command
         if (!is_dir($this->keysDir) || !is_readable($this->keysDir)) {
             mkdir($this->keysDir, 0777);
         }
+
         return $this->keysDir;
     }
 }

@@ -15,7 +15,6 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Exception\ApiException;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Interface JWSEncoderInterface
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder
  */
 interface JWSEncoderInterface
 {
@@ -25,7 +24,7 @@ interface JWSEncoderInterface
      * @return string the encoded token string
      *
      * @throws ApiException If an error occurred while trying to create
-     *         the token (invalid crypto key, invalid payload...)
+     *                      the token (invalid crypto key, invalid payload...)
      */
     public function encode(array $data);
 
@@ -35,7 +34,7 @@ interface JWSEncoderInterface
      * @return array
      *
      * @throws ApiException If an error occurred while trying to load the token
-     *         (invalid signature, invalid crept key, expired token...)
+     *                      (invalid signature, invalid crept key, expired token...)
      */
     public function decode($token);
 }

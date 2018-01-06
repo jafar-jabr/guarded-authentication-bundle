@@ -16,7 +16,6 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider\JWSProviderInterfac
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JWSEncoder
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder
  */
 class JWSEncoder implements JWSEncoderInterface
 {
@@ -54,6 +53,7 @@ class JWSEncoder implements JWSEncoderInterface
                 'Unable to create a signed JWT from the given configuration.'
             );
         }
+
         return $jws->getToken();
     }
 
@@ -81,6 +81,7 @@ class JWSEncoder implements JWSEncoderInterface
                  If the problem persists, verify that the configured passPhrase is valid.'
             );
         }
+
         return $jws->getPayload();
     }
 }

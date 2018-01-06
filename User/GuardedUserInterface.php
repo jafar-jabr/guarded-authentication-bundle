@@ -11,13 +11,12 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Interface GuardedUserInterface
- * @package Jafar\Bundle\GuardedAuthenticationBundle\User
- * {@inheritdoc}
  */
 interface GuardedUserInterface extends AdvancedUserInterface
 {
     /**
      * @param string $email
+     *
      * @return self
      */
     public function setEmail(string $email);
@@ -34,6 +33,7 @@ interface GuardedUserInterface extends AdvancedUserInterface
 
     /**
      * @param string $userName
+     *
      * @return self
      */
     public function setUserName(string $userName);
@@ -45,6 +45,7 @@ interface GuardedUserInterface extends AdvancedUserInterface
 
     /**
      * @param string $password
+     *
      * @return self
      */
     public function setPassword(string $password);
@@ -56,6 +57,7 @@ interface GuardedUserInterface extends AdvancedUserInterface
 
     /**
      * @param array $roles
+     *
      * @return self
      */
     public function setRoles(array $roles);

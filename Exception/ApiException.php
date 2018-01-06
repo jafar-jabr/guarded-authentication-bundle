@@ -13,13 +13,12 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Exception;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class ApiException
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api
  */
 final class ApiException extends \Exception
 {
-    const INVALID_TOKEN    = 'invalid_token';
+    const INVALID_TOKEN = 'invalid_token';
     const UNVERIFIED_TOKEN = 'unverified_token';
-    const EXPIRED_TOKEN    = 'expired_token';
+    const EXPIRED_TOKEN = 'expired_token';
     const INVALID_CONFIG = 'invalid_config';
     const UNSIGNED_TOKEN = 'unsigned_token';
 

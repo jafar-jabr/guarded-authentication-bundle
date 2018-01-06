@@ -19,22 +19,22 @@ use Doctrine\ORM\NonUniqueResultException;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class GuardedUserRepository
- * @package Jafar\Bundle\GuardedAuthenticationBundle\User
- * {@inheritdoc}
  */
 class GuardedUserRepository extends ServiceEntityRepository implements UserLoaderInterface
 {
     /**
      *{@inheritdoc}
      */
-    public function __construct(RegistryInterface $registry, string $userClass = "")
+    public function __construct(RegistryInterface $registry, string $userClass = '')
     {
         parent::__construct($registry, $userClass);
     }
 
     /**
      * @param string $userName
+     *
      * @return UserInterface|null
+     *
      * @throws NonUniqueResultException
      */
     public function loadUserByUsername($userName)
