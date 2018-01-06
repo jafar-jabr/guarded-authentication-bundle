@@ -54,14 +54,21 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
      */
     private $homeRoute;
 
+    /**
+     * JwtAuthenticator constructor.
+     * @param JWTEncoderInterface $jwtEncoder
+     * @param RouterInterface $router
+     * @param ApiResponseFactory $responseFactory
+     * @param $loginRoute
+     * @param $homeRoute
+     */
     public function __construct(
         JWTEncoderInterface $jwtEncoder,
         RouterInterface $router,
         ApiResponseFactory $responseFactory,
         $loginRoute,
         $homeRoute
-    )
-    {
+    ) {
         $this->jwtEncoder = $jwtEncoder;
         $this->router = $router;
         $this->responseFactory = $responseFactory;
@@ -74,13 +81,10 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        $extractor = new TokenExtractor(
-            'Bearer',
-            'Authorization'
-        );
+        $extractor = new TokenExtractor('Bearer', 'Authorization');
         $token = $extractor->extract($request);
         if (!$token) {
-            return;
+            return null;
         }
         return $token;
     }
@@ -92,8 +96,8 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
     {
         try {
             $data = $this->jwtEncoder->decode($credentials);
-            $username = $data['username'];
-            $user = $userProvider->loadUserByUsername($username);
+            $userName = $data['username'];
+            $user = $userProvider->loadUserByUsername($userName);
             if ($user) {
                 return $user;
             } else {
@@ -167,11 +171,11 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
         return $this->router->generate($homeRoute);
     }
 
-	/**
+    /**
      * {@inheritdoc}
      */
     public function supports(Request $request)
     {
-        return $this->getCredentials($request);
+        return (boolean)$this->getCredentials($request);
     }
 }

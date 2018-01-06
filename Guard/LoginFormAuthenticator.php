@@ -11,7 +11,6 @@
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Guard;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -67,7 +66,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * @param FormFactoryInterface $formFactory
      * @param RouterInterface $router
      * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param $loginForm
      * @param $loginRoute
      * @param $homeRoute
      */
@@ -77,8 +75,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         UserPasswordEncoderInterface $passwordEncoder,
         string $loginRoute,
         string $homeRoute
-    )
-    {
+    ) {
         $this->formFactory = $formFactory;
         $this->router = $router;
         $this->passwordEncoder = $passwordEncoder;
@@ -113,8 +110,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $username = $credentials['_username'];
-        $user = $userProvider->loadUserByUsername($username);
+        $userName = $credentials['_username'];
+        $user = $userProvider->loadUserByUsername($userName);
         if ($user) {
             return $user;
         }
@@ -181,6 +178,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function supports(Request $request)
     {
-        return $this->getCredentials($request);
+        return (boolean) $this->getCredentials($request);
     }
 }

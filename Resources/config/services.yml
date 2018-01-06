@@ -22,6 +22,7 @@ services:
 
       Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider\JWSProviderInterface:
              alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider\JWSProvider
+             public: false
 
       Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider\JWSProvider:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Provider\JWSProvider
@@ -33,11 +34,14 @@ services:
       Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\AbstractKeyLoader:
              abstract: true
              public: false
+             autowire: false
              arguments: ['%jafar_guarded_authentication.pass_phrase%', '%kernel.project_dir%/var/jwt_keys/']
 
       Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\KeyLoaderInterface:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\OpenSSLKeyLoader
              parent: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader\AbstractKeyLoader
+             public: false
+             autowire: true
 
       Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder\JWTEncoderInterface:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder\JWTEncoder
@@ -50,9 +54,11 @@ services:
              alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\Encoder\JWTEncoderInterface
 
       jafar.command.key_generator:
-             public: false
              class: Jafar\Bundle\GuardedAuthenticationBundle\Command\KeysGeneratorCommand
-             arguments: ['%kernel.project_dir%/var/jwt_keys/']
+             arguments:
+                   $keys_dir: '%kernel.project_dir%/var/jwt_keys/'
+             public: false
+             autowire: false
              tags:
                  - { name: console.command, command: jafar:generate-keys }
 

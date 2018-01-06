@@ -41,7 +41,7 @@ class JWSProvider implements JWSProviderInterface
      *
      * @throws \InvalidArgumentException If the given ttl is not numeric
      */
-    public function __construct(KeyLoaderInterface $keyLoader, $ttl)
+    public function __construct(KeyLoaderInterface $keyLoader, int $ttl)
     {
         if (null !== $ttl && !is_numeric($ttl)) {
             throw new \InvalidArgumentException(sprintf('The TTL should be a numeric value, got %s instead.', $ttl));
@@ -79,17 +79,5 @@ class JWSProvider implements JWSProviderInterface
             $jws->verify($this->keyLoader->loadKey('public'), self::SIGNATUREALGORITHM),
             null !== $this->ttl
         );
-    }
-
-    /**
-     * @param string $cryptoEngine
-     * @param string $signatureAlgorithm
-     *
-     * @return bool
-     */
-    private function isAlgorithmSupportedForEngine($cryptoEngine, $signatureAlgorithm)
-    {
-        $signerClass = sprintf('Namshi\\JOSE\\Signer\\%s\\%s', $cryptoEngine, $signatureAlgorithm);
-        return class_exists($signerClass);
     }
 }

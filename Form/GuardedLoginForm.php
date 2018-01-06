@@ -26,7 +26,8 @@ class GuardedLoginForm extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('_username')
+        $builder
+            ->add('_username', Types\TextType::class)
             ->add('_password', Types\PasswordType::class);
     }
 }

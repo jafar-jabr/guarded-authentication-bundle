@@ -26,7 +26,7 @@ class KeysGeneratorCommand extends Command
 
     private $keysDir;
 
-    public function __construct(string $keys_dir)
+    public function __construct(string $keys_dir = "")
     {
         $this->keysDir = $keys_dir;
         parent::__construct();

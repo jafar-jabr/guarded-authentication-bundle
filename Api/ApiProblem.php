@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Class ApiProblem
  * @package Jafar\Bundle\GuardedAuthenticationBundle\Api
  */
-class ApiProblem
+final class ApiProblem
 {
     const VALIDATION_ERROR_TYPE = 'Validation_Error';
     const INVALID_REQUEST_BODY_FORMAT_TYPE = 'Invalid_body_format';
@@ -44,7 +44,7 @@ class ApiProblem
                 Response::$statusTexts[$statusCode] : 'Unknown status code';
         } else {
             if (!isset(self::$titles[$type])) {
-                throw new\InvalidArgumentException('not= title for ' . $type);
+                throw new\InvalidArgumentException('not title for ' . $type);
             }
         }
     }

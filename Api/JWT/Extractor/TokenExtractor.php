@@ -33,7 +33,7 @@ final class TokenExtractor implements TokenExtractorInterface
      * @param string $prefix
      * @param string $name
      */
-    public function __construct($prefix, $name)
+    public function __construct(string $prefix, string $name)
     {
         $this->prefix = $prefix;
         $this->name   = $name;

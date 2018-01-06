@@ -17,7 +17,7 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWT\KeyLoader;
  */
 abstract class AbstractKeyLoader implements KeyLoaderInterface
 {
-    const TYPE_PUBLIC  = 'public';
+    const TYPE_PUBLIC = 'public';
     const TYPE_PRIVATE = 'private';
 
     /**
@@ -42,8 +42,8 @@ abstract class AbstractKeyLoader implements KeyLoaderInterface
      */
     public function __construct(string $passPhrase, string $keys_dir)
     {
-        $this->privateKey = $keys_dir.'private.pem';
-        $this->publicKey  = $keys_dir.'public.pem';
+        $this->privateKey = $keys_dir . 'private.pem';
+        $this->publicKey = $keys_dir . 'public.pem';
         $this->passPhrase = $passPhrase;
     }
 
@@ -61,12 +61,13 @@ abstract class AbstractKeyLoader implements KeyLoaderInterface
      * @return null|string The path of the key
      *
      * @throws \InvalidArgumentException If the given type is not valid
-    */
+     */
     protected function getKeyPath($type)
     {
         if (!in_array($type, [self::TYPE_PUBLIC, self::TYPE_PRIVATE])) {
-          throw new \InvalidArgumentException(
-               sprintf('The key type must be "public" or "private", "%s" given.', $type));
+            throw new \InvalidArgumentException(
+                sprintf('The key type must be "public" or "private", "%s" given.', $type)
+            );
         }
         $path = null;
         if (self::TYPE_PUBLIC === $type) {
@@ -77,10 +78,15 @@ abstract class AbstractKeyLoader implements KeyLoaderInterface
         }
         if (!is_file($path) || !is_readable($path)) {
             throw new \RuntimeException(
-                sprintf('%s key "%s" does not exist or is not readable. Please run jafar:generate-keys again to regenerate the kys?',
-                    ucfirst($type), $path, $type)
+                sprintf(
+                    '%s key "%s" does not exist or is not readable. 
+                    Please run jafar:generate-keys again to regenerate the kys!',
+                    ucfirst($type),
+                    $path,
+                    $type
+                )
             );
         }
         return $path;
     }
- }
+}

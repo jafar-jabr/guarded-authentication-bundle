@@ -13,6 +13,8 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
@@ -25,23 +27,24 @@ class GuardedUserRepository extends ServiceEntityRepository implements UserLoade
     /**
      *{@inheritdoc}
      */
-    public function __construct(RegistryInterface $registry, string $userClass)
+    public function __construct(RegistryInterface $registry, string $userClass = "")
     {
         parent::__construct($registry, $userClass);
     }
 
     /**
-     *{@inheritdoc}
+     * @param string $userName
+     * @return UserInterface|null
+     * @throws NonUniqueResultException
      */
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($userName)
     {
-        $user = $this->createQueryBuilder('u')
+        return $this->createQueryBuilder('u')
             ->where('u.email = :email')
             ->orWhere('u.userName = :username')
-            ->setParameter('email', $username)
-            ->setParameter('username', $username)
+            ->setParameter('email', $userName)
+            ->setParameter('username', $userName)
             ->getQuery()
             ->getOneOrNullResult();
-        return $user;
     }
 }

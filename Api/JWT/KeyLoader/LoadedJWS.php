@@ -94,7 +94,7 @@ class LoadedJWS
     private function checkExpiration()
     {
         if (!$this->hasLifetime) {
-            return;
+            return null;
         }
 
         if (!isset($this->payload['exp']) || !is_numeric($this->payload['exp'])) {
@@ -102,8 +102,9 @@ class LoadedJWS
         }
 
         if (0 <= (new \DateTime())->format('U') - $this->payload['exp']) {
-            $this->state = self::EXPIRED;
+            return $this->state = self::EXPIRED;
         }
+        return null;
     }
 
     /**
@@ -114,5 +115,6 @@ class LoadedJWS
         if (isset($this->payload['iat']) && (int) $this->payload['iat'] > time()) {
             return $this->state = self::INVALID;
         }
+        return null;
     }
 }

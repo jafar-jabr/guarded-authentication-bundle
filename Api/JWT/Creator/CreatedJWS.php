@@ -33,10 +33,10 @@ class CreatedJWS
 
     /**
      * CreatedJWS constructor.
-     * @param $token
-     * @param $isSigned
+     * @param string $token
+     * @param bool $isSigned
      */
-    public function __construct($token, $isSigned)
+    public function __construct(string $token, bool $isSigned)
     {
         $this->token = $token;
         if (true === $isSigned) {
