@@ -33,6 +33,7 @@ Necessary configuration in your `config/packages` :
 Create `jafar_guarded_authentication.yaml`
 
 ``` yaml
+jafar_guarded_authentication:
    #the route name of login page
     login_route: ''
    #route name of home page 
