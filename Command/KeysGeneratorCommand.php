@@ -13,7 +13,8 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Question\Question;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
@@ -39,8 +40,8 @@ class KeysGeneratorCommand extends Command
         $this
             ->setName('jafar:generate-keys')
             ->setDescription('Generate private and public key for JWT encryption')
-            ->setHelp('Generate password protected private and public key for JWT encryption')
-            ->addArgument('passPhrase', InputArgument::REQUIRED, 'Pass phrase for Openssl keysPair.');
+            ->setHelp('Generate password protected private and public key for JWT encryption');
+            //->addArgument('passPhrase', InputArgument::REQUIRED, 'Pass phrase for Openssl keysPair.');
     }
 
     /**
@@ -48,19 +49,24 @@ class KeysGeneratorCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $passPhrase = $input->getArgument('passPhrase');
+        $io = new SymfonyStyle($input, $output);
+        $io->title('Thank you for using Jafar:GuardedAuthenticationBundle');
+        $question = new Question('Please enter passPhrase OpenSSL keys pair? ');
+        $question->setHidden(true);
+        $question->setHiddenFallback(false);
+        $helper = $this->getHelper('question');
+        $passPhrase = $helper->ask($input, $output, $question);
         $key_directory = $this->prepareTheRoute();
         $privateKey = openssl_pkey_new([
             'private_key_bits' => 4096,
             'private_key_type' => OPENSSL_KEYTYPE_RSA,
         ]);
-        openssl_pkey_export($privateKey, $privkey, $passPhrase);
-        $pubkey = openssl_pkey_get_details($privateKey);
-        $pubkey = $pubkey['key'];
-        file_put_contents($key_directory.'private.pem', $privkey);
-        file_put_contents($key_directory.'public.pem', $pubkey);
+        openssl_pkey_export($privateKey, $privKey, $passPhrase);
+        $pubKey = openssl_pkey_get_details($privateKey);
+        $pubKey = $pubKey['key'];
+        file_put_contents($key_directory.'private.pem', $privKey);
+        file_put_contents($key_directory.'public.pem', $pubKey);
         $output->writeln('<info>private and public keys generated successfully.</info>');
-
         return 0;
     }
 

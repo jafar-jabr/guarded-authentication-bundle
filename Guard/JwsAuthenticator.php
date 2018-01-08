@@ -61,10 +61,10 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
      * JwsAuthenticator constructor.
      *
      * @param JWSEncoderInterface $jwtEncoder
-     * @param RouterInterface     $router
-     * @param ApiResponseFactory  $responseFactory
-     * @param string              $loginRoute
-     * @param string              $homeRoute
+     * @param RouterInterface $router
+     * @param ApiResponseFactory $responseFactory
+     * @param string $loginRoute
+     * @param string $homeRoute
      */
     public function __construct(
         JWSEncoderInterface $jwtEncoder,
@@ -85,12 +85,16 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
+        $loginRoute = $this->loginRoute;
+        $isLoginSubmit = $request->attributes->get('_route') == $loginRoute && $request->isMethod('POST');
+        if ($isLoginSubmit) {
+            return null;
+        }
         $extractor = new TokenExtractor('Bearer', 'Authorization');
         $token = $extractor->extract($request);
         if (!$token) {
             return null;
         }
-
         return $token;
     }
 
@@ -185,6 +189,6 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
      */
     public function supports(Request $request)
     {
-        return (bool) $this->getCredentials($request);
+        return (bool)$this->getCredentials($request);
     }
 }
