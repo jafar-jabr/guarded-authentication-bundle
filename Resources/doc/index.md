@@ -72,14 +72,14 @@ security:
             stateless: ~
             guard:
                authenticators:
-                    - app.security.jws_token_authenticator
+                    - Guarded.Authentication.Jws_Token_Authenticator
         main:
             pattern: ^/
             anonymous: ~
             guard:
                 authenticators:
-                     - app.security.login_form_authenticator
-                entry_point: app.security.login_form_authenticator
+                     - Guarded.Authentication.Login_Form_Authenticator
+                entry_point: Guarded.Authentication.Login_Form_Authenticator
             logout:
                 path: /logout
             remember_me:
