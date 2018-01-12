@@ -95,7 +95,7 @@ php bin/console jafar:generate-keys
 ```
 you will be asked for choosing passPhrase (you will need it also in configuration). 
 
-#use this pass_phrase also in setting in `jafar_guarded_authentication.yaml` file
+##use this pass_phrase also in setting in `jafar_guarded_authentication.yaml` file
 make sure that you have Openssl enabled on you computer.
 
 Usage
@@ -106,9 +106,9 @@ Jafar\Bundle\GuardedAuthenticationBundle\User\GuardedUserInterface
      
 ```
 
-2- the user repository has to implements :
-```php
-    use Jafar\Bundle\GuardedAuthenticationBundle\User\GuardedUserRepositoryInterface;
+2- the user repository has to implement :
+``` php
+Jafar\Bundle\GuardedAuthenticationBundle\User\GuardedUserRepositoryInterface;
 ```
 and the method `loadUserByUsername` to load the user by whatever you like
 for example it can looks like:
@@ -122,7 +122,7 @@ for example it can looks like:
             return $this->createQueryBuilder('u')
                 ->where('u.email = :username')
                 ->orWhere('u.userName = :username')
-                 ->setParameter('username', $parameter)
+                ->setParameter('username', $parameter)
                 ->getQuery()
                 ->getOneOrNullResult();
         }
@@ -196,7 +196,7 @@ class ApiLoginController extends AuthController
     {
         $username = $request->get('username');
         $password = $request->get('password');
-        $user = $this->userRepository->findOneBy(['email' => $username]);
+        $user = $this->userRepository->loadUserByUsername($username);
         if (!$user) {
             $apiProblem = new ApiProblem(401);
             $apiProblem->set('detail', 'Invalid email');
@@ -228,7 +228,7 @@ from now and on you have to include the JWT on each request to the Api protected
 
 Notes
 -----
-### if you have problem with Api Authentication (autherization header not sent)
+### if you have problem with Api Authentication (authorization header not sent)
 you need to add
 ```bash
 <IfModule mod_rewrite.c>
