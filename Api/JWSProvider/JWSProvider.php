@@ -18,6 +18,7 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\LoadedJWS;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JWSProvider
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider
  */
 class JWSProvider implements JWSProviderInterface
 {

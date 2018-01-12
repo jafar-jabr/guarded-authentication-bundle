@@ -26,9 +26,9 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface;
 
 /**
  * {@inheritdoc}
- *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JwsAuthenticator
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Guard
  */
 class JwsAuthenticator extends AbstractGuardAuthenticator
 {

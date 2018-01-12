@@ -13,7 +13,9 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * TestCase.
+ * @author Jafar Jabr <jafaronly@yahoo.com>
+ * Class TestCase
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests
  */
 abstract class TestCase extends WebTestCase
 {

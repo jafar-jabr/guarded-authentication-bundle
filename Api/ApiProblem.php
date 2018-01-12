@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class ApiProblem
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api
  */
 final class ApiProblem
 {

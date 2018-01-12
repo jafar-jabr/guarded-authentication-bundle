@@ -19,6 +19,7 @@ use Symfony\Component\Console\Question\Question;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class KeysGeneratorCommand
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Command
  */
 class KeysGeneratorCommand extends Command
 {
@@ -41,7 +42,6 @@ class KeysGeneratorCommand extends Command
             ->setName('jafar:generate-keys')
             ->setDescription('Generate private and public key for JWT encryption')
             ->setHelp('Generate password protected private and public key for JWT encryption');
-            //->addArgument('passPhrase', InputArgument::REQUIRED, 'Pass phrase for Openssl keysPair.');
     }
 
     /**
@@ -54,6 +54,18 @@ class KeysGeneratorCommand extends Command
         $question = new Question('Please enter passPhrase OpenSSL keys pair? ');
         $question->setHidden(true);
         $question->setHiddenFallback(false);
+        $question->setValidator(function ($answer) {
+            if (strlen($answer) < 6) {
+                throw new \RuntimeException(
+                    'The passPhrase can not be less than 6 characters'
+                );
+            } elseif (strlen($answer) > 50) {
+                throw new \RuntimeException(
+                    'The passPhrase can not be more than 50 characters'
+                );
+            }
+            return $answer;
+        });
         $helper = $this->getHelper('question');
         $passPhrase = $helper->ask($input, $output, $question);
         $key_directory = $this->prepareTheRoute();
@@ -64,8 +76,8 @@ class KeysGeneratorCommand extends Command
         openssl_pkey_export($privateKey, $privKey, $passPhrase);
         $pubKey = openssl_pkey_get_details($privateKey);
         $pubKey = $pubKey['key'];
-        file_put_contents($key_directory.'private.pem', $privKey);
-        file_put_contents($key_directory.'public.pem', $pubKey);
+        file_put_contents($key_directory . 'private.pem', $privKey);
+        file_put_contents($key_directory . 'public.pem', $pubKey);
         $output->writeln('<info>private and public keys generated successfully.</info>');
         return 0;
     }
