@@ -10,7 +10,7 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Guard;
 
-use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use Symfony\Component\Routing\RouterInterface;
-use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiProblem;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiProblem;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSExtractor\TokenExtractor;
 use Jafar\Bundle\GuardedAuthenticationBundle\Exception\ApiException;

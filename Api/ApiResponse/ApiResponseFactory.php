@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Jafar\Bundle\GuardedAuthenticationBundle\Api;
+namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class ApiResponseFactory
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse
  */
 final class ApiResponseFactory
 {

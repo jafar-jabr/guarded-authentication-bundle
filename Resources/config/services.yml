@@ -15,8 +15,8 @@ services:
                   $loginRoute: '%jafar_guarded_authentication.api_login_route%'
                   $homeRoute: '%jafar_guarded_authentication.api_home_page_route%'
 
-      Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory:
-             class: Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory
+      Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory:
+             class: Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory
              autowire: true
              public: false
 

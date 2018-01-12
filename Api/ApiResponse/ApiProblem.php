@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Jafar\Bundle\GuardedAuthenticationBundle\Api;
+namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse;
 
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class ApiProblem
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse
  */
 final class ApiProblem
 {
