@@ -9,3 +9,20 @@ The bulk of the documentation is stored in the [`Resources/doc`](Resources/doc/i
 
 * [Getting started](Resources/doc/index.md#getting-started)
 
+Contributing
+------------
+
+See the [CONTRIBUTING](CONTRIBUTING.md) file.
+
+Credits
+-------
+
+* Jafar Jabr <Jafaronly@yahoo.com>
+* [All contributors](https://github.com/jafaronly/guarded-authentication-bundle/graphs/contributors)
+
+License
+-------
+
+This bundle is under the MIT license.  
+For the whole copyright, see the [LICENSE](LICENSE) file distributed with this source code.
+
