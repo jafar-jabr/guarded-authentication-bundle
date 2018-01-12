@@ -106,11 +106,27 @@ Jafar\Bundle\GuardedAuthenticationBundle\User\GuardedUserInterface
      
 ```
 
-2- the user repository has to extends :
+2- the user repository has to implements :
 ```php
-    Jafar\Bundle\GuardedAuthenticationBundle\User\GuardedUserRepository
+    use Jafar\Bundle\GuardedAuthenticationBundle\User\GuardedUserRepositoryInterface;
 ```
-instead of `ServiceEntityRepository`
+and the method `loadUserByUsername` to load the user by whatever you like
+for example it can looks like:
+
+```php
+     /**
+         *{@inheritdoc}
+         */
+        public function loadUserByUsername($parameter)
+        {
+            return $this->createQueryBuilder('u')
+                ->where('u.email = :username')
+                ->orWhere('u.userName = :username')
+                 ->setParameter('username', $parameter)
+                ->getQuery()
+                ->getOneOrNullResult();
+        }
+```
 
 3- for login method in the controller you can use:
 ```php

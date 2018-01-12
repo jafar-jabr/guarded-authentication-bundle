@@ -107,7 +107,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
                 $data['_username']
             );
         }
-
         return $data;
     }
 
