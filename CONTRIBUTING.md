@@ -13,7 +13,7 @@ You MUST follow the [PSR-1](http://www.php-fig.org/psr/1/) and
 [PSR-2](http://www.php-fig.org/psr/2/). If you don't know about any of them, you
 should really read the recommendations.
 
-__Note:__ Never fix coding standards in some existing code as it makes code review more difficult.
+__Note:__ Feel free to edit existing code if you think it can be better.
 
 Documentation
 -------------
