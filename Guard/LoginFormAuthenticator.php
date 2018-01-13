@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Jafar\Bundle\GuardedAuthenticatcdionBundle\Form\GuardedLoginForm;
+use Jafar\Bundle\GuardedAuthenticationBundle\Form\GuardedLoginForm;
 
 /**
  * {@inheritdoc}
