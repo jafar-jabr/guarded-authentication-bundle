@@ -232,6 +232,7 @@ Notes
 you need to add
 ```bash
 <IfModule mod_rewrite.c>
+#.....
     RewriteEngine On
     RewriteCond %{HTTP:Authorization} ^(.*)
     RewriteRule .* - [e=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
