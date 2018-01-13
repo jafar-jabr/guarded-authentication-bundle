@@ -43,7 +43,7 @@ jafar_guarded_authentication:
    #route name for Api home page
     api_home_page_route: ''
     # ssh key pass phrase
-    pass_phrase:         '' #you just used to generate keys in command line
+    pass_phrase:         '' # passphrase which you choose when you generate keys in command line
     # token ttl
     token_ttl:           3600 #time to live in second
 ```
