@@ -1,64 +1,63 @@
 services:
+      Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\AbstractKeyLoader:
+            abstract: true
+            public: false
+            arguments: ['%jafar_guarded_authentication.pass_phrase%', '%kernel.project_dir%/var/jws_keys/']
+
+      Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\KeyLoaderInterface:
+           class: Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\OpenSSLKeyLoader
+           parent: Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\AbstractKeyLoader
+           public: false
+
+      Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider\JWSProviderInterface:
+           alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider\JWSProvider
+           public: false
+
+      Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider\JWSProvider:
+           class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider\JWSProvider
+           public: false
+           arguments:
+                $keyLoader: '@Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\KeyLoaderInterface'
+                $ttl: '%jafar_guarded_authentication.token_ttl%'
+
+      Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface:
+           class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoder
+           public: true
+           arguments: ['@Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider\JWSProviderInterface']
+
+      jafar_guarded_authentication.encoder:
+           public: true
+           alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface
+
       Guarded.Authentication.Login_Form_Authenticator:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Guard\LoginFormAuthenticator
-             autowire: true
              public: true
              arguments:
+                  $formFactory: '@form.factory'
+                  $router: '@router'
+                  $passwordEncoder: '@security.password_encoder'
                   $loginRoute: '%jafar_guarded_authentication.login_route%'
                   $homeRoute: '%jafar_guarded_authentication.home_page_route%'
 
       Guarded.Authentication.Jws_Token_Authenticator:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Guard\JwsAuthenticator
-             autowire: true
              public: true
              arguments:
+                  $jwtEncoder: '@jafar_guarded_authentication.encoder'
+                  $router: '@router'
+                  $responseFactory: '@Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory'
                   $loginRoute: '%jafar_guarded_authentication.api_login_route%'
                   $homeRoute: '%jafar_guarded_authentication.api_home_page_route%'
 
       Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory
-             autowire: true
              public: false
-
-      Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider\JWSProviderInterface:
-             alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider\JWSProvider
-             public: false
-
-      Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider\JWSProvider:
-             class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider\JWSProvider
-             public: false
-             autowire: true
-             arguments:
-                  $ttl: '%jafar_guarded_authentication.token_ttl%'
-
-      Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\AbstractKeyLoader:
-             abstract: true
-             public: false
-             autowire: false
-             arguments: ['%jafar_guarded_authentication.pass_phrase%', '%kernel.project_dir%/var/jws_keys/']
-
-      Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\KeyLoaderInterface:
-             class: Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\OpenSSLKeyLoader
-             parent: Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\AbstractKeyLoader
-             public: false
-             autowire: true
-
-      Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface:
-             class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoder
-             public: true
-             autowire: true
-             arguments: ['@Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider\JWSProviderInterface']
-
-      jafar_guarded_authentication.encoder:
-             public: true
-             alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface
 
       jafar.command.key_generator:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Command\KeysGeneratorCommand
              arguments:
                    $keys_dir: '%kernel.project_dir%/var/jws_keys/'
              public: false
-             autowire: false
              tags:
                  - { name: console.command, command: jafar:generate-keys }
 
