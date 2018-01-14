@@ -15,7 +15,6 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\OpenSSLKeyLoader;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class OpenSSLKeyLoaderTest
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\KeyLoader
  */
 class OpenSSLKeyLoaderTest extends AbstractTestKeyLoader
 {

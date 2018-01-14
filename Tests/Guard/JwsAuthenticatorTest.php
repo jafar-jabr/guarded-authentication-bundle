@@ -15,7 +15,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JwsAuthenticatorTest
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Guard
  */
 class JwsAuthenticatorTest extends TestCase
 {

@@ -19,7 +19,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JWSEncoderTest
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\JWSEncoder
  */
 class JWSEncoderTest extends TestCase
 {

@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class TokenExtractorTest
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\JWSExtractor
  */
 final class TokenExtractorTest extends TestCase
 {

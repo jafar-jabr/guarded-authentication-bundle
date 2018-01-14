@@ -16,7 +16,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JWSCreatorTest
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\JWSCreator
  */
 class JWSCreatorTest extends TestCase
 {

@@ -26,9 +26,9 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 /**
  * {@inheritdoc}
+ *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JwsAuthenticator
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Guard
  */
 class JwsAuthenticator extends AbstractGuardAuthenticator
 {

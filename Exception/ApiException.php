@@ -13,7 +13,6 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Exception;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class ApiException
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Exception
  */
 final class ApiException extends \Exception
 {

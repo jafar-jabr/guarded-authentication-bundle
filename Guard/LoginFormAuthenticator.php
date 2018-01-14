@@ -26,9 +26,9 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 
 /**
  * {@inheritdoc}
+ *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class LoginFormAuthenticator
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Guard
  */
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {

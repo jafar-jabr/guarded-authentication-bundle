@@ -19,7 +19,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JWSProviderTest
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\JWSProvider
  */
 class JWSProviderTest extends TestCase
 {

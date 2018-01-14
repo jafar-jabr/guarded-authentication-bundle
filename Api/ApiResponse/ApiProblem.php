@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class ApiProblem
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse
  */
 final class ApiProblem
 {
@@ -51,6 +50,7 @@ final class ApiProblem
                 Response::$statusTexts[$statusCode] : 'Unknown status code';
         } else {
             if (!isset(self::$titles[$type])) {
+
                 throw new\InvalidArgumentException('not title for ' . $type);
             }
         }

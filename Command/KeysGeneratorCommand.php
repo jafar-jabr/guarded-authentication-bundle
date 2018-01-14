@@ -19,7 +19,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class KeysGeneratorCommand
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Command
  */
 class KeysGeneratorCommand extends Command
 {

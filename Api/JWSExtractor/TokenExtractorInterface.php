@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Interface TokenExtractorInterface
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSExtractor
  */
 interface TokenExtractorInterface
 {
