@@ -18,7 +18,7 @@ __Note:__ Feel free to edit existing code if you think it can be better.
 Running the test suite
 -----------------------
 
-You MUST run the test suite.
+You MUST run the phpunit test.
 
 Documentation
 -------------
