@@ -19,7 +19,6 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\LoadedJWS;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JWSEncoderTest
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\JWSEncoder
  */
 class JWSEncoderTest extends TestCase
 {
@@ -30,10 +29,10 @@ class JWSEncoderTest extends TestCase
     {
         $payload = [
             'username' => 'jafaronly',
-            'exp'      => time() + 3600,
+            'exp' => time() + 3600,
         ];
 
-        $loadedJWS   = new LoadedJWS($payload, true);
+        $loadedJWS = new LoadedJWS($payload, true);
         $jwsProvider = $this->getJWSProviderMock();
         $jwsProvider
             ->expects($this->once())
@@ -50,7 +49,7 @@ class JWSEncoderTest extends TestCase
      */
     public function testEncodeFromValidJWS()
     {
-        $createdJWS  = new JWSCreator('jwt', true);
+        $createdJWS = new JWSCreator('jwt', true);
         $jwsProvider = $this->getJWSProviderMock();
         $jwsProvider
             ->expects($this->once())
@@ -104,7 +103,7 @@ class JWSEncoderTest extends TestCase
      */
     public function testDecodeFromExpiredPayload()
     {
-        $loadedJWS   = new LoadedJWS(['exp' => time() - 3600], true);
+        $loadedJWS = new LoadedJWS(['exp' => time() - 3600], true);
         $jwsProvider = $this->getJWSProviderMock();
         $jwsProvider
             ->expects($this->once())
@@ -123,7 +122,7 @@ class JWSEncoderTest extends TestCase
      */
     public function testDecodeWithInvalidIssudAtClaimInPayload()
     {
-        $loadedJWS   = new LoadedJWS(['exp' => time() + 3600, 'iat' => time() + 3600], true);
+        $loadedJWS = new LoadedJWS(['exp' => time() + 3600, 'iat' => time() + 3600], true);
         $jwsProvider = $this->getJWSProviderMock();
         $jwsProvider
             ->expects($this->once())

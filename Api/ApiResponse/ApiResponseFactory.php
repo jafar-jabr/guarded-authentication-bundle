@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class ApiResponseFactory
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse
  */
 final class ApiResponseFactory
 {
@@ -27,6 +26,7 @@ final class ApiResponseFactory
         }
         $response = new JsonResponse($data, $apiProblem->getStatusCode());
         $response->headers->set('Content-Type', 'application/problem+json');
+
         return $response;
     }
 }

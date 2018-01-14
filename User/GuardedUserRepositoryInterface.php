@@ -16,7 +16,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Interface GuardedUserRepositoryInterface
- * @package Jafar\Bundle\GuardedAuthenticationBundle\User
  */
 interface GuardedUserRepositoryInterface extends UserLoaderInterface
 {

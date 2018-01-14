@@ -17,7 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type as Types;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class GuardedLoginForm
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Form
  */
 class GuardedLoginForm extends AbstractType
 {

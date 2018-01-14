@@ -16,7 +16,6 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\LoadedJWS;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class LoadedJWSTest
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\KeyLoader
  */
 class LoadedJWSTest extends TestCase
 {
@@ -29,8 +28,8 @@ class LoadedJWSTest extends TestCase
     {
         $this->goodPayload = [
             'username' => 'jafaronly',
-            'exp'      => time() + 3600,
-            'iat'      => time(),
+            'exp' => time() + 3600,
+            'iat' => time(),
         ];
     }
 

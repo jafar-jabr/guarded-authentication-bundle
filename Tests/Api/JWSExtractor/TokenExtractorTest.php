@@ -17,7 +17,6 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSExtractor\TokenExtractor;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class TokenExtractorTest
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\JWSExtractor
  */
 final class TokenExtractorTest extends TestCase
 {

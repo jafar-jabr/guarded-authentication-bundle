@@ -18,7 +18,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class KeysGeneratorCommandTest
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Command
  */
 class KeysGeneratorCommandTest extends TestCase
 {

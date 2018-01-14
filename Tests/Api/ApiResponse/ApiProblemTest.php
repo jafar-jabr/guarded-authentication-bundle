@@ -16,7 +16,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class ApiProblemTest
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Test\Api\ApiResponse
  */
 final class ApiProblemTest extends TestCase
 {

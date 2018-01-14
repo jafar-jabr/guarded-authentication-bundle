@@ -16,7 +16,6 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSCreator\JWSCreator;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JWSCreatorTest
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\JWSCreator
  */
 class JWSCreatorTest extends TestCase
 {

@@ -18,7 +18,6 @@ use Symfony\Component\DependencyInjection\Loader;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JafarGuardedAuthenticationExtension
- * @package Jafar\Bundle\GuardedAuthenticationBundle\DependencyInjection
  */
 class JafarGuardedAuthenticationExtension extends Extension
 {

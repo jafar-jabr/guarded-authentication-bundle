@@ -26,9 +26,9 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface;
 
 /**
  * {@inheritdoc}
+ *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JwsAuthenticator
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Guard
  */
 class JwsAuthenticator extends AbstractGuardAuthenticator
 {
@@ -61,10 +61,10 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
      * JwsAuthenticator constructor.
      *
      * @param JWSEncoderInterface $jwtEncoder
-     * @param RouterInterface $router
-     * @param ApiResponseFactory $responseFactory
-     * @param string $loginRoute
-     * @param string $homeRoute
+     * @param RouterInterface     $router
+     * @param ApiResponseFactory  $responseFactory
+     * @param string              $loginRoute
+     * @param string              $homeRoute
      */
     public function __construct(
         JWSEncoderInterface $jwtEncoder,
@@ -95,6 +95,7 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
         if (!$token) {
             return null;
         }
+
         return $token;
     }
 
@@ -189,6 +190,6 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
      */
     public function supports(Request $request)
     {
-        return (bool)$this->getCredentials($request);
+        return (bool) $this->getCredentials($request);
     }
 }

@@ -26,9 +26,9 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Form\GuardedLoginForm;
 
 /**
  * {@inheritdoc}
+ *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class LoginFormAuthenticator
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Guard
  */
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
@@ -109,6 +109,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
                 $data['_username']
             );
         }
+
         return $data;
     }
 

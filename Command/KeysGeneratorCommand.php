@@ -19,7 +19,6 @@ use Symfony\Component\Console\Question\Question;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class KeysGeneratorCommand
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Command
  */
 class KeysGeneratorCommand extends Command
 {
@@ -64,6 +63,7 @@ class KeysGeneratorCommand extends Command
                     'The passPhrase can not be more than 50 characters'
                 );
             }
+
             return $answer;
         });
         $helper = $this->getHelper('question');
@@ -76,9 +76,10 @@ class KeysGeneratorCommand extends Command
         openssl_pkey_export($privateKey, $privKey, $passPhrase);
         $pubKey = openssl_pkey_get_details($privateKey);
         $pubKey = $pubKey['key'];
-        file_put_contents($key_directory . 'private.pem', $privKey);
-        file_put_contents($key_directory . 'public.pem', $pubKey);
+        file_put_contents($key_directory.'private.pem', $privKey);
+        file_put_contents($key_directory.'public.pem', $pubKey);
         $output->writeln('<info>private and public keys generated successfully.</info>');
+
         return 0;
     }
 

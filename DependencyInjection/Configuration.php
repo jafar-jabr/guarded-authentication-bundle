@@ -16,7 +16,6 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class Configuration
- * @package Jafar\Bundle\GuardedAuthenticationBundle\DependencyInjection
  */
 class Configuration implements ConfigurationInterface
 {

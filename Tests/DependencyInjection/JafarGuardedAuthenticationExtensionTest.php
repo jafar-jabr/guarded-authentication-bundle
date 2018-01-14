@@ -15,7 +15,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JafarGuardedAuthenticationExtensionTest
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\DependencyInjection
  */
 class JafarGuardedAuthenticationExtensionTest extends TestCase
 {

@@ -1,3 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 /.idea
 /*.lock
+phpunit.xml
+build
+vendor
+/*.cache

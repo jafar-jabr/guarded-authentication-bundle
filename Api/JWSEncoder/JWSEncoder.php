@@ -16,7 +16,6 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider\JWSProviderInterfac
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JWSEncoder
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder
  */
 class JWSEncoder implements JWSEncoderInterface
 {

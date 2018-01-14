@@ -17,7 +17,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class ApiResponseFactory
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse
  */
 final class ApiResponseFactoryTest extends TestCase
 {
