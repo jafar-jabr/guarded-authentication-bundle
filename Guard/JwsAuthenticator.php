@@ -108,7 +108,7 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
             $data     = $this->jwtEncoder->decode($credentials);
             $userName = $data['username'];
             $user     = $userProvider->loadUserByUsername($userName);
-            if ($user != null) {
+            if (null != $user) {
                 return $user;
             } else {
                 throw new CustomUserMessageAuthenticationException('Invalid Email');

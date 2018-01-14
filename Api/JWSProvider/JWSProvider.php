@@ -37,7 +37,7 @@ class JWSProvider implements JWSProviderInterface
 
     /**
      * @param KeyLoaderInterface $keyLoader
-     * @param int | null               $ttl
+     * @param int | null         $ttl
      *
      * @throws \InvalidArgumentException If the given ttl is not numeric
      */
