@@ -50,8 +50,7 @@ final class ApiProblem
                 Response::$statusTexts[$statusCode] : 'Unknown status code';
         } else {
             if (!isset(self::$titles[$type])) {
-
-                throw new\InvalidArgumentException('not title for ' . $type);
+                throw new\InvalidArgumentException('not title for '. $type);
             }
         }
     }
