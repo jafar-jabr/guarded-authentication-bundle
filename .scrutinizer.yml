@@ -1,4 +1,5 @@
-build:
-    tests:
-        override:
-            - 'vendor/bin/simple-phpunit'
+checks:
+    php: true
+filter:
+    excluded_paths:
+        - Tests/*
