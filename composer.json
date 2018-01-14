@@ -21,7 +21,8 @@
         "namshi/jose": "^7.2"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^4.0"
+        "symfony/phpunit-bridge": "^4.0",
+        "squizlabs/php_codesniffer": "^2.7"
     },
     "suggest": {
 
