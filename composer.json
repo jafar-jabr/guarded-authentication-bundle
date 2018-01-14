@@ -1,9 +1,9 @@
 {
     "name": "jafar/guarded-authentication-bundle",
-    "version": "2.0.5",
+    "type": "symfony-bundle",
     "description": "This Bundle provides full authentication for login form and also Api with JWS (signed JWT) based on Symfony Guard",
     "keywords": ["authentication","guard", "Symfony", "bundle", "jwt", "jws", "authentication", "api", "rest"],
-    "type": "symfony-bundle",
+    "homepage": "https://github.com/jafaronly/guarded-authentication-bundle",
     "license": "MIT",
     "authors": [
         {
@@ -21,8 +21,8 @@
         "namshi/jose": "^7.2"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^4.0",
-        "friendsofphp/php-cs-fixer": "^1.1|^2.8@dev"
+        "symfony/phpunit-bridge": "^3.4",
+        "friendsofphp/php-cs-fixer": "^2.8@dev"
     },
     "suggest": {
 
