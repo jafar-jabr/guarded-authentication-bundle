@@ -21,10 +21,14 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
+  - composer self-update
   - phpenv config-rm xdebug.ini || true
   - if [ "$DEPENDENCIES" = "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
   - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/symfony:${SYMFONY_VERSION}" --no-update; fi;
 
-install: composer update --no-interaction
+install:
+  - composer install
+  - composer update --no-interaction
 
-script: composer test
+script:
+  - phpunit
