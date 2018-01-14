@@ -37,13 +37,13 @@ class JWSProvider implements JWSProviderInterface
 
     /**
      * @param KeyLoaderInterface $keyLoader
-     * @param int                $ttl
+     * @param int | null               $ttl
      *
      * @throws \InvalidArgumentException If the given ttl is not numeric
      */
     public function __construct(KeyLoaderInterface $keyLoader, $ttl = null)
     {
-        if (null !== $ttl && !is_numeric($ttl)) {
+        if (null != $ttl && !is_numeric($ttl)) {
             throw new \InvalidArgumentException(sprintf('The TTL should be a numeric value, got %s instead.', $ttl));
         }
         $this->keyLoader = $keyLoader;

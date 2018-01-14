@@ -27,7 +27,6 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode    = $treeBuilder->root('jafar_guarded_authentication');
         $rootNode
-            ->addDefaultsIfNotSet()
             ->children()
             ->scalarNode('pass_phrase')
             ->defaultValue('')

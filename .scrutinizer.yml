@@ -2,3 +2,6 @@ build:
     tests:
         override:
             - 'vendor/bin/simple-phpunit'
+filter:
+    dependency_paths:
+        - 'vendor/'

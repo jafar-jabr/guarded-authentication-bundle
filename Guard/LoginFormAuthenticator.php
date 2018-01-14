@@ -120,7 +120,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     {
         $userName = $credentials['_username'];
         $user     = $userProvider->loadUserByUsername($userName);
-        if ($user) {
+        if ($user != null) {
             return $user;
         }
 
