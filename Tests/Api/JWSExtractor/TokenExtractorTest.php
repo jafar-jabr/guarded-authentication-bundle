@@ -10,13 +10,14 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\JWSExtractor;
 
-use Symfony\Component\HttpFoundation\Request;
-use PHPUnit\Framework\TestCase;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSExtractor\TokenExtractor;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class TokenExtractorTest
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\JWSExtractor
  */
 final class TokenExtractorTest extends TestCase
 {

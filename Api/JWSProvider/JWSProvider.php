@@ -10,18 +10,20 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider;
 
-use Namshi\JOSE\JWS;
-use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\KeyLoaderInterface;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSCreator\JWSCreator;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\KeyLoaderInterface;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\LoadedJWS;
+use Namshi\JOSE\JWS;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JWSProvider
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider
  */
 class JWSProvider implements JWSProviderInterface
 {
     const CRYPTIONENGINE = 'OpenSSL';
+
     const SIGNATUREALGORITHM = 'RS256';
 
     /**
@@ -46,7 +48,7 @@ class JWSProvider implements JWSProviderInterface
             throw new \InvalidArgumentException(sprintf('The TTL should be a numeric value, got %s instead.', $ttl));
         }
         $this->keyLoader = $keyLoader;
-        $this->ttl = $ttl;
+        $this->ttl       = $ttl;
     }
 
     /**
@@ -54,7 +56,7 @@ class JWSProvider implements JWSProviderInterface
      */
     public function create(array $payload)
     {
-        $jws = new JWS(['alg' => self::SIGNATUREALGORITHM], self::CRYPTIONENGINE);
+        $jws    = new JWS(['alg' => self::SIGNATUREALGORITHM], self::CRYPTIONENGINE);
         $claims = ['iat' => time()];
         if (null !== $this->ttl) {
             $claims['exp'] = time() + $this->ttl;

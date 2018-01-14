@@ -13,7 +13,5 @@ disabled:
   - unalign_equals
 
 finder:
-  not-path:
-    - "Tests/Stubs/"
   name:
     - "*.php"

@@ -10,12 +10,13 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder;
 
-use Jafar\Bundle\GuardedAuthenticationBundle\Exception\ApiException;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider\JWSProviderInterface;
+use Jafar\Bundle\GuardedAuthenticationBundle\Exception\ApiException;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JWSEncoder
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder
  */
 class JWSEncoder implements JWSEncoderInterface
 {

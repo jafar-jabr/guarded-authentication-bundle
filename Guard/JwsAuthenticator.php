@@ -10,25 +10,25 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Guard;
 
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiProblem;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSExtractor\TokenExtractor;
+use Jafar\Bundle\GuardedAuthenticationBundle\Exception\ApiException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
-use Symfony\Component\Routing\RouterInterface;
-use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiProblem;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSExtractor\TokenExtractor;
-use Jafar\Bundle\GuardedAuthenticationBundle\Exception\ApiException;
-use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface;
 
 /**
  * {@inheritdoc}
- *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JwsAuthenticator
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Guard
  */
 class JwsAuthenticator extends AbstractGuardAuthenticator
 {
@@ -73,11 +73,11 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
         string $loginRoute,
         string $homeRoute
     ) {
-        $this->jwtEncoder = $jwtEncoder;
-        $this->router = $router;
+        $this->jwtEncoder      = $jwtEncoder;
+        $this->router          = $router;
         $this->responseFactory = $responseFactory;
-        $this->loginRoute = $loginRoute;
-        $this->homeRoute = $homeRoute;
+        $this->loginRoute      = $loginRoute;
+        $this->homeRoute       = $homeRoute;
     }
 
     /**
@@ -85,13 +85,13 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        $loginRoute = $this->loginRoute;
+        $loginRoute    = $this->loginRoute;
         $isLoginSubmit = $request->attributes->get('_route') == $loginRoute && $request->isMethod('POST');
         if ($isLoginSubmit) {
             return null;
         }
         $extractor = new TokenExtractor('Bearer', 'Authorization');
-        $token = $extractor->extract($request);
+        $token     = $extractor->extract($request);
         if (!$token) {
             return null;
         }
@@ -105,9 +105,9 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         try {
-            $data = $this->jwtEncoder->decode($credentials);
+            $data     = $this->jwtEncoder->decode($credentials);
             $userName = $data['username'];
-            $user = $userProvider->loadUserByUsername($userName);
+            $user     = $userProvider->loadUserByUsername($userName);
             if ($user) {
                 return $user;
             } else {
@@ -161,7 +161,7 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
     public function start(Request $request, AuthenticationException $authException = null)
     {
         $apiProblem = new ApiProblem(401);
-        $message = $authException ? $authException->getMessageKey() : 'Invalid credentials';
+        $message    = $authException ? $authException->getMessageKey() : 'Invalid credentials';
         $apiProblem->set('detail', $message);
 
         return $this->responseFactory->createResponse($apiProblem);

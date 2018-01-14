@@ -12,12 +12,10 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\Command;
 
 use PHPUnit\Framework\TestCase;
 
-//use Symfony\Component\Console\Tester\CommandTester;
-//use Jafar\Bundle\GuardedAuthenticationBundle\Command\KeysGeneratorCommand;
-
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class KeysGeneratorCommandTest
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Command
  */
 class KeysGeneratorCommandTest extends TestCase
 {

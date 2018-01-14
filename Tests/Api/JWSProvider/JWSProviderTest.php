@@ -19,6 +19,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JWSProviderTest
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\JWSProvider
  */
 class JWSProviderTest extends TestCase
 {
@@ -114,7 +115,7 @@ DxOt9qoZmUhkFHIm/hmzWV3+qnrRdj5uMuHPQ87OaQYTo8CCuykLptSYmw6yuWQS
             ->method('getPassphrase')
             ->willReturn('anyPassphrase');
 
-        $payload = ['username' => 'jafaronly'];
+        $payload     = ['username' => 'jafaronly'];
         $jwsProvider = new JWSProvider($keyLoaderMock, 3600);
 
         $this->assertInstanceOf(JWSCreator::class, $created = $jwsProvider->create($payload));
@@ -137,7 +138,7 @@ DxOt9qoZmUhkFHIm/hmzWV3+qnrRdj5uMuHPQ87OaQYTo8CCuykLptSYmw6yuWQS
             ->willReturn(self::PUBLIC_KEY);
 
         $jwsProvider = new JWSProvider($keyLoaderMock, 3600);
-        $loadedJWS = $jwsProvider->load($jwt);
+        $loadedJWS   = $jwsProvider->load($jwt);
         $this->assertInstanceOf(LoadedJWS::class, $loadedJWS);
 
         $payload = $loadedJWS->getPayload();
@@ -166,7 +167,7 @@ DxOt9qoZmUhkFHIm/hmzWV3+qnrRdj5uMuHPQ87OaQYTo8CCuykLptSYmw6yuWQS
             ->willReturn(self::PUBLIC_KEY);
 
         $provider = new JWSProvider($keyLoaderMock);
-        $jws = $provider->create(['username' => 'jafaronly']);
+        $jws      = $provider->create(['username' => 'jafaronly']);
 
         $this->assertInstanceOf(JWSCreator::class, $jws);
         $this->assertTrue($jws->isSigned());

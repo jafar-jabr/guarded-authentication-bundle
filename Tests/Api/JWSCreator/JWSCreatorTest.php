@@ -10,12 +10,13 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\JWSCreator;
 
-use PHPUnit\Framework\TestCase;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSCreator\JWSCreator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JWSCreatorTest
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\JWSCreator
  */
 class JWSCreatorTest extends TestCase
 {

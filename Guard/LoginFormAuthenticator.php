@@ -10,25 +10,25 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Guard;
 
+use Jafar\Bundle\GuardedAuthenticationBundle\Form\GuardedLoginForm;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Jafar\Bundle\GuardedAuthenticationBundle\Form\GuardedLoginForm;
 
 /**
  * {@inheritdoc}
- *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class LoginFormAuthenticator
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Guard
  */
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
@@ -83,11 +83,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         string $loginRoute,
         string $homeRoute
     ) {
-        $this->formFactory = $formFactory;
-        $this->router = $router;
+        $this->formFactory     = $formFactory;
+        $this->router          = $router;
         $this->passwordEncoder = $passwordEncoder;
-        $this->loginRoute = $loginRoute;
-        $this->homeRoute = $homeRoute;
+        $this->loginRoute      = $loginRoute;
+        $this->homeRoute       = $homeRoute;
     }
 
     /**
@@ -95,7 +95,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        $loginRoute = $this->loginRoute;
+        $loginRoute    = $this->loginRoute;
         $isLoginSubmit = $request->attributes->get('_route') == $loginRoute && $request->isMethod('POST');
         if (!$isLoginSubmit) {
             return null;
@@ -119,10 +119,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $userName = $credentials['_username'];
-        $user = $userProvider->loadUserByUsername($userName);
+        $user     = $userProvider->loadUserByUsername($userName);
         if ($user) {
             return $user;
         }
+
         throw new CustomUserMessageAuthenticationException($this->wrongEmail);
     }
 
@@ -135,6 +136,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         if ($this->passwordEncoder->isPasswordValid($user, $password)) {
             return true;
         }
+
         throw new CustomUserMessageAuthenticationException($this->wrongPassword);
     }
 
@@ -144,7 +146,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         $homeRoute = $this->homeRoute;
-        $url = $this->router->generate($homeRoute);
+        $url       = $this->router->generate($homeRoute);
 
         return new RedirectResponse($url);
     }

@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class LoginFormAuthenticatorTest
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Guard
  */
 class LoginFormAuthenticatorTest extends TestCase
 {

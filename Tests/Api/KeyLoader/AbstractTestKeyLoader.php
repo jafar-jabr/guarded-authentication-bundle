@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Guarded Authentication package.
+ *
+ * (c) Jafar Jabr <jafaronly@yahoo.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\KeyLoader;
 
@@ -6,9 +14,9 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\KeyLoaderInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Base class for KeyLoader classes tests.
- *
- * @author Robin Chalas <robin.chalas@gmail.com>
+ * @author Jafar Jabr <jafaronly@yahoo.com>
+ * Class AbstractTestKeyLoader
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\KeyLoader
  */
 abstract class AbstractTestKeyLoader extends TestCase
 {

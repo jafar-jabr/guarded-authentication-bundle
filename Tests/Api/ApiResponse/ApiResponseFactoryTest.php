@@ -16,16 +16,17 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Class ApiResponseFactory
+ * Class ApiResponseFactoryTest
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\ApiResponse
  */
 final class ApiResponseFactoryTest extends TestCase
 {
     public function testCreateResponse()
     {
-        $apiProblem = new ApiProblem(401);
+        $apiProblem      = new ApiProblem(401);
         $responseFactory = new ApiResponseFactory();
-        $response = $responseFactory->createResponse($apiProblem);
-        $headerType = $response->headers->get('Content-Type');
+        $response        = $responseFactory->createResponse($apiProblem);
+        $headerType      = $response->headers->get('Content-Type');
         $this->assertEquals($headerType, 'application/problem+json');
     }
 }

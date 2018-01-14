@@ -16,12 +16,13 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class ApiProblemTest
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\ApiResponse
  */
 final class ApiProblemTest extends TestCase
 {
     public function testToArray()
     {
-        $check = new ApiProblem(401);
+        $check  = new ApiProblem(401);
         $result = $check->toArray();
         $this->assertEquals(is_array($result), true);
     }

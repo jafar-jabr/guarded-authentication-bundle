@@ -13,12 +13,13 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class KeysGeneratorCommand
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Command
  */
 class KeysGeneratorCommand extends Command
 {
@@ -66,10 +67,10 @@ class KeysGeneratorCommand extends Command
 
             return $answer;
         });
-        $helper = $this->getHelper('question');
-        $passPhrase = $helper->ask($input, $output, $question);
+        $helper        = $this->getHelper('question');
+        $passPhrase    = $helper->ask($input, $output, $question);
         $key_directory = $this->prepareTheRoute();
-        $privateKey = openssl_pkey_new([
+        $privateKey    = openssl_pkey_new([
             'private_key_bits' => 4096,
             'private_key_type' => OPENSSL_KEYTYPE_RSA,
         ]);

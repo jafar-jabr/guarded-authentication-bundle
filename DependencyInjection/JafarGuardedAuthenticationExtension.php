@@ -10,14 +10,15 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JafarGuardedAuthenticationExtension
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\DependencyInjection
  */
 class JafarGuardedAuthenticationExtension extends Extension
 {
@@ -27,8 +28,8 @@ class JafarGuardedAuthenticationExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $config        = $this->processConfiguration($configuration, $configs);
+        $loader        = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
         $container->setParameter('jafar_guarded_authentication.pass_phrase', $config['pass_phrase'] ?? '');
         $container->setParameter('jafar_guarded_authentication.token_ttl', $config['token_ttl'] ?? 3600);

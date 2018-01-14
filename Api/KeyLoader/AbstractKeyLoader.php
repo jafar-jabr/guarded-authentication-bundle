@@ -13,10 +13,12 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class AbstractKeyLoader
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader
  */
 abstract class AbstractKeyLoader implements KeyLoaderInterface
 {
     const TYPE_PUBLIC = 'public';
+
     const TYPE_PRIVATE = 'private';
 
     /**
@@ -43,7 +45,7 @@ abstract class AbstractKeyLoader implements KeyLoaderInterface
     public function __construct(string $passPhrase, string $keys_dir)
     {
         $this->privateKey = $keys_dir.'private.pem';
-        $this->publicKey = $keys_dir.'public.pem';
+        $this->publicKey  = $keys_dir.'public.pem';
         $this->passPhrase = $passPhrase;
     }
 

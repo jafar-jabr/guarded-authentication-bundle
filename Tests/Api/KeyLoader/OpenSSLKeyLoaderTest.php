@@ -15,6 +15,7 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\OpenSSLKeyLoader;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class OpenSSLKeyLoaderTest
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\KeyLoader
  */
 class OpenSSLKeyLoaderTest extends AbstractTestKeyLoader
 {
@@ -23,7 +24,7 @@ class OpenSSLKeyLoaderTest extends AbstractTestKeyLoader
      */
     public function setUp()
     {
-        $keys_path = dirname(__FILE__).'\keys\\';
+        $keys_path       = dirname(__FILE__).'\keys\\';
         $this->keyLoader = new OpenSSLKeyLoader('anyPassphrase', $keys_path);
     }
 

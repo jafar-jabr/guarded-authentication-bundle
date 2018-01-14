@@ -13,11 +13,14 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class LoadedJWS
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader
  */
 class LoadedJWS
 {
     const VERIFIED = 'verified';
+
     const EXPIRED = 'expired';
+
     const INVALID = 'invalid';
 
     /**
@@ -44,7 +47,7 @@ class LoadedJWS
      */
     public function __construct(array $payload, bool $isVerified, bool $hasLifetime = true)
     {
-        $this->payload = $payload;
+        $this->payload     = $payload;
         $this->hasLifetime = $hasLifetime;
 
         if (true === $isVerified) {

@@ -16,6 +16,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class Configuration
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\DependencyInjection
  */
 class Configuration implements ConfigurationInterface
 {
@@ -25,7 +26,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('jafar_guarded_authentication');
+        $rootNode    = $treeBuilder->root('jafar_guarded_authentication');
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()

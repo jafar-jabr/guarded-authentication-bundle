@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Interface GuardedUserInterface
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\User
  */
 interface GuardedUserInterface extends AdvancedUserInterface
 {

@@ -11,12 +11,13 @@
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type as Types;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class GuardedLoginForm
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Form
  */
 class GuardedLoginForm extends AbstractType
 {

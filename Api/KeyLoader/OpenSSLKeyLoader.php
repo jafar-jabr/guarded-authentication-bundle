@@ -13,6 +13,7 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader;
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class OpenSSLKeyLoader
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader
  */
 class OpenSSLKeyLoader extends AbstractKeyLoader
 {
@@ -26,7 +27,7 @@ class OpenSSLKeyLoader extends AbstractKeyLoader
     {
         $path = $this->getKeyPath($type);
         $encryptedKey = file_get_contents($path);
-        $key = call_user_func_array(
+        $key          = call_user_func_array(
             sprintf('openssl_pkey_get_%s', $type),
             self::TYPE_PRIVATE == $type ? [$encryptedKey, $this->getPassPhrase()] : [$encryptedKey]
         );
@@ -38,6 +39,7 @@ class OpenSSLKeyLoader extends AbstractKeyLoader
                 }
                 $sslError .= "\n ".$msg;
             }
+
             throw new \RuntimeException(
                 sprintf('Failed to load %s key "%s": %s', $type, $path, $sslError)
             );
