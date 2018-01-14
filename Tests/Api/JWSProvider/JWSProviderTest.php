@@ -191,7 +191,7 @@ DxOt9qoZmUhkFHIm/hmzWV3+qnrRdj5uMuHPQ87OaQYTo8CCuykLptSYmw6yuWQS
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     private function getKeyLoaderMock()
     {
