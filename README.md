@@ -3,7 +3,7 @@ JafarGuardedAuthenticationBundle
 
 [![Build Status](https://travis-ci.org/jafaronly/guarded-authentication-bundle.svg?branch=master)](https://travis-ci.org/jafaronly/guarded-authentication-bundle)
 [![StyleCI](https://styleci.io/repos/115276722/shield?branch=master)](https://styleci.io/repos/115276722)
-
+[![Latest Stable Version](https://poser.pugx.org/jafar/guarded-authentication-bundle/v/stable)](https://packagist.org/packages/jafar/guarded-authentication-bundle)
 This bundle provides full authentication for login form and also api with using JWS (signed JWT) based on Symfony Guard.
 
 check it at https://packagist.org/packages/jafar/guarded-authentication-bundle
