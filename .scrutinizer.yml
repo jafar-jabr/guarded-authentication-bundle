@@ -1,4 +1,4 @@
 build:
     tests:
         override:
-            - 'vendor/bin/phpunit'
+            - 'vendor/bin/simple-phpunit'
