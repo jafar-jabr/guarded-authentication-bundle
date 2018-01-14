@@ -29,22 +29,16 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
             ->scalarNode('pass_phrase')
-            ->defaultValue('')
             ->end()
             ->scalarNode('token_ttl')
-            ->defaultValue(3600)
             ->end()
             ->scalarNode('login_route')
-            ->defaultValue('')
             ->end()
             ->scalarNode('home_page_route')
-            ->defaultValue('')
             ->end()
             ->scalarNode('api_login_route')
-            ->defaultValue('')
             ->end()
             ->scalarNode('api_home_page_route')
-            ->defaultValue('')
             ->end();
 
         return $treeBuilder;
