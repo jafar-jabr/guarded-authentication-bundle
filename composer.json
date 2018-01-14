@@ -37,10 +37,5 @@
         "branch-alias": {
             "dev-master": "2.0.x-dev"
         }
-    },
-    "scripts": {
-        "test": [
-            "vendor/bin/simple-phpunit"
-         ]
     }
 }
