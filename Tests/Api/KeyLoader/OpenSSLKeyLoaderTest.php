@@ -10,42 +10,41 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\KeyLoader;
 
-use PHPUnit\Framework\TestCase;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\OpenSSLKeyLoader;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Class OpenSSLKeyLoader
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader
+ * Class OpenSSLKeyLoaderTest
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\KeyLoader
  */
-class OpenSSLKeyLoaderTest extends AbstractKeyLoaderTestTest
+class OpenSSLKeyLoaderTest extends AbstractTestKeyLoader
 {
     /**
      * {@inheritdoc}
-     *
-     * @throws \RuntimeException If the key cannot be read
-     * @throws \RuntimeException Either the key or the passPhrase is not valid
      */
-    public function loadKey($type)
+    public function setUp()
     {
-        $path = $this->getKeyPath($type);
-        $encryptedKey = file_get_contents($path);
-        $key = call_user_func_array(
-            sprintf('openssl_pkey_get_%s', $type),
-            self::TYPE_PRIVATE == $type ? [$encryptedKey, $this->getPassPhrase()] : [$encryptedKey]
-        );
-        if (!$key) {
-            $sslError = '';
-            while ($msg = trim(openssl_error_string(), " \n\r\t\0\x0B\"")) {
-                if ('error:' === substr($msg, 0, 6)) {
-                    $msg = substr($msg, 6);
-                }
-                $sslError .= "\n ".$msg;
-            }
-            throw new \RuntimeException(
-                sprintf('Failed to load %s key "%s": %s', $type, $path, $sslError)
-            );
-        }
+        $keys_path = dirname(__FILE__) . '\keys\\';
+        $this->keyLoader = new OpenSSLKeyLoader('anyPassphrase', $keys_path);
+    }
 
-        return $key;
+    /**
+     * @expectedException        \RuntimeException
+     */
+    public function testLoadInvalidPublicKey()
+    {
+        touch('public.pem');
+
+        $this->keyLoader->loadKey('public');
+    }
+
+    /**
+     * @expectedException        \RuntimeException
+     */
+    public function testLoadInvalidPrivateKey()
+    {
+        touch('private.pem');
+
+        $this->keyLoader->loadKey('private');
     }
 }

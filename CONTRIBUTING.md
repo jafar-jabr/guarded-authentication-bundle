@@ -15,6 +15,11 @@ should really read the recommendations.
 
 __Note:__ Feel free to edit existing code if you think it can be better.
 
+Running the test suite
+-----------------------
+
+You MUST run the test suite.
+
 Documentation
 -------------
 
@@ -24,6 +29,6 @@ Additional notes
 ----------------
 
 Before submitting your Pull Request, please [rebase your branch](http://git-scm.com/book/en/Git-Branching-Rebasing).  
-When submitting your Pull Request, please choose a title that makes sense, it will be used as message for the merge commit if your change is accepted.
+When submitting your Pull Request, please choose a meaningful title, it will be used as message for the merge commit if your change is accepted.
 
 Thank you!

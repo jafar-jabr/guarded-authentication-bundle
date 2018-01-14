@@ -1,6 +1,6 @@
 {
     "name": "jafar/guarded-authentication-bundle",
-    "version": "2.0.4",
+    "version": "2.0.5",
     "description": "This Bundle provides full authentication for login form and also Api with JWS (signed JWT) based on Symfony Guard",
     "keywords": ["authentication","guard", "Symfony", "bundle", "jwt", "jws", "authentication", "api", "rest"],
     "type": "symfony-bundle",

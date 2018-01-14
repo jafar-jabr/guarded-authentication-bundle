@@ -11,115 +11,76 @@
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\KeyLoader;
 
 use PHPUnit\Framework\TestCase;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\LoadedJWS;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Class LoadedJWS
- * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader
+ * Class LoadedJWSTest
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\KeyLoader
  */
-class LoadedJWSTest
+class LoadedJWSTest extends TestCase
 {
-    const VERIFIED = 'verified';
-    const EXPIRED = 'expired';
-    const INVALID = 'invalid';
+    private $goodPayload;
 
     /**
-     * @var array
+     * {@inheritdoc}
      */
-    private $payload;
-
-    /**
-     * @var string
-     */
-    private $state;
-
-    /**
-     * @var bool
-     */
-    private $hasLifetime;
-
-    /**
-     * LoadedJWS constructor.
-     *
-     * @param array $payload
-     * @param bool  $isVerified
-     * @param bool  $hasLifetime
-     */
-    public function __construct(array $payload, bool $isVerified, bool $hasLifetime = true)
+    protected function setUp()
     {
-        $this->payload = $payload;
-        $this->hasLifetime = $hasLifetime;
-
-        if (true === $isVerified) {
-            $this->state = self::VERIFIED;
-        }
-        $this->checkIssuedAt();
-        $this->checkExpiration();
+        $this->goodPayload = [
+            'username' => 'jafaronly',
+            'exp'      => time() + 3600,
+            'iat'      => time(),
+        ];
     }
 
-    /**
-     * @return array
-     */
-    public function getPayload()
+    public function testVerifiedWithEmptyPayload()
     {
-        return $this->payload;
+        $jws = new LoadedJWS($payload = [], true);
+
+        $this->assertSame($payload, $jws->getPayload());
+        $this->assertFalse($jws->isVerified());
+        $this->assertFalse($jws->isExpired());
     }
 
-    /**
-     * @return bool
-     */
-    public function isVerified()
+    public function testUnverifiedWithGoodPayload()
     {
-        return self::VERIFIED === $this->state;
+        $jws = new LoadedJWS($this->goodPayload, false);
+
+        $this->assertSame($this->goodPayload, $jws->getPayload());
+        $this->assertFalse($jws->isExpired());
+        $this->assertFalse($jws->isVerified());
     }
 
-    /**
-     * @return bool
-     */
-    public function isExpired()
+    public function testVerifiedWithGoodPayload()
     {
-        $this->checkExpiration();
+        $jws = new LoadedJWS($this->goodPayload, true);
 
-        return self::EXPIRED === $this->state;
+        $this->assertSame($this->goodPayload, $jws->getPayload());
+        $this->assertFalse($jws->isExpired());
+        $this->assertTrue($jws->isVerified());
     }
 
-    /**
-     * @return bool
-     */
-    public function isInvalid()
+    public function testVerifiedWithExpiredPayload()
     {
-        return self::INVALID === $this->state;
+        $payload = $this->goodPayload;
+        $payload['exp'] -= 3600;
+
+        $jws = new LoadedJWS($payload, true);
+
+        $this->assertFalse($jws->isVerified());
+        $this->assertTrue($jws->isExpired());
     }
 
-    /**
-     * Ensures that the signature is not expired.
-     */
-    private function checkExpiration()
+    public function testIsInvalidReturnsTrueWithIssuedAtSetInTheFuture()
     {
-        if (!$this->hasLifetime) {
-            return null;
-        }
+        $payload = $this->goodPayload;
+        $payload['iat'] += 3600;
 
-        if (!isset($this->payload['exp']) || !is_numeric($this->payload['exp'])) {
-            return $this->state = self::INVALID;
-        }
+        $jws = new LoadedJWS($payload, true);
 
-        if (0 <= (new \DateTime())->format('U') - $this->payload['exp']) {
-            return $this->state = self::EXPIRED;
-        }
-
-        return null;
-    }
-
-    /**
-     * Ensures that the iat claim is not in the future.
-     */
-    private function checkIssuedAt()
-    {
-        if (isset($this->payload['iat']) && (int) $this->payload['iat'] > time()) {
-            return $this->state = self::INVALID;
-        }
-
-        return null;
+        $this->assertFalse($jws->isVerified());
+        $this->assertFalse($jws->isExpired());
+        $this->assertTrue($jws->isInvalid());
     }
 }

@@ -27,7 +27,6 @@ final class ApiResponseFactory
         }
         $response = new JsonResponse($data, $apiProblem->getStatusCode());
         $response->headers->set('Content-Type', 'application/problem+json');
-
         return $response;
     }
 }

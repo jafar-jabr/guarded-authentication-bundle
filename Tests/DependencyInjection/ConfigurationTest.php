@@ -10,46 +10,20 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Jafar Jabr <jafaronly@yahoo.com>
- * Class Configuration
- * @package Jafar\Bundle\GuardedAuthenticationBundle\DependencyInjection
+ * Class ConfigurationTest
+ * @package Jafar\Bundle\GuardedAuthenticationBundle\Tests\DependencyInjection
  */
-class ConfigurationTest implements ConfigurationInterface
+class ConfigurationTest extends TestCase
 {
     /**
-     * {@inheritdoc}
+     * Test Configuration.
      */
-    public function getConfigTreeBuilder()
+    public function testConfiguration()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('jafar_guarded_authentication');
-        $rootNode
-            ->addDefaultsIfNotSet()
-            ->children()
-            ->scalarNode('pass_phrase')
-            ->defaultValue('')
-            ->end()
-            ->scalarNode('token_ttl')
-            ->defaultValue(3600)
-            ->end()
-            ->scalarNode('login_route')
-            ->defaultValue('')
-            ->end()
-            ->scalarNode('home_page_route')
-            ->defaultValue('')
-            ->end()
-            ->scalarNode('api_login_route')
-            ->defaultValue('')
-            ->end()
-            ->scalarNode('api_home_page_route')
-            ->defaultValue('')
-            ->end();
-
-        return $treeBuilder;
+        $this->assertEquals(1, 1);
     }
 }

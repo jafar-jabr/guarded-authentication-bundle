@@ -10,7 +10,8 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\ApiResponse;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiProblem;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,17 +19,14 @@ use PHPUnit\Framework\TestCase;
  * Class ApiResponseFactory
  * @package Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse
  */
-final class ApiResponseFactoryTest
+final class ApiResponseFactoryTest extends TestCase
 {
-    public function createResponse(ApiProblemTest $apiProblem)
+    public function testCreateResponse()
     {
-        $data = $apiProblem->toArray();
-        if ('about:blank' != $data['type']) {
-            $data['type'] = 'http://localhost/just_url/web/errors#'.$data['type'];
-        }
-        $response = new JsonResponse($data, $apiProblem->getStatusCode());
-        $response->headers->set('Content-Type', 'application/problem+json');
-
-        return $response;
+        $apiProblem = new ApiProblem(401);
+        $responseFactory = new ApiResponseFactory();
+        $response = $responseFactory->createResponse($apiProblem);
+        $headerType = $response->headers->get('Content-Type');
+        $this->assertEquals($headerType, 'application/problem+json');
     }
 }
