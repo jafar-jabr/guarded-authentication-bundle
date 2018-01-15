@@ -17,7 +17,7 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\LoadedJWS;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class JWSProviderTest
+ * Class JWSProviderTest.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

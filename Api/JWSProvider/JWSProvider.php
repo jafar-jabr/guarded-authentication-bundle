@@ -16,7 +16,7 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\LoadedJWS;
 use Namshi\JOSE\JWS;
 
 /**
- * Class JWSProvider
+ * Class JWSProvider.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

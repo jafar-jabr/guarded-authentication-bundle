@@ -15,7 +15,7 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ApiResponseFactoryTest
+ * Class ApiResponseFactoryTest.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

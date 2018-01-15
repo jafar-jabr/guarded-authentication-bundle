@@ -13,7 +13,7 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\User;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
- * Interface GuardedUserInterface
+ * Interface GuardedUserInterface.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

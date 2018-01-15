@@ -14,7 +14,7 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiProblem;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ApiProblemTest
+ * Class ApiProblemTest.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

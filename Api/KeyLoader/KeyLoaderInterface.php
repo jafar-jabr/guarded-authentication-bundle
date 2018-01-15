@@ -11,7 +11,7 @@
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader;
 
 /**
- * Interface KeyLoaderInterface
+ * Interface KeyLoaderInterface.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

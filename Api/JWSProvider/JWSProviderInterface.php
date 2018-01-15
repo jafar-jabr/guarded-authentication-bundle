@@ -14,7 +14,7 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSCreator\JWSCreator;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\LoadedJWS;
 
 /**
- * Interface JWSProviderInterface
+ * Interface JWSProviderInterface.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

@@ -11,7 +11,7 @@
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSCreator;
 
 /**
- * Interface JWSCreatorInterface
+ * Interface JWSCreatorInterface.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

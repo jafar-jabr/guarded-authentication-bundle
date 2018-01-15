@@ -28,7 +28,7 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 /**
  * {@inheritdoc}
  *
- * Class LoginFormAuthenticator
+ * Class LoginFormAuthenticator.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */
@@ -62,21 +62,16 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     /**
      * @var string
      */
-    private $wrongEmail = 'Incorrect Email Provided!';
-
-    /**
-     * @var string
-     */
     private $wrongPassword = 'Incorrect Password Provided!';
 
     /**
      * LoginFormAuthenticator constructor.
      *
-     * @param FormFactoryInterface $formFactory
-     * @param RouterInterface $router
+     * @param FormFactoryInterface         $formFactory
+     * @param RouterInterface              $router
      * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param string $loginRoute
-     * @param string $homeRoute
+     * @param string                       $loginRoute
+     * @param string                       $homeRoute
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -84,13 +79,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         UserPasswordEncoderInterface $passwordEncoder,
         string $loginRoute,
         string $homeRoute
-    )
-    {
-        $this->formFactory = $formFactory;
-        $this->router = $router;
+    ) {
+        $this->formFactory     = $formFactory;
+        $this->router          = $router;
         $this->passwordEncoder = $passwordEncoder;
-        $this->loginRoute = $loginRoute;
-        $this->homeRoute = $homeRoute;
+        $this->loginRoute      = $loginRoute;
+        $this->homeRoute       = $homeRoute;
     }
 
     /**
@@ -98,7 +92,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        $loginRoute = $this->loginRoute;
+        $loginRoute    = $this->loginRoute;
         $isLoginSubmit = $request->attributes->get('_route') == $loginRoute && $request->isMethod('POST');
         if (!$isLoginSubmit) {
             return null;
@@ -144,7 +138,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         $homeRoute = $this->homeRoute;
-        $url = $this->router->generate($homeRoute);
+        $url       = $this->router->generate($homeRoute);
 
         return new RedirectResponse($url);
     }
@@ -188,12 +182,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function supports(Request $request)
     {
-        return (bool)$this->getCredentials($request);
+        return (bool) $this->getCredentials($request);
     }
 
     /**
      * @param UserProviderInterface $userProvider
-     * @param string $username
+     * @param string                $username
      * @return UserInterface
      */
     private function loadUser(UserProviderInterface $userProvider, string $username)
@@ -203,6 +197,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         } catch (UsernameNotFoundException $e) {
             throw new CustomUserMessageAuthenticationException($e->getMessage());
         }
+
         return $user;
     }
 }

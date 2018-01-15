@@ -14,7 +14,7 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider\JWSProviderInterfac
 use Jafar\Bundle\GuardedAuthenticationBundle\Exception\ApiException;
 
 /**
- * Class JWSEncoder
+ * Class JWSEncoder.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

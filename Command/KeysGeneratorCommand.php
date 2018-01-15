@@ -17,7 +17,7 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * Class KeysGeneratorCommand
+ * Class KeysGeneratorCommand.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

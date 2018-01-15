@@ -28,7 +28,7 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 /**
  * {@inheritdoc}
  *
- * Class JwsAuthenticator
+ * Class JwsAuthenticator.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */
@@ -63,10 +63,10 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
      * JwsAuthenticator constructor.
      *
      * @param JWSEncoderInterface $jwtEncoder
-     * @param RouterInterface $router
-     * @param ApiResponseFactory $responseFactory
-     * @param string $loginRoute
-     * @param string $homeRoute
+     * @param RouterInterface     $router
+     * @param ApiResponseFactory  $responseFactory
+     * @param string              $loginRoute
+     * @param string              $homeRoute
      */
     public function __construct(
         JWSEncoderInterface $jwtEncoder,
@@ -74,13 +74,12 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
         ApiResponseFactory $responseFactory,
         string $loginRoute,
         string $homeRoute
-    )
-    {
-        $this->jwtEncoder = $jwtEncoder;
-        $this->router = $router;
+    ) {
+        $this->jwtEncoder      = $jwtEncoder;
+        $this->router          = $router;
         $this->responseFactory = $responseFactory;
-        $this->loginRoute = $loginRoute;
-        $this->homeRoute = $homeRoute;
+        $this->loginRoute      = $loginRoute;
+        $this->homeRoute       = $homeRoute;
     }
 
     /**
@@ -88,13 +87,13 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        $loginRoute = $this->loginRoute;
+        $loginRoute    = $this->loginRoute;
         $isLoginSubmit = $request->attributes->get('_route') == $loginRoute && $request->isMethod('POST');
         if ($isLoginSubmit) {
             return null;
         }
         $extractor = new TokenExtractor('Bearer', 'Authorization');
-        $token = $extractor->extract($request);
+        $token     = $extractor->extract($request);
         if (!$token) {
             return null;
         }
@@ -160,7 +159,7 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
     public function start(Request $request, AuthenticationException $authException = null)
     {
         $apiProblem = new ApiProblem(401);
-        $message = $authException ? $authException->getMessageKey() : 'Invalid credentials';
+        $message    = $authException ? $authException->getMessageKey() : 'Invalid credentials';
         $apiProblem->set('detail', $message);
 
         return $this->responseFactory->createResponse($apiProblem);
@@ -189,12 +188,12 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
      */
     public function supports(Request $request)
     {
-        return (bool)$this->getCredentials($request);
+        return (bool) $this->getCredentials($request);
     }
 
     /**
      * @param UserProviderInterface $userProvider
-     * @param string $username
+     * @param string                $username
      * @return UserInterface
      */
     private function loadUser(UserProviderInterface $userProvider, string $username)
@@ -204,6 +203,7 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
         } catch (UsernameNotFoundException $e) {
             throw new CustomUserMessageAuthenticationException($e->getMessage());
         }
+
         return $user;
     }
 }

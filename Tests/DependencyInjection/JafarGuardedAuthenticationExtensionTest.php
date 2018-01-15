@@ -13,7 +13,7 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\DependencyInjection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class JafarGuardedAuthenticationExtensionTest
+ * Class JafarGuardedAuthenticationExtensionTest.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

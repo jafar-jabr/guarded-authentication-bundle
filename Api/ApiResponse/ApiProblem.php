@@ -13,7 +13,7 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class ApiProblem
+ * Class ApiProblem.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

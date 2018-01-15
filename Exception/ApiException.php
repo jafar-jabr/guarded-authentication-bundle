@@ -11,7 +11,7 @@
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Exception;
 
 /**
- * Class ApiException
+ * Class ApiException.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

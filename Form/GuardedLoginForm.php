@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type as Types;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Class GuardedLoginForm
+ * Class GuardedLoginForm.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

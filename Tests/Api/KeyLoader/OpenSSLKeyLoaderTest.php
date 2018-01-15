@@ -13,7 +13,7 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\Api\KeyLoader;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\OpenSSLKeyLoader;
 
 /**
- * Class OpenSSLKeyLoaderTest
+ * Class OpenSSLKeyLoaderTest.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

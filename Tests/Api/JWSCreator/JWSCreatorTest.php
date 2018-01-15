@@ -14,7 +14,7 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSCreator\JWSCreator;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class JWSCreatorTest
+ * Class JWSCreatorTest.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

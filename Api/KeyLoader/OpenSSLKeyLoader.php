@@ -11,7 +11,7 @@
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader;
 
 /**
- * Class OpenSSLKeyLoader
+ * Class OpenSSLKeyLoader.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

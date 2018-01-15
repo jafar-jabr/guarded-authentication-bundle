@@ -13,7 +13,7 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder;
 use Jafar\Bundle\GuardedAuthenticationBundle\Exception\ApiException;
 
 /**
- * Interface JWSEncoderInterface
+ * Interface JWSEncoderInterface.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */
