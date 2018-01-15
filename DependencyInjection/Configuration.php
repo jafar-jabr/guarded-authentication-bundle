@@ -29,17 +29,12 @@ class Configuration implements ConfigurationInterface
         $rootNode    = $treeBuilder->root('jafar_guarded_authentication');
         $rootNode
             ->children()
-            ->scalarNode('pass_phrase')
-            ->end()
-            ->scalarNode('token_ttl')
-            ->end()
-            ->scalarNode('login_route')
-            ->end()
-            ->scalarNode('home_page_route')
-            ->end()
-            ->scalarNode('api_login_route')
-            ->end()
-            ->scalarNode('api_home_page_route')
+            ->scalarNode('pass_phrase')->end()
+            ->scalarNode('token_ttl')->end()
+            ->scalarNode('login_route')->end()
+            ->scalarNode('home_page_route')->end()
+            ->scalarNode('api_login_route')->end()
+            ->scalarNode('api_home_page_route')->end()
             ->end();
 
         return $treeBuilder;

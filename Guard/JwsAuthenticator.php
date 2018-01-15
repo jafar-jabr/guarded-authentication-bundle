@@ -189,7 +189,7 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
      */
     public function supports(Request $request)
     {
-        return (bool) $this->getCredentials($request);
+        return (Boolean) $this->getCredentials($request);
     }
 
     /**
