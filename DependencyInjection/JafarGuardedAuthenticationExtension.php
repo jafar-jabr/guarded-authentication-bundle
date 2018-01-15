@@ -16,8 +16,9 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JafarGuardedAuthenticationExtension
+ *
+ * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 class JafarGuardedAuthenticationExtension extends Extension
 {

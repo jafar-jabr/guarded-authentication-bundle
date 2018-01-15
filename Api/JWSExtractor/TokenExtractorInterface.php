@@ -13,8 +13,9 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSExtractor;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @author Jafar Jabr <jafaronly@yahoo.com>
  * Interface TokenExtractorInterface
+ *
+ * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 interface TokenExtractorInterface
 {

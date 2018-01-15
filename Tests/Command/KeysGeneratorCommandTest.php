@@ -13,8 +13,9 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\Command;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class KeysGeneratorCommandTest
+ *
+ * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 class KeysGeneratorCommandTest extends TestCase
 {

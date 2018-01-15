@@ -15,8 +15,9 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class TokenExtractorTest
+ *
+ * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 final class TokenExtractorTest extends TestCase
 {

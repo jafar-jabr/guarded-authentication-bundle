@@ -13,8 +13,9 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\Guard;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class LoginFormAuthenticatorTest
+ *
+ * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 class LoginFormAuthenticatorTest extends TestCase
 {

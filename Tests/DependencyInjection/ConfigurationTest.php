@@ -13,8 +13,9 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\DependencyInjection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class ConfigurationTest
+ *
+ * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 class ConfigurationTest extends TestCase
 {

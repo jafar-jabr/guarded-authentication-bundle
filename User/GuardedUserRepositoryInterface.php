@@ -14,8 +14,9 @@ use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @author Jafar Jabr <jafaronly@yahoo.com>
  * Interface GuardedUserRepositoryInterface
+ *
+ * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 interface GuardedUserRepositoryInterface extends UserLoaderInterface
 {

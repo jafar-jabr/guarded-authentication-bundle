@@ -19,6 +19,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -27,8 +28,9 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 /**
  * {@inheritdoc}
  *
- * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class LoginFormAuthenticator
+ *
+ * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
@@ -70,11 +72,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     /**
      * LoginFormAuthenticator constructor.
      *
-     * @param FormFactoryInterface         $formFactory
-     * @param RouterInterface              $router
+     * @param FormFactoryInterface $formFactory
+     * @param RouterInterface $router
      * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param string                       $loginRoute
-     * @param string                       $homeRoute
+     * @param string $loginRoute
+     * @param string $homeRoute
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -82,12 +84,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         UserPasswordEncoderInterface $passwordEncoder,
         string $loginRoute,
         string $homeRoute
-    ) {
-        $this->formFactory     = $formFactory;
-        $this->router          = $router;
+    )
+    {
+        $this->formFactory = $formFactory;
+        $this->router = $router;
         $this->passwordEncoder = $passwordEncoder;
-        $this->loginRoute      = $loginRoute;
-        $this->homeRoute       = $homeRoute;
+        $this->loginRoute = $loginRoute;
+        $this->homeRoute = $homeRoute;
     }
 
     /**
@@ -95,7 +98,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        $loginRoute    = $this->loginRoute;
+        $loginRoute = $this->loginRoute;
         $isLoginSubmit = $request->attributes->get('_route') == $loginRoute && $request->isMethod('POST');
         if (!$isLoginSubmit) {
             return null;
@@ -118,13 +121,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $userName = $credentials['_username'];
-        $user     = $userProvider->loadUserByUsername($userName);
-        if (null != $user) {
-            return $user;
-        }
-
-        throw new CustomUserMessageAuthenticationException($this->wrongEmail);
+        $username = $credentials['_username'];
+        return $this->loadUser($userProvider, $username);
     }
 
     /**
@@ -146,7 +144,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         $homeRoute = $this->homeRoute;
-        $url       = $this->router->generate($homeRoute);
+        $url = $this->router->generate($homeRoute);
 
         return new RedirectResponse($url);
     }
@@ -190,6 +188,21 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function supports(Request $request)
     {
-        return (bool) $this->getCredentials($request);
+        return (bool)$this->getCredentials($request);
+    }
+
+    /**
+     * @param UserProviderInterface $userProvider
+     * @param string $username
+     * @return UserInterface
+     */
+    private function loadUser(UserProviderInterface $userProvider, string $username)
+    {
+        try {
+            $user = $userProvider->loadUserByUsername($username);
+        } catch (UsernameNotFoundException $e) {
+            throw new CustomUserMessageAuthenticationException($e->getMessage());
+        }
+        return $user;
     }
 }

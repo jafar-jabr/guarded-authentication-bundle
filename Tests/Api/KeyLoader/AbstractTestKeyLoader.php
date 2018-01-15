@@ -14,8 +14,9 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\KeyLoaderInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class AbstractTestKeyLoader
+ *
+ * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 abstract class AbstractTestKeyLoader extends TestCase
 {

@@ -13,8 +13,9 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\Guard;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JwsAuthenticatorTest
+ *
+ * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 class JwsAuthenticatorTest extends TestCase
 {

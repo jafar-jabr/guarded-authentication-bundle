@@ -13,8 +13,9 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
- * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class ApiResponseFactory
+ *
+ * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 final class ApiResponseFactory
 {

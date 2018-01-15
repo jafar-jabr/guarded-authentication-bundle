@@ -16,8 +16,9 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\LoadedJWS;
 use Namshi\JOSE\JWS;
 
 /**
- * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class JWSProvider
+ *
+ * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 class JWSProvider implements JWSProviderInterface
 {
@@ -43,7 +44,7 @@ class JWSProvider implements JWSProviderInterface
      */
     public function __construct(KeyLoaderInterface $keyLoader, $ttl = null)
     {
-        if (null != $ttl && !is_numeric($ttl)) {
+        if (null !== $ttl && !is_numeric($ttl)) {
             throw new \InvalidArgumentException(sprintf('The TTL should be a numeric value, got %s instead.', $ttl));
         }
         $this->keyLoader = $keyLoader;

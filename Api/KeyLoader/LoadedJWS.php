@@ -11,8 +11,9 @@
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader;
 
 /**
- * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class LoadedJWS
+ *
+ * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 class LoadedJWS
 {

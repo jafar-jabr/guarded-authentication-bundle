@@ -11,8 +11,9 @@
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader;
 
 /**
- * @author Jafar Jabr <jafaronly@yahoo.com>
  * Class AbstractKeyLoader
+ *
+ * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 abstract class AbstractKeyLoader implements KeyLoaderInterface
 {
