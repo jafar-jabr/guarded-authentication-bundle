@@ -113,6 +113,7 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
         }
 
         $username = $data['username'];
+
         return $this->loadUser($userProvider, $username);
     }
 
@@ -194,6 +195,7 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
     /**
      * @param UserProviderInterface $userProvider
      * @param string                $username
+     *
      * @return UserInterface
      */
     private function loadUser(UserProviderInterface $userProvider, string $username)

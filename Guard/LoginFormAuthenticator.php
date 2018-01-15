@@ -116,6 +116,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $username = $credentials['_username'];
+
         return $this->loadUser($userProvider, $username);
     }
 
@@ -188,6 +189,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     /**
      * @param UserProviderInterface $userProvider
      * @param string                $username
+     *
      * @return UserInterface
      */
     private function loadUser(UserProviderInterface $userProvider, string $username)
