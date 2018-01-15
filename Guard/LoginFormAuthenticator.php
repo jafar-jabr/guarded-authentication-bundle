@@ -183,7 +183,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function supports(Request $request)
     {
-        return (Boolean) $this->getCredentials($request);
+        return (bool) $this->getCredentials($request);
     }
 
     /**
