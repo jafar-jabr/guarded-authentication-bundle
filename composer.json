@@ -8,7 +8,8 @@
     "authors": [
         {
             "name": "Jafar Jabr",
-            "email": "jafaronly@yahoo.com"
+            "email": "jafaronly@yahoo.com",
+            "homepage": "https://github.com/jafaronly"
         }
     ],
     "require": {
