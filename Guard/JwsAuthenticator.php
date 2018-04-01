@@ -54,8 +54,9 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
      */
     private $loginRoute;
 
-     /**
+    /**
      * JwsAuthenticator constructor.
+     *
      * @param JWSEncoderInterface $jwtEncoder
      * @param RouterInterface     $router
      * @param ApiResponseFactory  $responseFactory

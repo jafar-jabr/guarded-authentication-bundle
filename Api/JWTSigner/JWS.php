@@ -122,7 +122,7 @@ class JWS extends JWT
         EncoderInterface $encoder = null,
         $encryptionEngine = 'OpenSSL'
     ) {
-        if ($encoder === null) {
+        if (null === $encoder) {
             $encoder = strpbrk($jwsTokenString, '+/=') ? new Base64Encoder() : new Base64UrlSafeEncoder();
         }
 
@@ -133,7 +133,7 @@ class JWS extends JWT
             $payload = json_decode($encoder->decode($parts[1]), true);
 
             if (is_array($header) && is_array($payload)) {
-                if (strtolower($header['alg']) === 'none' && !$allowUnsecure) {
+                if ('none' === strtolower($header['alg']) && !$allowUnsecure) {
                     throw new InvalidArgumentException(sprintf('The token "%s" cannot be validated in a secure context, as it uses the unallowed "none" algorithm', $jwsTokenString));
                 }
 
@@ -168,7 +168,7 @@ class JWS extends JWT
         }
 
         $decodedSignature = $this->encoder->decode($this->getEncodedSignature());
-        $signinInput = $this->getSigninInput();
+        $signinInput      = $this->getSigninInput();
 
         return $this->getSigner()->verify($key, $decodedSignature, $signinInput);
     }

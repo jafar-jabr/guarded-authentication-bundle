@@ -48,8 +48,8 @@ abstract class HMAC implements SignerInterface
     /**
      * A timing safe equals comparison.
      *
-     * @param string $known   the internal signature to be checked
-     * @param string $input   The signed input submitted value
+     * @param string $known the internal signature to be checked
+     * @param string $input The signed input submitted value
      *
      * @return bool true if the two strings are identical
      */

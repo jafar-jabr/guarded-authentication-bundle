@@ -24,6 +24,7 @@ interface JWSRefresherInterface
      * @param Request $request
      *
      * @return array
+     *
      * @throws ApiException
      */
     public function decode(Request $request);
