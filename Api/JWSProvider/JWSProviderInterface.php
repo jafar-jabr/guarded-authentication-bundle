@@ -23,11 +23,12 @@ interface JWSProviderInterface
     /**
      * Creates a new JWS signature from a given payload.
      *
-     * @param array $payload
+     * @param array  $payload
+     * @param string $type
      *
      * @return JWSCreator
      */
-    public function create(array $payload);
+    public function create(array $payload, string $type);
 
     /**
      * Loads an existing JWS signature from a given JWT token.

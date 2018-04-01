@@ -13,7 +13,7 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSCreator\JWSCreator;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\KeyLoaderInterface;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\LoadedJWS;
-use Namshi\JOSE\JWS;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner\JWS;
 
 /**
  * Class JWSProvider.
@@ -37,29 +37,44 @@ class JWSProvider implements JWSProviderInterface
     private $ttl;
 
     /**
+     * @var int
+     */
+    private $refresh_ttl;
+
+    /**
      * @param KeyLoaderInterface $keyLoader
-     * @param int | null         $ttl
+     * @param int                $ttl
+     * @param int                $refresh_ttl
      *
      * @throws \InvalidArgumentException If the given ttl is not numeric
      */
-    public function __construct(KeyLoaderInterface $keyLoader, $ttl = null)
+    public function __construct(KeyLoaderInterface $keyLoader, $ttl, $refresh_ttl)
     {
         if (null !== $ttl && !is_numeric($ttl)) {
             throw new \InvalidArgumentException(sprintf('The TTL should be a numeric value, got %s instead.', $ttl));
         }
-        $this->keyLoader = $keyLoader;
-        $this->ttl       = $ttl;
+
+        if (null !== $refresh_ttl && !is_numeric($refresh_ttl)) {
+            throw new \InvalidArgumentException(
+                sprintf('The Refresh TTL should be a numeric value, got %s instead.', $refresh_ttl)
+            );
+        }
+        $this->keyLoader   = $keyLoader;
+        $this->ttl         = $ttl;
+        $this->refresh_ttl = $refresh_ttl;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function create(array $payload)
+    public function create(array $payload, string $type = 'Main')
     {
         $jws    = new JWS(['alg' => self::SIGNATUREALGORITHM], self::CRYPTIONENGINE);
         $claims = ['iat' => time()];
-        if (null !== $this->ttl) {
+        if ($type == 'Main') {
             $claims['exp'] = time() + $this->ttl;
+        } else {
+            $claims['exp'] = time() + $this->refresh_ttl;
         }
         $jws->setPayload($payload + $claims);
         $jws->sign(

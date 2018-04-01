@@ -36,10 +36,10 @@ class JWSEncoder implements JWSEncoderInterface
     /**
      * {@inheritdoc}
      */
-    public function encode(array $payload)
+    public function encode(array $payload, string $type = "Main")
     {
         try {
-            $jws = $this->jwsProvider->create($payload);
+            $jws = $this->jwsProvider->create($payload, $type);
         } catch (\InvalidArgumentException $e) {
             throw new ApiException(
                 ApiException::INVALID_CONFIG,

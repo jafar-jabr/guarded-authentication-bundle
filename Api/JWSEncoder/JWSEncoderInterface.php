@@ -20,14 +20,15 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Exception\ApiException;
 interface JWSEncoderInterface
 {
     /**
-     * @param array $data
+     * @param array  $data
+     * @param string $type
      *
      * @return string the encoded token string
      *
      * @throws ApiException If an error occurred while trying to create
-     *                      the token (invalid crypto key, invalid payload...)
+     *                      the token (invalid cryptic key, invalid payload...)
      */
-    public function encode(array $data);
+    public function encode(array $data, string $type);
 
     /**
      * @param string $token

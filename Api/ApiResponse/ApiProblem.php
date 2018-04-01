@@ -19,27 +19,42 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class ApiProblem
 {
-    const VALIDATION_ERROR_TYPE = 'Validation_Error';
+    const VALIDATION_ERROR_TYPE            = 'Validation_Error';
 
     const INVALID_REQUEST_BODY_FORMAT_TYPE = 'Invalid_body_format';
 
+    /**
+     * @var array
+     */
     private static $titles = [
         self::VALIDATION_ERROR_TYPE             => 'There was a validation error',
         self::INVALID_REQUEST_BODY_FORMAT_TYPE  => 'Invalid Json format sent',
     ];
 
+    /**
+     * @var int
+     */
     private $statusCode;
 
+    /**
+     * @var string
+     */
     private $type;
 
+    /**
+     * @var string
+     */
     private $title;
 
+    /**
+     * @var string
+     */
     private $detail;
 
     /**
      * ApiProblem constructor.
      *
-     * @param $statusCode
+     * @param string $statusCode
      * @param null | string $type
      */
     public function __construct($statusCode, $type = null)
@@ -56,11 +71,18 @@ final class ApiProblem
         }
     }
 
+    /**
+     * @param $key
+     * @param $value
+     */
     public function set($key, $value)
     {
         $this->$key = $value;
     }
 
+    /**
+     * @return array
+     */
     public function toArray()
     {
         return [
@@ -71,6 +93,9 @@ final class ApiProblem
         ];
     }
 
+    /**
+     * @return int|string
+     */
     public function getStatusCode()
     {
         return $this->statusCode;

@@ -40,5 +40,6 @@ class JafarGuardedAuthenticationExtension extends Extension
             'jafar_guarded_authentication.api_home_page_route',
             $config['api_home_page_route'] ?? ''
         );
+        $container->setParameter('jafar_guarded_authentication.refresh_ttl', $config['refresh_ttl'] ?? 604800);
     }
 }

@@ -1,7 +1,7 @@
 {
     "name": "jafar/guarded-authentication-bundle",
     "type": "symfony-bundle",
-    "description": "This Bundle provides full authentication for login form and also Api with JWS (signed JWT) based on Symfony Guard",
+    "description": "This Bundle provides full authentication for login form and also Api with JWS (signed JWT 'encrypted with OpenSSL encryption engine') based on Symfony Guard",
     "keywords": ["authentication","guard", "Symfony", "bundle", "jwt", "jws", "authentication", "api", "rest"],
     "homepage": "https://github.com/jafaronly/guarded-authentication-bundle",
     "license": "MIT",
@@ -9,7 +9,7 @@
         {
             "name": "Jafar Jabr",
             "email": "jafaronly@yahoo.com",
-            "homepage": "https://github.com/jafaronly"
+            "homepage": "http://www.jafaronly.com/"
         }
     ],
     "require": {
@@ -18,8 +18,7 @@
         "symfony/security-bundle": "^3.4|^4.0",
         "symfony/console": "^3.4|^4.0",
         "symfony/form": "^3.4|^4.0",
-        "symfony/yaml": "^3.4|^4.0",
-        "namshi/jose": "^7.2"
+        "symfony/yaml": "^3.4|^4.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.4",

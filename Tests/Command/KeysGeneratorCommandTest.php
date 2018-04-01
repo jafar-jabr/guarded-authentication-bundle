@@ -11,19 +11,44 @@
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\Command;
 
 use PHPUnit\Framework\TestCase;
+use Jafar\Bundle\GuardedAuthenticationBundle\Command\KeysGeneratorCommand;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class KeysGeneratorCommandTest.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */
-class KeysGeneratorCommandTest extends TestCase
+class KeysGeneratorCommandTest extends KernelTestCase
 {
     /**
      * Test command.
      */
-    public function testKeysGeneratorCommand()
+    public function testCommand()
     {
-        $this->assertEquals(1, 1);
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
+
+        $application->add(new KeysGeneratorCommand());
+
+        $command = $application->find('jafar:generate-keys');
+
+        $commandTester = new CommandTester($command);
+
+        // Equals to a user inputting "Test" and hitting ENTER
+        $commandTester->setInputs(array('Test'));
+
+//        // Equals to a user inputting "This", "That" and hitting ENTER
+//        // This can be used for answering two separated questions for instance
+//        $commandTester->setInputs(array('This', 'That'));
+//
+//        // For simulating a positive answer to a confirmation question, adding an
+//        // additional input saying "yes" will work
+//        $commandTester->setInputs(array('yes'));
+
+        $this->assertEquals(0, $commandTester->execute([]));
+        $this->assertContains('The configuration seems correct.', $commandTester->getDisplay());
     }
 }

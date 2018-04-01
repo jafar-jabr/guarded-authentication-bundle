@@ -12,9 +12,7 @@ Installation
 Add [`jafar/guard-authentication-bundle`](https://packagist.org/packages/jafar/guard-authentication-bundle)
 to your `composer.json` file:
 
-    composer require jafar/guarded-authentication-bundle "version"
-
-Check https://packagist.org/packages/jafar/guarded-authentication-bundle for last version
+    composer require jafar/guarded-authentication-bundle
 
 The bundle suppose to be automatically registered in `config/bundles.php` :
 
@@ -40,12 +38,12 @@ jafar_guarded_authentication:
     home_page_route: ''
    #route name for Api login url
     api_login_route: ''
-   #route name for Api home page
-    api_home_page_route: ''
-    # ssh key pass phrase
+   # ssh key pass phrase
     pass_phrase:         '' # passphrase which you choose when you generate keys in command line
     # token ttl
     token_ttl:           3600 #time to live in second
+   # refresh token ttl
+    refresh_ttl:      604800 #one week
 ```
 
 Security configuration
@@ -72,20 +70,27 @@ security:
             stateless: ~
             guard:
                authenticators:
-                    - Guarded.Authentication.Jws_Token_Authenticator
+                    - guarded.authentication.jws_token_authenticator
         main:
             pattern: ^/
             anonymous: ~
             guard:
                 authenticators:
-                     - Guarded.Authentication.Login_Form_Authenticator
-                entry_point: Guarded.Authentication.Login_Form_Authenticator
+                     - guarded.authentication.login_form_authenticator
+                entry_point: guarded.authentication.login_form_authenticator
             logout:
                 path: /logout
             remember_me:
-                secret:   '%secret%'
+                secret:   '%kernel.secret%'
                 lifetime: 604800 # 1 week in seconds
                 path:     /
+    # ...
+    
+    access_control:
+            # ...
+            - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+            - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+            # ...            
 ```
 
 Generate the SSH keys :
@@ -167,10 +172,11 @@ class LoginController extends Controller
 - API login controller can look like:
 ``` php
 use App\Repository\UserRepository;
-use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiProblem;
-use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiProblem;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory;
+use Jafar\Bundle\GuardedAuthenticationBundle\Exception\ApiException;
 
 class ApiLoginController extends AuthController
 {
@@ -193,24 +199,36 @@ class ApiLoginController extends AuthController
      * @return JsonResponse
      */
     public function index(Request $request)
-    {
-        $username = $request->get('username');
-        $password = $request->get('password');
-        $user = $this->userRepository->loadUserByUsername($username);
-        if (!$user) {
-            $apiProblem = new ApiProblem(401);
-            $apiProblem->set('detail', 'Invalid email');
-            return (new ApiResponseFactory())->createResponse($apiProblem);
+        {
+            $username = $request->get('username');
+            $password = $request->get('password');
+            $user = $this->userRepository->loadUserByUsername($username);
+            if (!$user) {
+                $apiProblem = new ApiProblem(401);
+                $apiProblem->set('detail', 'Invalid email');
+    
+                return (new ApiResponseFactory())->createResponse($apiProblem);
+            }
+            $passwordValid = $this->get('security.password_encoder')->isPasswordValid($user, $password);
+            if (!$passwordValid) {
+                $apiProblem = new ApiProblem(401);
+                $apiProblem->set('detail', 'Incorrect Password');
+    
+                return (new ApiResponseFactory())->createResponse($apiProblem);
+            }
+            try {
+                $token        = $this->get('jafar_guarded_authentication.encoder')->encode(['username' => $username]);
+                $refreshToken = $this->get('jafar_guarded_authentication.encoder')->encode(
+                    ['username' => $username],
+                    'Refresh'
+                );
+            } catch (ApiException $e) {
+                $apiProblem = new ApiProblem(401);
+                $apiProblem->set('detail', $e->getReason());
+                return (new ApiResponseFactory())->createResponse($apiProblem);
+            }
+            return new JsonResponse(['status' => 'Success', 'token' => 'Bearer '.$token, 'refresh-token' => $refreshToken]);
         }
-        $passwordValid = $this->get('security.password_encoder')->isPasswordValid($user, $password);
-        if (!$passwordValid) {
-            $apiProblem = new ApiProblem(401);
-            $apiProblem->set('detail', 'Incorrect Password');
-            return (new ApiResponseFactory())->createResponse($apiProblem);
-        }
-        $token = $this->get('jafar_guarded_authentication.encoder')->encode(['username' => $username]);
-        return new JsonResponse(['status' => 'Success', 'token' => 'Bearer ' . $token]);
-    }
 }
 ```
 ### with the above mentioned setting now your authentication system start to work
@@ -243,4 +261,71 @@ in your `public/.htaccess` file
 ### token life time "ttl"
 
 Each request after token expiration will result in a 401 response.
-go to Api login again to get a new token.
+```bash
+{
+    "detail": "Expired JWT Token",
+    "status": 401,
+    "type": "about:blank",
+    "title": "Unauthorized"
+}
+``` 
+### Refresh Token 
+starting from v2.06 you will have refresh-token service
+```php
+jafar_guarded_authentication.token_refresher
+``` 
+
+and you can generate refresh token,
+```php
+$refreshToken = $this->get('jafar_guarded_authentication.encoder')->encode(['username' => $username], 'Refresh');
+``` 
+an example of how to refresh the token
+``` php
+use App\Repository\UserRepository;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiProblem;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+
+class ApiLoginController extends AuthController
+{
+         # ...
+         # ...
+    
+         /**
+         * @param Request $request
+         *
+         * @return JsonResponse
+         * @throws ApiException
+         */
+        public function refresh(Request $request)
+        {
+            try {
+                $data         = $this->get('jafar_guarded_authentication.token_refresher')->decode($request);
+                $username     = isset($data['username']) ? $data['username'] : 'not set';
+                $user         = $this->userRepository->loadUserByUsername($username);
+                if (!$user) {
+                    $apiProblem = new ApiProblem(401);
+                    $apiProblem->set('detail', 'Invalid refresh token');
+    
+                    return (new ApiResponseFactory())->createResponse($apiProblem);
+                }
+            } catch (ApiException $e) {
+                $apiProblem = new ApiProblem(401);
+                $apiProblem->set('detail', 'Invalid refresh token');
+    
+                return (new ApiResponseFactory())->createResponse($apiProblem);
+            }
+            $token            = $this->get('jafar_guarded_authentication.encoder')->encode(['username' => $username]);
+            $refreshToken = $this->get('jafar_guarded_authentication.encoder')->encode(
+                ['username' => $username],
+                'Refresh'
+            );
+            return new JsonResponse(['status' => 'Success', 'token' => 'Bearer '.$token, 'refresh-token' => $refreshToken]);
+        }
+}
+```
+
+
+
+

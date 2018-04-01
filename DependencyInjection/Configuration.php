@@ -35,6 +35,7 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('home_page_route')->end()
             ->scalarNode('api_login_route')->end()
             ->scalarNode('api_home_page_route')->end()
+            ->scalarNode('refresh_ttl')->end()
             ->end();
 
         return $treeBuilder;

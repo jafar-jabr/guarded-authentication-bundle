@@ -3,6 +3,9 @@ CHANGELOG
 
 For a diff between two versions https://github.com/jafaronly/guarded-authentication-bundle/compare/v1.0.0...v2.0.0
 
+
+## [v2.0.6](https://github.com/jafaronly/guarded-authentication-bundle/tree/v2.0.6) (2018-04-01)
+
 ## [v2.0.5](https://github.com/jafaronly/guarded-authentication-bundle/tree/v2.0.5) (2018-01-14)
 
 ## [v2.0.4](https://github.com/jafaronly/guarded-authentication-bundle/tree/v2.0.4) (2018-01-13)

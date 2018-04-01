@@ -19,6 +19,7 @@ services:
            arguments:
                 $keyLoader: '@Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\KeyLoaderInterface'
                 $ttl: '%jafar_guarded_authentication.token_ttl%'
+                $refresh_ttl: '%jafar_guarded_authentication.refresh_ttl%'
 
       Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface:
            class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoder
@@ -29,7 +30,16 @@ services:
            public: true
            alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface
 
-      Guarded.Authentication.Login_Form_Authenticator:
+      Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSRefresher\JWSRefresherInterface:
+                 class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSRefresher\JWSRefresher
+                 public: true
+                 arguments: ['@Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface']
+
+      jafar_guarded_authentication.token_refresher:
+                 public: true
+                 alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSRefresher\JWSRefresherInterface
+
+      guarded.guthentication.login_form_authenticator:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Guard\LoginFormAuthenticator
              public: true
              arguments:
@@ -39,7 +49,7 @@ services:
                   $loginRoute: '%jafar_guarded_authentication.login_route%'
                   $homeRoute: '%jafar_guarded_authentication.home_page_route%'
 
-      Guarded.Authentication.Jws_Token_Authenticator:
+      guarded.authentication.jws_token_authenticator:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Guard\JwsAuthenticator
              public: true
              arguments:
@@ -47,7 +57,6 @@ services:
                   $router: '@router'
                   $responseFactory: '@Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory'
                   $loginRoute: '%jafar_guarded_authentication.api_login_route%'
-                  $homeRoute: '%jafar_guarded_authentication.api_home_page_route%'
 
       Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory
