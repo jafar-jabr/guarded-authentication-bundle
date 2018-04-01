@@ -11,9 +11,9 @@
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider;
 
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSCreator\JWSCreator;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner\JWS;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\KeyLoaderInterface;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\LoadedJWS;
-use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner\JWS;
 
 /**
  * Class JWSProvider.
@@ -71,7 +71,7 @@ class JWSProvider implements JWSProviderInterface
     {
         $jws    = new JWS(['alg' => self::SIGNATUREALGORITHM], self::CRYPTIONENGINE);
         $claims = ['iat' => time()];
-        if ($type == 'Main') {
+        if ('Main' == $type) {
             $claims['exp'] = time() + $this->ttl;
         } else {
             $claims['exp'] = time() + $this->refresh_ttl;

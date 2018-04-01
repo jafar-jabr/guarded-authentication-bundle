@@ -11,17 +11,16 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSRefresher;
 
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSExtractor\TokenExtractor;
-use Symfony\Component\HttpFoundation\Request;
 use Jafar\Bundle\GuardedAuthenticationBundle\Exception\ApiException;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class JWSRefresher
+ * Class JWSRefresher.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 class JWSRefresher implements JWSRefresherInterface
 {
-
     /**
      * @var JWSEncoderInterface
      */
@@ -39,13 +38,13 @@ class JWSRefresher implements JWSRefresherInterface
 
     /**
      * {@inheritdoc}
-     *
      */
     public function decode(Request $request)
     {
         if ($request->headers->has('refresh-token')) {
             $extractor    = new TokenExtractor('', 'refresh-token');
             $token        = $extractor->extract($request);
+
             try {
                 return  $this->encoder->decode($token);
             } catch (ApiException $e) {

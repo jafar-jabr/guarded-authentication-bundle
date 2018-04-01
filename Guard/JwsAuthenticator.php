@@ -56,7 +56,6 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
 
      /**
      * JwsAuthenticator constructor.
-     *
      * @param JWSEncoderInterface $jwtEncoder
      * @param RouterInterface     $router
      * @param ApiResponseFactory  $responseFactory
@@ -89,6 +88,7 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
         if (!$token) {
             return null;
         }
+
         return $token;
     }
 

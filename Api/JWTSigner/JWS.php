@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner;
 
 use InvalidArgumentException;
@@ -23,42 +24,46 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner\Signer\SignerInterfac
 class JWS extends JWT
 {
     protected $signature;
+
     protected $isSigned = false;
+
     protected $originalToken;
+
     protected $encodedSignature;
+
     protected $encryptionEngine;
-    protected $supportedEncryptionEngines = 'OpenSSL';
+
+    protected $supportedEncryptionEngine = 'OpenSSL';
 
     /**
      * Constructor.
      *
-     * @param array $header An associative array of headers. The value can be any type accepted by json_encode or a JSON serializable object
-     *
+     * @param array  $header           An associative array of headers. The value can be any type accepted by json_encode or a JSON serializable object
      * @param string $encryptionEngine
      */
-    public function __construct($header = array(), $encryptionEngine = 'OpenSSL')
+    public function __construct($header = [], $encryptionEngine = 'OpenSSL')
     {
-        if ($encryptionEngine !== $this->supportedEncryptionEngines) {
+        if ($encryptionEngine !== $this->supportedEncryptionEngine) {
             throw new InvalidArgumentException(sprintf('Encryption engine %s is not supported', $encryptionEngine));
         }
 
         $this->encryptionEngine = $encryptionEngine;
 
-        parent::__construct(array(), $header);
+        parent::__construct([], $header);
     }
 
     /**
      * Signs the JWS signininput.
      *
      * @param resource|string $key
-     * @param null | string $password
+     * @param null | string   $password
      *
      * @return string
      */
     public function sign($key, $password = null)
     {
         $this->signature = $this->getSigner()->sign($this->generateSigninInput(), $key, $password);
-        $this->isSigned = true;
+        $this->isSigned  = true;
 
         return $this->signature;
     }
@@ -123,8 +128,8 @@ class JWS extends JWT
 
         $parts = explode('.', $jwsTokenString);
 
-        if (count($parts) === 3) {
-            $header = json_decode($encoder->decode($parts[0]), true);
+        if (3 === count($parts)) {
+            $header  = json_decode($encoder->decode($parts[0]), true);
             $payload = json_decode($encoder->decode($parts[1]), true);
 
             if (is_array($header) && is_array($payload)) {
@@ -170,7 +175,7 @@ class JWS extends JWT
 
     /**
      * Get the original token signin input if it exists, otherwise generate the
-     * signin input for the current JWS
+     * signin input for the current JWS.
      *
      * @return string
      */

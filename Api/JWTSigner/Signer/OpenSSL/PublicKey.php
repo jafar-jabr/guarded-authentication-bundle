@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner\Signer\OpenSSL;
 
 use InvalidArgumentException;
@@ -71,8 +72,8 @@ abstract class PublicKey implements SignerInterface
         }
 
         $resource = openssl_pkey_get_public($key) ?: openssl_pkey_get_private($key, $password);
-        if ($resource === false) {
-            throw new RuntimeException('Could not read key resource: ' . openssl_error_string());
+        if (false === $resource) {
+            throw new RuntimeException('Could not read key resource: '. openssl_error_string());
         }
         return $resource;
     }

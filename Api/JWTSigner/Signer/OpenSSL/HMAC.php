@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner\Signer\OpenSSL;
 
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner\Signer\SignerInterface;
@@ -14,6 +15,7 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner\Signer\SignerInterfac
 /**
  * Class HMAC.
  * This class is the base of all HMAC Signers.
+ *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */
 abstract class HMAC implements SignerInterface
@@ -46,10 +48,10 @@ abstract class HMAC implements SignerInterface
     /**
      * A timing safe equals comparison.
      *
-     * @param string $signature   the internal signature to be checked
-     * @param string $signedInput The signed input submitted value
+     * @param string $known   the internal signature to be checked
+     * @param string $input   The signed input submitted value
      *
-     * @return bool true if the two strings are identical.
+     * @return bool true if the two strings are identical
      */
     public function timingSafeEquals($known, $input)
     {

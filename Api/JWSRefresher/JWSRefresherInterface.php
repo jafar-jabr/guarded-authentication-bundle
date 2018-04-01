@@ -14,7 +14,7 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Exception\ApiException;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Interface JWSRefresherInterface
+ * Interface JWSRefresherInterface.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */

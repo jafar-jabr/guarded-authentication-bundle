@@ -10,7 +10,6 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\Command;
 
-use PHPUnit\Framework\TestCase;
 use Jafar\Bundle\GuardedAuthenticationBundle\Command\KeysGeneratorCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -28,7 +27,7 @@ class KeysGeneratorCommandTest extends KernelTestCase
      */
     public function testCommand()
     {
-        $kernel = self::bootKernel();
+        $kernel      = self::bootKernel();
         $application = new Application($kernel);
 
         $application->add(new KeysGeneratorCommand());
@@ -38,7 +37,7 @@ class KeysGeneratorCommandTest extends KernelTestCase
         $commandTester = new CommandTester($command);
 
         // Equals to a user inputting "Test" and hitting ENTER
-        $commandTester->setInputs(array('Test'));
+        $commandTester->setInputs(['Test']);
 
 //        // Equals to a user inputting "This", "That" and hitting ENTER
 //        // This can be used for answering two separated questions for instance

@@ -54,7 +54,7 @@ final class ApiProblem
     /**
      * ApiProblem constructor.
      *
-     * @param string $statusCode
+     * @param string        $statusCode
      * @param null | string $type
      */
     public function __construct($statusCode, $type = null)

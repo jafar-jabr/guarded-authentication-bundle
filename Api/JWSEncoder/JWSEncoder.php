@@ -36,7 +36,7 @@ class JWSEncoder implements JWSEncoderInterface
     /**
      * {@inheritdoc}
      */
-    public function encode(array $payload, string $type = "Main")
+    public function encode(array $payload, string $type = 'Main')
     {
         try {
             $jws = $this->jwsProvider->create($payload, $type);
