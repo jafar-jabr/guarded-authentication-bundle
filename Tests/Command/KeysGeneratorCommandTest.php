@@ -10,14 +10,12 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Tests\Command;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-
 /**
  * Class KeysGeneratorCommandTest.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */
-class KeysGeneratorCommandTest extends KernelTestCase
+class KeysGeneratorCommandTest
 {
     /**
      * Test command.
