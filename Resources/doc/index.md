@@ -100,7 +100,7 @@ php bin/console jafar:generate-keys
 ```
 you will be asked for choosing passPhrase (you will need it also in configuration). 
 
-##use this pass_phrase also in setting in `jafar_guarded_authentication.yaml` file
+## use this pass_phrase also in setting in `jafar_guarded_authentication.yaml` file
 make sure that you have Openssl enabled on you computer.
 
 Usage

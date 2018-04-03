@@ -39,7 +39,7 @@ services:
                  public: true
                  alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSRefresher\JWSRefresherInterface
 
-      guarded.guthentication.login_form_authenticator:
+      guarded.authentication.login_form_authenticator:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Guard\LoginFormAuthenticator
              public: true
              arguments:
