@@ -54,10 +54,10 @@ final class ApiProblem
     /**
      * ApiProblem constructor.
      *
-     * @param string        $statusCode
+     * @param int        $statusCode
      * @param null | string $type
      */
-    public function __construct($statusCode, $type = null)
+    public function __construct(int $statusCode, ?string $type = null)
     {
         $this->statusCode = $statusCode;
         if (null === $type) {

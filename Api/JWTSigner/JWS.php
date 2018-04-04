@@ -31,24 +31,15 @@ class JWS extends JWT
 
     protected $encodedSignature;
 
-    protected $encryptionEngine;
-
-    protected $supportedEncryptionEngine = 'OpenSSL';
+    protected $encryptionEngine = 'OpenSSL';
 
     /**
      * Constructor.
      *
      * @param array  $header           An associative array of headers. The value can be any type accepted by json_encode or a JSON serializable object
-     * @param string $encryptionEngine
      */
-    public function __construct($header = [], $encryptionEngine = 'OpenSSL')
+    public function __construct($header = [])
     {
-        if ($encryptionEngine !== $this->supportedEncryptionEngine) {
-            throw new InvalidArgumentException(sprintf('Encryption engine %s is not supported', $encryptionEngine));
-        }
-
-        $this->encryptionEngine = $encryptionEngine;
-
         parent::__construct([], $header);
     }
 
@@ -56,13 +47,12 @@ class JWS extends JWT
      * Signs the JWS signininput.
      *
      * @param resource|string $key
-     * @param null | string   $password
      *
      * @return string
      */
-    public function sign($key, $password = null)
+    public function sign($key)
     {
-        $this->signature = $this->getSigner()->sign($this->generateSigninInput(), $key, $password);
+        $this->signature = $this->getSigner()->sign($this->generateSigninInput(), $key);
         $this->isSigned  = true;
 
         return $this->signature;
@@ -110,7 +100,6 @@ class JWS extends JWT
      * @param string           $jwsTokenString
      * @param bool             $allowUnsecure
      * @param EncoderInterface $encoder
-     * @param string           $encryptionEngine
      *
      * @return JWS
      *
@@ -119,8 +108,7 @@ class JWS extends JWT
     public static function load(
         $jwsTokenString,
         $allowUnsecure = false,
-        EncoderInterface $encoder = null,
-        $encryptionEngine = 'OpenSSL'
+        EncoderInterface $encoder = null
     ) {
         if (null === $encoder) {
             $encoder = strpbrk($jwsTokenString, '+/=') ? new Base64Encoder() : new Base64UrlSafeEncoder();
@@ -137,7 +125,7 @@ class JWS extends JWT
                     throw new InvalidArgumentException(sprintf('The token "%s" cannot be validated in a secure context, as it uses the unallowed "none" algorithm', $jwsTokenString));
                 }
 
-                $jws = new static($header, $encryptionEngine);
+                $jws = new static($header);
 
                 $jws->setEncoder($encoder)
                     ->setHeader($header)

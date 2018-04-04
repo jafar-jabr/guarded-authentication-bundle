@@ -22,8 +22,6 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader\LoadedJWS;
  */
 class JWSProvider implements JWSProviderInterface
 {
-    const CRYPTIONENGINE = 'OpenSSL';
-
     const SIGNATUREALGORITHM = 'RS256';
 
     /**
@@ -50,11 +48,11 @@ class JWSProvider implements JWSProviderInterface
      */
     public function __construct(KeyLoaderInterface $keyLoader, $ttl, $refresh_ttl)
     {
-        if (null !== $ttl && !is_numeric($ttl)) {
+        if (null === $ttl) {
             throw new \InvalidArgumentException(sprintf('The TTL should be a numeric value, got %s instead.', $ttl));
         }
 
-        if (null !== $refresh_ttl && !is_numeric($refresh_ttl)) {
+        if (null === $refresh_ttl) {
             throw new \InvalidArgumentException(
                 sprintf('The Refresh TTL should be a numeric value, got %s instead.', $refresh_ttl)
             );
@@ -69,7 +67,7 @@ class JWSProvider implements JWSProviderInterface
      */
     public function create(array $payload, string $type = 'Main')
     {
-        $jws    = new JWS(['alg' => self::SIGNATUREALGORITHM], self::CRYPTIONENGINE);
+        $jws    = new JWS(['alg' => self::SIGNATUREALGORITHM]);
         $claims = ['iat' => time()];
         if ('Main' == $type) {
             $claims['exp'] = time() + $this->ttl;
@@ -90,7 +88,7 @@ class JWSProvider implements JWSProviderInterface
      */
     public function load($token)
     {
-        $jws = JWS::load($token, false, null, self::CRYPTIONENGINE);
+        $jws = JWS::load($token, false, null);
 
         return new LoadedJWS(
             $jws->getPayload(),

@@ -33,7 +33,7 @@ abstract class PublicKey implements SignerInterface
         }
 
         $signature = null;
-        openssl_sign($input, $signature, $keyResource, $this->getHashingAlgorithm());
+        openssl_sign($input, $signature, $keyResource);
 
         return $signature;
     }
@@ -48,7 +48,7 @@ abstract class PublicKey implements SignerInterface
             throw new InvalidArgumentException('Invalid key supplied.');
         }
 
-        $result = openssl_verify($input, $signature, $keyResource, $this->getHashingAlgorithm());
+        $result = openssl_verify($input, $signature, $keyResource);
 
         if ($result === -1) {
             throw new RuntimeException('Unknown error during verification.');
@@ -93,13 +93,6 @@ abstract class PublicKey implements SignerInterface
 
         return isset($keyDetails['type']) ? $this->getSupportedPrivateKeyType() === $keyDetails['type'] : false;
     }
-
-    /**
-     * Returns the hashing algorithm used in this signer.
-     *
-     * @return string
-     */
-    abstract protected function getHashingAlgorithm();
 
     /**
      * Returns the private key type supported in this signer.

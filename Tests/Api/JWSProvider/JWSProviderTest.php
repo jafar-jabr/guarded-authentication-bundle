@@ -147,40 +147,6 @@ DxOt9qoZmUhkFHIm/hmzWV3+qnrRdj5uMuHPQ87OaQYTo8CCuykLptSYmw6yuWQS
         $this->assertTrue(isset($payload['username']));
     }
 
-//    public function testAllowEmptyTtl()
-//    {
-//        $keyLoaderMock = $this->getKeyLoaderMock();
-//        $keyLoaderMock
-//            ->expects($this->at(0))
-//            ->method('loadKey')
-//            ->with('private')
-//            ->willReturn(self::PRIVATE_KEY);
-//        $keyLoaderMock
-//            ->expects($this->at(1))
-//            ->method('getPassphrase')
-//            ->willReturn('anyPassphrase');
-//
-//        $keyLoaderMock
-//            ->expects($this->at(2))
-//            ->method('loadKey')
-//            ->with('public')
-//            ->willReturn(self::PUBLIC_KEY);
-//
-//        $provider = new JWSProvider($keyLoaderMock);
-//        $jws      = $provider->create(['username' => 'jafaronly']);
-//
-//        $this->assertInstanceOf(JWSCreator::class, $jws);
-//        $this->assertTrue($jws->isSigned());
-//
-//        $jws = $provider->load($jws->getToken());
-//
-//        $this->assertInstanceOf(LoadedJWS::class, $jws);
-//        $this->assertFalse($jws->isInvalid());
-//        $this->assertFalse($jws->isExpired());
-//        $this->assertTrue($jws->isVerified());
-//        $this->assertArrayNotHasKey('exp', $jws->getPayload());
-//    }
-
     /**
      * @expectedException        \InvalidArgumentException
      * @expectedExceptionMessage The TTL should be a numeric value
