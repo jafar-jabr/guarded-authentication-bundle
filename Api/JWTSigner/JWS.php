@@ -100,7 +100,7 @@ class JWS extends JWT
      * @param string           $jwsTokenString
      * @param bool             $allowUnsecure
      * @param EncoderInterface $encoder
-       *
+     *
      * @return JWS
      *
      * @throws \InvalidArgumentException
