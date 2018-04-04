@@ -48,15 +48,6 @@ class JWSProvider implements JWSProviderInterface
      */
     public function __construct(KeyLoaderInterface $keyLoader, $ttl, $refresh_ttl)
     {
-        if (null === $ttl) {
-            throw new \InvalidArgumentException(sprintf('The TTL should be a numeric value, got %s instead.', $ttl));
-        }
-
-        if (null === $refresh_ttl) {
-            throw new \InvalidArgumentException(
-                sprintf('The Refresh TTL should be a numeric value, got %s instead.', $refresh_ttl)
-            );
-        }
         $this->keyLoader   = $keyLoader;
         $this->ttl         = $ttl;
         $this->refresh_ttl = $refresh_ttl;
@@ -76,8 +67,7 @@ class JWSProvider implements JWSProviderInterface
         }
         $jws->setPayload($payload + $claims);
         $jws->sign(
-            $this->keyLoader->loadKey('private'),
-            $this->keyLoader->getPassphrase()
+            $this->keyLoader->loadKey('private')
         );
 
         return new JWSCreator($jws->getTokenString(), $jws->isSigned());
