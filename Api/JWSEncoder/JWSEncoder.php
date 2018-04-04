@@ -61,7 +61,7 @@ class JWSEncoder implements JWSEncoderInterface
     /**
      * {@inheritdoc}
      */
-    public function decode($token)
+    public function decode(string $token)
     {
         try {
             $jws = $this->jwsProvider->load($token);
