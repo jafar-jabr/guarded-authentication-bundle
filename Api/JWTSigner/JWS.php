@@ -36,7 +36,7 @@ class JWS extends JWT
     /**
      * Constructor.
      *
-     * @param array  $header           An associative array of headers. The value can be any type accepted by json_encode or a JSON serializable object
+     * @param array  $header An associative array of headers. The value can be any type accepted by json_encode or a JSON serializable object
      */
     public function __construct($header = [])
     {
