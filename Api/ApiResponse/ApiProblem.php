@@ -94,7 +94,7 @@ final class ApiProblem
     }
 
     /**
-     * @return int|string
+     * @return int
      */
     public function getStatusCode()
     {

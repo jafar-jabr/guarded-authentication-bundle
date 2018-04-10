@@ -19,6 +19,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 final class ApiResponseFactory
 {
+    /**
+     * @param ApiProblem $apiProblem
+     *
+     * @return JsonResponse
+     */
     public function createResponse(ApiProblem $apiProblem)
     {
         $data = $apiProblem->toArray();
