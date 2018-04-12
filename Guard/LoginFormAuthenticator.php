@@ -147,25 +147,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     /**
      * {@inheritdoc}
      */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
-    {
-        return parent::onAuthenticationFailure($request, $exception);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function supportsRememberMe()
     {
         return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function start(Request $request, AuthenticationException $authException = null)
-    {
-        return parent::start($request, $authException);
     }
 
     /**

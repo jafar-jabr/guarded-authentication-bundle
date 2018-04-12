@@ -171,7 +171,7 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
      */
     protected function getDefaultSuccessRedirectUrl()
     {
-        return;
+        return null;
     }
 
     /**
