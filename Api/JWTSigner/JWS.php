@@ -61,7 +61,7 @@ class JWS extends JWT
     /**
      * Returns the signature representation of the JWS.
      *
-     * @return string
+     * @return string|null
      */
     public function getSignature()
     {
@@ -69,7 +69,7 @@ class JWS extends JWT
             return $this->signature;
         }
 
-        return;
+        return null;
     }
 
     /**
