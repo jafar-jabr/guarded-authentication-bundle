@@ -21,23 +21,21 @@ services:
                 $ttl: '%jafar_guarded_authentication.token_ttl%'
                 $refresh_ttl: '%jafar_guarded_authentication.refresh_ttl%'
 
-      Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface:
+      jafar_guarded_authentication.encoder:
            class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoder
            public: true
            arguments: ['@Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSProvider\JWSProviderInterface']
 
-      jafar_guarded_authentication.encoder:
-           public: true
-           alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface
+      Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface:
+           alias: jafar_guarded_authentication.encoder
 
       Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSRefresher\JWSRefresherInterface:
-                 class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSRefresher\JWSRefresher
-                 public: true
-                 arguments: ['@Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface']
+           alias: jafar_guarded_authentication.token_refresher
 
       jafar_guarded_authentication.token_refresher:
-                 public: true
-                 alias: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSRefresher\JWSRefresherInterface
+           class: Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSRefresher\JWSRefresher
+           public: true
+           arguments: ['@Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface']
 
       guarded.authentication.login_form_authenticator:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Guard\LoginFormAuthenticator
@@ -62,7 +60,7 @@ services:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory
              public: false
 
-      jafar.command.key_generator:
+      jafar.command.keys_generator:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Command\KeysGeneratorCommand
              arguments:
                    $keys_dir: '%kernel.project_dir%/var/jws_keys/'

@@ -10,7 +10,6 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\DependencyInjection;
 
-use PHPUnit\Runner\Exception;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -24,7 +23,10 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class JafarGuardedAuthenticationExtension extends Extension
 {
     /**
-     * {@inheritdoc}
+     * @param array            $configs
+     * @param ContainerBuilder $container
+     *
+     * @throws \Exception
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -35,7 +37,7 @@ class JafarGuardedAuthenticationExtension extends Extension
         try {
             $loader->load('services.yml');
         } catch (\Exception $e) {
-            throw new Exception($e);
+            throw new \Exception($e);
         }
         $container->setParameter('jafar_guarded_authentication.pass_phrase', $config['pass_phrase'] ?? '');
         $container->setParameter('jafar_guarded_authentication.token_ttl', $config['token_ttl'] ?? 3600);
