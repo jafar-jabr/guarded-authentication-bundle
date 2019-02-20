@@ -140,32 +140,44 @@ for example it can looks like:
 and it can looks like:
 
 ``` php
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Jafar\Bundle\GuardedAuthenticationBundle\Form\GuardedLoginForm;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
  * Class LoginController
- * @package App\Controller
  */
-class LoginController extends Controller
+class LoginController extends AuthController
 {
+
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @var AuthenticationUtils
      */
-    public function indexAction()
+    private $authenticationUtils;
+
+    public function __construct(AuthenticationUtils $authenticationUtils)
     {
-        $authUtils = $this->get('security.authentication_utils');
+        $this->authenticationUtils = $authenticationUtils;
+    }
+
+    /**
+     * @return Response
+     */
+    public function login()
+    {
+        $authUtils = $this->authenticationUtils; //$this->get('security.authentication_utils');
         $error = $authUtils->getLastAuthenticationError();
         $lastUsername = $authUtils->getLastUsername();
         $form = $this->createForm(GuardedLoginForm::class, [
             '_username' => $lastUsername,
         ]);
-        return $this->render('Pages:login.html.twig', [
+        return $this->render('auth/login.html.twig', [
             'form' => $form->createView(),
             'error' => $error,
         ]);
     }
 }
+
 
 ```
 
