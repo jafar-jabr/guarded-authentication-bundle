@@ -25,8 +25,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode    = $treeBuilder->root('jafar_guarded_authentication');
+        $treeBuilder = new TreeBuilder('jafar_guarded_authentication');
+        $rootNode    = $treeBuilder->getRootNode();
         $rootNode
             ->children()
             ->scalarNode('pass_phrase')->end()

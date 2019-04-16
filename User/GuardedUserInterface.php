@@ -10,14 +10,14 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\User;
 
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Interface GuardedUserInterface.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */
-interface GuardedUserInterface extends AdvancedUserInterface
+interface GuardedUserInterface extends UserInterface
 {
     /**
      * @param string $email
