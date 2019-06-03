@@ -55,7 +55,7 @@ in your `config/packages/security.yml`
 security:
     encoders:
         App\Entity\User:  #your own user Entity
-            algorithm: bcrypt #or whatever
+            algorithm: auto #or whatever
     providers:
       # ...
         user_provider:
