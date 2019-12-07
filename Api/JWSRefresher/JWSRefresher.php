@@ -57,6 +57,7 @@ class JWSRefresher implements JWSRefresherInterface
             throw new ApiException('refresh token not provided', 'An error occurred while trying 
                to extract the refresh token. Please check your request header');
         }
+
         return [];
     }
 }

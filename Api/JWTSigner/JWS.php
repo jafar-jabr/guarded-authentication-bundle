@@ -103,7 +103,7 @@ class JWS extends JWT
      *
      * @return JWS
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function load(
         $jwsTokenString,
@@ -231,8 +231,6 @@ class JWS extends JWT
             return new $signerClass();
         }
 
-        throw new InvalidArgumentException(
-            sprintf("The algorithm '%s' is not supported for %s", $this->header['alg'], $this->encryptionEngine)
-        );
+        throw new InvalidArgumentException(sprintf("The algorithm '%s' is not supported for %s", $this->header['alg'], $this->encryptionEngine));
     }
 }

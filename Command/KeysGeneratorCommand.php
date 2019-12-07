@@ -10,6 +10,7 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Command;
 
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -56,13 +57,9 @@ class KeysGeneratorCommand extends Command
         $question->setHiddenFallback(false);
         $question->setValidator(function ($answer) {
             if (strlen($answer) < 6) {
-                throw new \RuntimeException(
-                    'The passPhrase can not be less than 6 characters'
-                );
+                throw new RuntimeException('The passPhrase can not be less than 6 characters');
             } elseif (strlen($answer) > 50) {
-                throw new \RuntimeException(
-                    'The passPhrase can not be more than 50 characters'
-                );
+                throw new RuntimeException('The passPhrase can not be more than 50 characters');
             }
 
             return $answer;

@@ -47,7 +47,7 @@ class JWSEncoder implements JWSEncoderInterface
             to encode the JWT token. Please verify your configuration (private key/passPhrase)', $e);
         }
         if (!$jws->isSigned()) {
-            throw new ApiException(ApiException::UNSIGNED_TOKEN,'Unable to create a signed JWT from the given configuration.');
+            throw new ApiException(ApiException::UNSIGNED_TOKEN, 'Unable to create a signed JWT from the given configuration.');
         }
 
         return $jws->getToken();
@@ -70,10 +70,9 @@ class JWSEncoder implements JWSEncoderInterface
             throw new ApiException(ApiException::EXPIRED_TOKEN, 'Expired JWT Token');
         }
         if (!$jws->isVerified()) {
-            throw new ApiException(ApiException::UNVERIFIED_TOKEN,'Unable to verify the given JWT through the given configuration.
+            throw new ApiException(ApiException::UNVERIFIED_TOKEN, 'Unable to verify the given JWT through the given configuration.
                  If the encryption keys have been changed since your last authentication, please renew the token.
-                 If the problem persists, verify that the configured passPhrase is valid.'
-            );
+                 If the problem persists, verify that the configured passPhrase is valid.');
         }
 
         return $jws->getPayload();

@@ -29,7 +29,7 @@ class OpenSSLKeyLoader extends AbstractKeyLoader
     {
         $path         = $this->getKeyPath($type);
         $encryptedKey = file_get_contents($path);
-        $key          = call_user_func_array(sprintf('openssl_pkey_get_%s', $type),self::TYPE_PRIVATE == $type ? [$encryptedKey, $this->getPassPhrase()] : [$encryptedKey]);
+        $key          = call_user_func_array(sprintf('openssl_pkey_get_%s', $type), self::TYPE_PRIVATE == $type ? [$encryptedKey, $this->getPassPhrase()] : [$encryptedKey]);
         if (!$key) {
             $sslError = '';
             while ($msg = trim(openssl_error_string(), " \n\r\t\0\x0B\"")) {
