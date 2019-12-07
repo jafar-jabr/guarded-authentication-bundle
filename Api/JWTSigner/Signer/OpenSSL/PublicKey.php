@@ -50,7 +50,7 @@ abstract class PublicKey implements SignerInterface
 
         $result = openssl_verify($input, $signature, $keyResource);
 
-        if ($result === -1) {
+        if (-1 === $result) {
             throw new RuntimeException('Unknown error during verification.');
         }
 

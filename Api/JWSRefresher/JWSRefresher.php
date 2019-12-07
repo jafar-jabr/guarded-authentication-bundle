@@ -49,20 +49,14 @@ class JWSRefresher implements JWSRefresherInterface
                 try {
                     return  $this->encoder->decode($token);
                 } catch (ApiException $e) {
-                    throw new ApiException(
-                        'Invalid refresh token',
-                        'An error occurred while trying 
-                to decode the JWT token. Please verify your configuration (private key/passPhrase)',
-                        $e
-                    );
+                    throw new ApiException('Invalid refresh token', 'An error occurred while trying 
+                    to decode the JWT token. Please verify your configuration (private key/passPhrase)', $e);
                 }
             }
         } else {
-            throw new ApiException(
-                'refresh token not provided',
-                'An error occurred while trying 
-                to extract the refresh token. Please check your request header'
-            );
+            throw new ApiException('refresh token not provided', 'An error occurred while trying 
+               to extract the refresh token. Please check your request header');
         }
+        return [];
     }
 }
