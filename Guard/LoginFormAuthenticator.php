@@ -99,7 +99,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $form = $this->formFactory->create(GuardedLoginForm::class);
         $form->handleRequest($request);
         $data = $form->getData();
-        if ($request->getSession()) {
+        if ($request->getSession() && $data && $data['_username']) {
             $request->getSession()->set(
                 Security::LAST_USERNAME,
                 $data['_username']
