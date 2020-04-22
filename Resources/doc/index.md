@@ -107,13 +107,13 @@ Usage
 -----
 1- to create your won user entity and to make it implements
 ``` php
-Jafar\Bundle\GuardedAuthenticationBundle\User\GuardedUserInterface
+Symfony\Component\Security\Core\User\UserInterface;
      
 ```
 
 2- the user repository has to implement :
 ``` php
-Jafar\Bundle\GuardedAuthenticationBundle\User\GuardedUserRepositoryInterface;
+Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 ```
 and the method `loadUserByUsername` to load the user by whatever you like
 for example it can looks like:
@@ -192,7 +192,7 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Exception\ApiException;
 
 class ApiLoginController extends AuthController
 {
-    /**
+     /**
      * @var UserRepository
      */
     private $userRepository;
@@ -208,39 +208,46 @@ class ApiLoginController extends AuthController
 
     /**
      * @param Request $request
+     * @param JWSEncoderInterface $JWSEncoder
+     * @param UserPasswordEncoderInterface $passwordEncoder
      * @return JsonResponse
+     * @throws NonUniqueResultException
      */
-    public function index(Request $request)
-        {
-            $username = $request->get('username');
-            $password = $request->get('password');
-            $user = $this->userRepository->loadUserByUsername($username);
-            if (!$user) {
-                $apiProblem = new ApiProblem(401);
-                $apiProblem->set('detail', 'Invalid email');
-    
-                return (new ApiResponseFactory())->createResponse($apiProblem);
-            }
-            $passwordValid = $this->get('security.password_encoder')->isPasswordValid($user, $password);
-            if (!$passwordValid) {
-                $apiProblem = new ApiProblem(401);
-                $apiProblem->set('detail', 'Incorrect Password');
-    
-                return (new ApiResponseFactory())->createResponse($apiProblem);
-            }
-            try {
-                $token        = $this->get('jafar_guarded_authentication.encoder')->encode(['username' => $username]);
-                $refreshToken = $this->get('jafar_guarded_authentication.encoder')->encode(
-                    ['username' => $username],
-                    'Refresh'
-                );
-            } catch (ApiException $e) {
-                $apiProblem = new ApiProblem(401);
-                $apiProblem->set('detail', $e->getReason());
-                return (new ApiResponseFactory())->createResponse($apiProblem);
-            }
-            return new JsonResponse(['status' => 'Success', 'token' => 'Bearer '.$token, 'refresh-token' => $refreshToken]);
+    public function index(Request $request, JWSEncoderInterface $JWSEncoder, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $username = $request->get('username');
+        $password = $request->get('password');
+        $user = $this->userRepository->loadUserByUsername($username);
+        if (!$user) {
+            $apiProblem = new ApiProblem(401);
+            $apiProblem->set('detail', 'Invalid email');
+
+            return (new ApiResponseFactory())->createResponse($apiProblem);
         }
+        $passwordValid = $passwordEncoder->isPasswordValid($user, $password);
+        if (!$passwordValid) {
+            $apiProblem = new ApiProblem(401);
+            $apiProblem->set('detail', 'Incorrect Password');
+
+            return (new ApiResponseFactory())->createResponse($apiProblem);
+        }
+        try {
+            $token = $JWSEncoder->encode(['username' => $username], 'Main');
+            $refreshToken = $JWSEncoder->encode(
+                ['username' => $username],
+                'Refresh'
+            );
+        } catch (ApiException $e) {
+            $apiProblem = new ApiProblem(401);
+            $apiProblem->set('detail', $e->getReason());
+            return (new ApiResponseFactory())->createResponse($apiProblem);
+        }
+        return new JsonResponse([
+            'status' => 'Success',
+            'token' => 'Bearer '.$token,
+            'refresh-token' => $refreshToken
+        ]);
+    }
 }
 ```
 ### with the above mentioned setting now your authentication system start to work
@@ -284,60 +291,14 @@ Each request after token expiration will result in a 401 response.
 ### Refresh Token 
 starting from v2.06 you will have refresh-token service
 ```php
-jafar_guarded_authentication.token_refresher
+Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSRefresher\JWSRefresherInterface
 ``` 
-
-and you can generate refresh token,
+you can generate refresh token,
 ```php
-$refreshToken = $this->get('jafar_guarded_authentication.encoder')->encode(['username' => $username], 'Refresh');
+$refreshToken = Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface->encode(['username' => $username], 'Refresh');
 ``` 
-an example of how to refresh the token
-``` php
-use App\Repository\UserRepository;
-use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiProblem;
-use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponseFactory;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-
-class ApiLoginController extends AuthController
-{
-         # ...
-         # ...
-    
-         /**
-         * @param Request $request
-         *
-         * @return JsonResponse
-         * @throws ApiException
-         */
-        public function refresh(Request $request)
-        {
-            try {
-                $data         = $this->get('jafar_guarded_authentication.token_refresher')->decode($request);
-                $username     = isset($data['username']) ? $data['username'] : 'not set';
-                $user         = $this->userRepository->loadUserByUsername($username);
-                if (!$user) {
-                    $apiProblem = new ApiProblem(401);
-                    $apiProblem->set('detail', 'Invalid refresh token');
-    
-                    return (new ApiResponseFactory())->createResponse($apiProblem);
-                }
-            } catch (ApiException $e) {
-                $apiProblem = new ApiProblem(401);
-                $apiProblem->set('detail', 'Invalid refresh token');
-    
-                return (new ApiResponseFactory())->createResponse($apiProblem);
-            }
-            $token            = $this->get('jafar_guarded_authentication.encoder')->encode(['username' => $username]);
-            $refreshToken = $this->get('jafar_guarded_authentication.encoder')->encode(
-                ['username' => $username],
-                'Refresh'
-            );
-            return new JsonResponse(['status' => 'Success', 'token' => 'Bearer '.$token, 'refresh-token' => $refreshToken]);
-        }
-}
-```
-
-
-
-
+and to verify it after
+```php
+$data         = $refresher->decode($request);
+$username     = $data['username'] ?? 'invalid';
+``` 
