@@ -21,13 +21,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 interface GuardedUserRepositoryInterface extends UserLoaderInterface
 {
     /**
-     * Loads the user for the given $userName.
+     * Loads the user for the given $username.
      *
      * This method must return null if the user is not found.
      *
-     * @param string $userName The user property of your choice (ei. username, email or even id)
+     * @param string $username The user property of your choice (ei. username, email or even id)
      *
      * @return UserInterface|null
      */
-    public function loadUserByUsername(string $userName);
+    public function loadUserByUsername(string $username);
 }
