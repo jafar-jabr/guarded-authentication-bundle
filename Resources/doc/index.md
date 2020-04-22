@@ -34,12 +34,8 @@ Create `jafar_guarded_authentication.yaml`
 jafar_guarded_authentication:
    #the route name of login page
     login_route: ''
-   #route name of home page 
-    home_page_route: ''
-   #route name for Api login url
-    api_login_route: ''
    # ssh key pass phrase
-    pass_phrase:         '' # passphrase which you choose when you generate keys in command line
+    pass_phrase:         '' # passphrase which you will choose when you will generate keys in command line
     # token ttl
     token_ttl:           3600 #time to live in second
    # refresh token ttl
