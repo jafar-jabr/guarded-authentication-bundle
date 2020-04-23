@@ -68,4 +68,12 @@ services:
              tags:
                  - { name: console.command, command: jafar:generate-keys }
 
+      jafar.command.encrypt-password:
+             class: Jafar\Bundle\GuardedAuthenticationBundle\Command\PasswordEncryptorCommand
+             arguments:
+                   $encoder: '@security.password_encoder'
+             public: false
+             tags:
+                 - { name: console.command, command: jafar:encrypt-password }
+
 
