@@ -2,14 +2,14 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Command;
 
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Exception;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use \Exception;
-
 
 /**
  * Class PasswordEncryptorCommand.
@@ -20,7 +20,7 @@ class PasswordEncryptorCommand extends Command
 {
     protected static $defaultName = 'jafar:encrypt-password';
 
-    /** @var UserPasswordEncoderInterface $encoder */
+    /** @var UserPasswordEncoderInterface */
     private $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
@@ -55,16 +55,17 @@ class PasswordEncryptorCommand extends Command
             } elseif (strlen($answer) > 50) {
                 throw new RuntimeException('The password can not be more than 50 characters');
             }
+
             return $answer;
         });
-        $helper        = $this->getHelper('question');
+        $helper = $this->getHelper('question');
         $plainPassword = $helper->ask($input, $output, $question);
         $user = null;
-        if(class_exists('\App\Entity\User')){
+        if (class_exists('\App\Entity\User')) {
             $user = new \App\Entity\User();
-        } elseif(class_exists('\App\Entity\Users')){
+        } elseif (class_exists('\App\Entity\Users')) {
             $user = new \App\Entity\Users();
-        }else{
+        } else {
             throw new Exception('No User Entity found, searched in \'App\Entity\User\' and \'App\Entity\Users\'');
         }
         $enc = $this->encoder->encodePassword(
