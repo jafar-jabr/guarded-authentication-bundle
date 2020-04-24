@@ -25,8 +25,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 
 /**
- * {@inheritdoc}
- *
  * Class LoginFormAuthenticator.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
