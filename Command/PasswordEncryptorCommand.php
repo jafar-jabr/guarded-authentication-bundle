@@ -58,9 +58,9 @@ class PasswordEncryptorCommand extends Command
 
             return $answer;
         });
-        $helper = $this->getHelper('question');
+        $helper        = $this->getHelper('question');
         $plainPassword = $helper->ask($input, $output, $question);
-        $user = null;
+        $user          = null;
         if (class_exists('\App\Entity\User')) {
             $user = new \App\Entity\User();
         } elseif (class_exists('\App\Entity\Users')) {
