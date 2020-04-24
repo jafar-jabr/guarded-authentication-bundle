@@ -26,7 +26,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 /**
- *
  * Class JwsAuthenticator.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
@@ -84,6 +83,7 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
             return null;
         }
         $extractor = new TokenExtractor('Bearer', 'Authorization');
+
         return $extractor->extract($request) ?? null;
     }
 
@@ -133,6 +133,7 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
     {
         $apiProblem = new ApiProblem(401);
         $apiProblem->set('detail', $exception->getMessageKey());
+
         return $this->responseFactory->createResponse($apiProblem);
     }
 

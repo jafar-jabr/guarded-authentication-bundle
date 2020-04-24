@@ -35,8 +35,8 @@ final class ApiException extends Exception
     private $reason;
 
     /**
-     * @param string          $reason
-     * @param string          $message
+     * @param string         $reason
+     * @param string         $message
      * @param Exception|null $previous
      */
     public function __construct($reason, $message, Exception $previous = null)
