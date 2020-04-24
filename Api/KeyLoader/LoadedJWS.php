@@ -10,6 +10,8 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\KeyLoader;
 
+use DateTime;
+
 /**
  * Class LoadedJWS.
  *
@@ -104,7 +106,7 @@ class LoadedJWS
             return $this->state = self::INVALID;
         }
 
-        if (0 <= (new \DateTime())->format('U') - $this->payload['exp']) {
+        if (0 <= (new DateTime())->format('U') - $this->payload['exp']) {
             return $this->state = self::EXPIRED;
         }
 

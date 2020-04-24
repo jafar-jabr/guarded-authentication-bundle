@@ -74,6 +74,6 @@ class PasswordEncryptorCommand extends Command
         );
         $output->writeln('<info>'.$enc.'</info>');
 
-        return 0;
+        return 1;
     }
 }

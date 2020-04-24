@@ -26,7 +26,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 /**
- * {@inheritdoc}
  *
  * Class JwsAuthenticator.
  *
@@ -85,12 +84,7 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
             return null;
         }
         $extractor = new TokenExtractor('Bearer', 'Authorization');
-        $token     = $extractor->extract($request);
-        if (!$token) {
-            return null;
-        }
-
-        return $token;
+        return $extractor->extract($request) ?? null;
     }
 
     /**
@@ -117,9 +111,6 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getLoginUrl()
     {
         $loginRoute = $this->loginRoute;
@@ -132,7 +123,7 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
      */
     public function supportsRememberMe()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -142,7 +133,6 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
     {
         $apiProblem = new ApiProblem(401);
         $apiProblem->set('detail', $exception->getMessageKey());
-
         return $this->responseFactory->createResponse($apiProblem);
     }
 
@@ -166,9 +156,6 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultSuccessRedirectUrl()
     {
         return null;
@@ -191,11 +178,9 @@ class JwsAuthenticator extends AbstractGuardAuthenticator
     private function loadUser(UserProviderInterface $userProvider, string $username)
     {
         try {
-            $user = $userProvider->loadUserByUsername($username);
+            return $userProvider->loadUserByUsername($username);
         } catch (UsernameNotFoundException $e) {
             throw new CustomUserMessageAuthenticationException($e->getMessage());
         }
-
-        return $user;
     }
 }

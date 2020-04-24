@@ -10,12 +10,14 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Exception;
 
+use Exception;
+
 /**
  * Class ApiException.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */
-final class ApiException extends \Exception
+final class ApiException extends Exception
 {
     const INVALID_TOKEN = 'invalid_token';
 
@@ -35,9 +37,9 @@ final class ApiException extends \Exception
     /**
      * @param string          $reason
      * @param string          $message
-     * @param \Exception|null $previous
+     * @param Exception|null $previous
      */
-    public function __construct($reason, $message, \Exception $previous = null)
+    public function __construct($reason, $message, Exception $previous = null)
     {
         $this->reason = $reason;
         parent::__construct($message, 500, $previous);

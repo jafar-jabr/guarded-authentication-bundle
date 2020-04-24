@@ -78,7 +78,7 @@ class KeysGeneratorCommand extends Command
         file_put_contents($key_directory.'public.pem', $pubKey);
         $output->writeln('<info>private and public keys generated successfully.</info>');
 
-        return 0;
+        return 1;
     }
 
     /**
