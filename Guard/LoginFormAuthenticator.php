@@ -97,7 +97,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $form = $this->formFactory->create(GuardedLoginForm::class);
         $form->handleRequest($request);
         $data = $form->getData();
-        if ($request->getSession() && $data && $data['_username']) {
+        if ($request->getSession() && $data && isset($data['_username'])) {
             $request->getSession()->set(
                 Security::LAST_USERNAME,
                 $data['_username']
@@ -112,7 +112,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $username = $credentials['_username'];
+        $username = $credentials['_username'] ?? '';
 
         return $this->loadUser($userProvider, $username);
     }
@@ -122,7 +122,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function checkCredentials($credentials, UserInterface $user)
     {
-        $password = $credentials['_password'];
+        $password = $credentials['_password'] ?? '';
         if ($this->passwordEncoder->isPasswordValid($user, $password)) {
             return true;
         }

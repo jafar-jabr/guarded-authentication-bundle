@@ -42,6 +42,7 @@ class PasswordEncryptorCommand extends Command
 
     /**
      * {@inheritdoc}
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
