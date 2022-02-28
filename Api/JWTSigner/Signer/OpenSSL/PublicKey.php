@@ -12,6 +12,7 @@ namespace Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner\Signer\OpenSSL;
 
 use InvalidArgumentException;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner\Signer\SignerInterface;
+use OpenSSLAsymmetricKey;
 use RuntimeException;
 
 /**
@@ -63,19 +64,17 @@ abstract class PublicKey implements SignerInterface
      * @param string|resource $key
      * @param string          $password
      *
-     * @return resource OpenSSL key resource
+     * @return OpenSSLAsymmetricKey|resource OpenSSL key resource
      */
     protected function getKeyResource($key, $password = null)
     {
-        if (is_resource($key)) {
+        if (is_resource($key) || $key instanceof OpenSSLAsymmetricKey) {
             return $key;
         }
-
-        $resource = openssl_pkey_get_public($key) ?: openssl_pkey_get_private($key, $password);
+        $resource = $password ? openssl_pkey_get_private($key, $password): openssl_pkey_get_public($key);
         if (false === $resource) {
             throw new RuntimeException('Could not read key resource: '.openssl_error_string());
         }
-
         return $resource;
     }
 

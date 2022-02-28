@@ -10,177 +10,98 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Guard;
 
-use Jafar\Bundle\GuardedAuthenticationBundle\Form\GuardedLoginForm;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 
 /**
  * Class LoginFormAuthenticator.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */
-class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
+class LoginFormAuthenticator extends AbstractAuthenticator
 {
     /**
-     * @var FormFactoryInterface
-     */
-    private $formFactory;
-
-    /**
-     * @var RouterInterface
-     */
-    private $router;
-
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $passwordEncoder;
-
-    /**
      * @var string
      */
-    private $loginRoute;
+    private string $loginRoute;
+
+    private RouterInterface $router;
 
     /**
-     * @var string
-     */
-    private $homeRoute;
-
-    /**
-     * @var string
-     */
-    private $wrongPassword = 'Incorrect Password Provided!';
-
-    /**
-     * LoginFormAuthenticator constructor.
-     *
-     * @param FormFactoryInterface         $formFactory
-     * @param RouterInterface              $router
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param string                       $loginRoute
-     * @param string                       $homeRoute
+     * @param string $loginRoute
+     * @param RouterInterface $router
      */
     public function __construct(
-        FormFactoryInterface $formFactory,
-        RouterInterface $router,
-        UserPasswordEncoderInterface $passwordEncoder,
         string $loginRoute,
-        string $homeRoute
+        RouterInterface $router,
     ) {
-        $this->formFactory     = $formFactory;
-        $this->router          = $router;
-        $this->passwordEncoder = $passwordEncoder;
-        $this->loginRoute      = $loginRoute;
-        $this->homeRoute       = $homeRoute;
+        $this->loginRoute = $loginRoute;
+        $this->router = $router;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCredentials(Request $request)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        $loginRoute    = $this->loginRoute;
-        $isLoginSubmit = $request->attributes->get('_route') == $loginRoute && $request->isMethod('POST');
-        if (!$isLoginSubmit) {
-            return null;
-        }
-        $form = $this->formFactory->create(GuardedLoginForm::class);
-        $form->handleRequest($request);
-        $data = $form->getData();
-        if ($request->getSession() && $data && isset($data['_username'])) {
-            $request->getSession()->set(
-                Security::LAST_USERNAME,
-                $data['_username']
-            );
-        }
-
-        return $data;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getUser($credentials, UserProviderInterface $userProvider)
-    {
-        $username = $credentials['_username'] ?? '';
-
-        return $this->loadUser($userProvider, $username);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function checkCredentials($credentials, UserInterface $user)
-    {
-        $password = $credentials['_password'] ?? '';
-        if ($this->passwordEncoder->isPasswordValid($user, $password)) {
-            return true;
-        }
-
-        throw new CustomUserMessageAuthenticationException($this->wrongPassword);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
-    {
-        $homeRoute = $this->homeRoute;
-        $url       = $this->router->generate($homeRoute);
-
-        return new RedirectResponse($url);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supportsRememberMe()
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getLoginUrl()
-    {
-        $loginRoute = $this->loginRoute;
-
-        return $this->router->generate($loginRoute);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(Request $request)
-    {
-        return (bool) $this->getCredentials($request);
-    }
-
-    /**
-     * @param UserProviderInterface $userProvider
-     * @param string                $username
-     *
-     * @return UserInterface
-     */
-    private function loadUser(UserProviderInterface $userProvider, string $username)
-    {
+        $redirectRoute = $request->request->get("_target_path");
         try {
-            $user = $userProvider->loadUserByUsername($username);
-        } catch (UsernameNotFoundException $e) {
-            throw new CustomUserMessageAuthenticationException($e->getMessage());
+           return new RedirectResponse($this->router->generate($redirectRoute));
+        }catch (RouteNotFoundException){
+           die("<br>We didn't find a target url to redirect to after login, please refer to </br>`https://github.com/jafar-jabr/guarded-authentication-bundle/blob/master/Resources/doc/index.md#usage` </br> for how to set up it</b>");
         }
+    }
 
-        return $user;
+    /**
+     * {@inheritdoc}
+     */
+    public function supports(Request $request): ?bool
+    {
+        return $request->attributes->get('_route') == $this->loginRoute && $request->isMethod('POST');
+    }
+
+    /**
+     * @param Request $request
+     * @return Passport
+     * ref https://symfony.com/doc/current/security/custom_authenticator.html#passport-attributes
+     */
+    public function authenticate(Request $request): Passport
+    {
+        $data = $request->request->all();
+        $username = $data["_username"];
+        $password = $data["_password"];
+        $rememberMe = $data["_remember_me"] ?? null;
+        $request->getSession()->set(
+            Security::LAST_USERNAME,
+            $username
+        );
+        if($rememberMe) {
+            $passport = new Passport(new UserBadge($username), new PasswordCredentials($password), [new RememberMeBadge()]);
+        } else {
+            $passport = new Passport(new UserBadge($username), new PasswordCredentials($password));
+        }
+        $oauthScope = "main";
+        $passport->setAttribute('scope', $oauthScope);
+        return $passport;
+    }
+
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    {
+        $request->getSession()->set(
+            Security::AUTHENTICATION_ERROR,
+            $exception
+        );
+        return null;
     }
 }

@@ -83,7 +83,6 @@ abstract class AbstractKeyLoader implements KeyLoaderInterface
             throw new RuntimeException(sprintf('%s key "%s" does not exist or is not readable. 
             Please run jafar:generate-keys again to regenerate the kys!', ucfirst($type), $path));
         }
-
         return $path;
     }
 }

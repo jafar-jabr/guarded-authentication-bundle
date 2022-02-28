@@ -10,178 +10,121 @@
 
 namespace Jafar\Bundle\GuardedAuthenticationBundle\Guard;
 
+use Exception;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiProblem;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSExtractor\TokenExtractor;
-use Jafar\Bundle\GuardedAuthenticationBundle\Exception\ApiException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\CustomCredentials;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 
 /**
  * Class JwsAuthenticator.
  *
  * @author Jafar Jabr <jafaronly@yahoo.com>
  */
-class JwsAuthenticator extends AbstractGuardAuthenticator
+class JwsAuthenticator extends AbstractAuthenticator
 {
     /**
      * @var JWSEncoderInterface
      */
-    private $jwtEncoder;
-
-    /**
-     * @var RouterInterface
-     */
-    private $router;
-
+    private JWSEncoderInterface $jwtEncoder;
     /**
      * @var ApiResponseFactory
      */
-    private $responseFactory;
+    private ApiResponseFactory $responseFactory;
 
-    /**
-     * @var string
-     */
-    private $loginRoute;
+    private UserProviderInterface $userProvider;
 
     /**
      * JwsAuthenticator constructor.
      *
      * @param JWSEncoderInterface $jwtEncoder
-     * @param RouterInterface     $router
      * @param ApiResponseFactory  $responseFactory
-     * @param string              $loginRoute
      */
     public function __construct(
         JWSEncoderInterface $jwtEncoder,
-        RouterInterface $router,
         ApiResponseFactory $responseFactory,
-        string $loginRoute
+        UserProviderInterface $userProvider,
     ) {
         $this->jwtEncoder      = $jwtEncoder;
-        $this->router          = $router;
         $this->responseFactory = $responseFactory;
-        $this->loginRoute      = $loginRoute;
+        $this->userProvider      = $userProvider;
     }
 
     /**
-     * {@inheritdoc}
+     * Called on every request to decide if this authenticator should be
+     * used for the request. Returning `false` will cause this authenticator
+     * to be skipped.
      */
-    public function getCredentials(Request $request)
+    public function supports(Request $request): ?bool
     {
-        $loginRoute    = $this->loginRoute;
-        $isLoginSubmit = $request->attributes->get('_route') == $loginRoute && $request->isMethod('POST');
-        if ($isLoginSubmit) {
-            return null;
-        }
-        $extractor = new TokenExtractor('Bearer', 'Authorization');
+        return $request->headers->has('Authorization');
+    }
 
+    private function getCredentials(Request $request): bool|string|null
+    {
+        $extractor = new TokenExtractor('Bearer', 'Authorization');
         return $extractor->extract($request) ?? null;
     }
 
     /**
-     * {@inheritdoc}
+     * @param Request $request
+     * @return Passport
+     * ref https://symfony.com/doc/current/security/custom_authenticator.html#how-to-write-a-custom-authenticator
      */
-    public function getUser($credentials, UserProviderInterface $userProvider)
+    public function authenticate(Request $request): Passport
     {
+        $credentials = $this->getCredentials($request);
         try {
             $data = $this->jwtEncoder->decode($credentials);
-        } catch (ApiException $e) {
-            throw new CustomUserMessageAuthenticationException($e->getMessage());
+            $username = $data['username'];
+            $cred = new CustomCredentials(
+              function ($credentials, UserInterface $user) {
+                  $authUser = $this->loadUser($credentials);
+                  return !empty($authUser);
+              },
+              $username
+          );
+          return new Passport(new UserBadge($username), $cred);
+        } catch (Exception $exception) {
+            throw new CustomUserMessageAuthenticationException($exception->getMessage());
         }
-
-        $username = $data['username'];
-
-        return $this->loadUser($userProvider, $username);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function checkCredentials($credentials, UserInterface $user)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        return true;
+        // on success, let the request continue
+        return null;
     }
 
-    protected function getLoginUrl()
-    {
-        $loginRoute = $this->loginRoute;
-
-        return $this->router->generate($loginRoute);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supportsRememberMe()
-    {
-        return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         $apiProblem = new ApiProblem(401);
         $apiProblem->set('detail', $exception->getMessageKey());
-
         return $this->responseFactory->createResponse($apiProblem);
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $username
+     * @return null|UserInterface
      */
-    public function start(Request $request, AuthenticationException $authException = null)
-    {
-        $apiProblem = new ApiProblem(401);
-        $message    = $authException ? $authException->getMessageKey() : 'Invalid credentials';
-        $apiProblem->set('detail', $message);
-
-        return $this->responseFactory->createResponse($apiProblem);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
-    {
-        return null;
-    }
-
-    protected function getDefaultSuccessRedirectUrl()
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(Request $request)
-    {
-        return (bool) $this->getCredentials($request);
-    }
-
-    /**
-     * @param UserProviderInterface $userProvider
-     * @param string                $username
-     *
-     * @return UserInterface
-     */
-    private function loadUser(UserProviderInterface $userProvider, string $username)
+    private function loadUser(string $username): ?UserInterface
     {
         try {
-            return $userProvider->loadUserByUsername($username);
-        } catch (UsernameNotFoundException $e) {
-            throw new CustomUserMessageAuthenticationException($e->getMessage());
+            return $this->userProvider->loadUserByIdentifier($username);
+        }catch (UserNotFoundException){
+            return null;
         }
     }
 }

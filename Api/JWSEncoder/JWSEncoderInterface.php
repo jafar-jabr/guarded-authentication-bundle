@@ -28,7 +28,7 @@ interface JWSEncoderInterface
      * @throws ApiException If an error occurred while trying to create
      *                      the token (invalid cryptic key, invalid payload...)
      */
-    public function encode(array $data, string $type);
+    public function encode(array $data, string $type): string;
 
     /**
      * @param string $token
@@ -38,5 +38,5 @@ interface JWSEncoderInterface
      * @throws ApiException If an error occurred while trying to load the token
      *                      (invalid signature, invalid crept key, expired token...)
      */
-    public function decode(string $token);
+    public function decode(string $token): array;
 }

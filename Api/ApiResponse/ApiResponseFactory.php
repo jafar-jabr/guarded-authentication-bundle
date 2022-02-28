@@ -24,7 +24,7 @@ final class ApiResponseFactory
      *
      * @return JsonResponse
      */
-    public function createResponse(ApiProblem $apiProblem)
+    public function createResponse(ApiProblem $apiProblem): JsonResponse
     {
         $data = $apiProblem->toArray();
         if ('about:blank' != $data['type']) {

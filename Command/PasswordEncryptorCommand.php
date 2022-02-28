@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class PasswordEncryptorCommand.
@@ -20,10 +20,10 @@ class PasswordEncryptorCommand extends Command
 {
     protected static $defaultName = 'jafar:encrypt-password';
 
-    /** @var UserPasswordEncoderInterface */
-    private $encoder;
+    private UserPasswordHasherInterface $encoder;
 
-    public function __construct(UserPasswordEncoderInterface $encoder)
+
+    public function __construct(UserPasswordHasherInterface $encoder)
     {
         $this->encoder = $encoder;
         parent::__construct();
@@ -36,8 +36,8 @@ class PasswordEncryptorCommand extends Command
     {
         $this
             ->setName('jafar:encrypt-password')
-            ->setDescription('encrypt a password for first use before to have the regisration')
-            ->setHelp('encrypt a password for first use before to have the regisration');
+            ->setDescription('encrypt a password for first use before to have the registration')
+            ->setHelp('encrypt a password for first use before to have the registration');
     }
 
     /**
@@ -70,7 +70,7 @@ class PasswordEncryptorCommand extends Command
         } else {
             throw new Exception('No User Entity found, searched in \'App\Entity\User\' and \'App\Entity\Users\'');
         }
-        $enc = $this->encoder->encodePassword(
+        $enc = $this->encoder->hashPassword(
             $user,
             $plainPassword
         );

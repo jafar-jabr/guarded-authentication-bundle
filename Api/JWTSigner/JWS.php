@@ -15,6 +15,7 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner\Base64\Base64Encoder;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner\Base64\Base64UrlSafeEncoder;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner\Base64\EncoderInterface;
 use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner\Signer\SignerInterface;
+use OpenSSLAsymmetricKey;
 
 /**
  * Class JWS.
@@ -23,22 +24,22 @@ use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWTSigner\Signer\SignerInterfac
  */
 class JWS extends JWT
 {
-    protected $signature;
+    protected ?string $signature;
 
-    protected $isSigned = false;
+    protected bool $isSigned = false;
 
     protected $originalToken;
 
-    protected $encodedSignature;
+    protected string $encodedSignature;
 
-    protected $encryptionEngine = 'OpenSSL';
+    protected string $encryptionEngine = 'OpenSSL';
 
     /**
      * Constructor.
      *
      * @param array $header An associative array of headers. The value can be any type accepted by json_encode or a JSON serializable object
      */
-    public function __construct($header = [])
+    public function __construct(array $header = [])
     {
         parent::__construct([], $header);
     }
@@ -46,11 +47,11 @@ class JWS extends JWT
     /**
      * Signs the JWS signininput.
      *
-     * @param resource|string $key
+     * @param string $key
      *
-     * @return string
+     * @return null|string
      */
-    public function sign($key)
+    public function sign(string|OpenSSLAsymmetricKey $key): ?string
     {
         $this->signature = $this->getSigner()->sign($this->generateSigninInput(), $key);
         $this->isSigned  = true;

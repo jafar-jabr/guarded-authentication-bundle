@@ -4,7 +4,8 @@ Getting started
 Prerequisites
 -------------
 
-This bundle requires php 7+, Symfony 3.4+ and OpenSSL library.
+This bundle requires php 7+, Symfony 3.4+ and OpenSSL library,
+but starting from v4.0.0 it requires php 8+, Symfony 6+ and OpenSSL library.
 
 Installation
 ------------
@@ -34,8 +35,6 @@ Create `jafar_guarded_authentication.yaml`
 jafar_guarded_authentication:
    #the route name of login page
     login_route: ''
-   #the route name of home page
-    home_page_route: ''
    # ssh key pass phrase
     pass_phrase:         '' # passphrase which you will choose when you will generate keys in command line
     # token ttl
@@ -51,43 +50,47 @@ in your `config/packages/security.yml`
 ```yaml
 
 security:
-    encoders:
-        App\Entity\User:  #your own user Entity
-            algorithm: auto #or whatever
+    enable_authenticator_manager: true
+    password_hashers:
+          Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     providers:
       # ...
         user_provider:
-          entity:
-              class: App\Entity\User #your own user Entity
-    
+            entity:
+               class: App\Entity\User #your own user Entity
+               property: 'email' #or any other property
     firewalls:
       # ...
         api:
-            pattern: ^/api/
-            anonymous: ~
-            stateless: ~
-            guard:
-               authenticators:
-                    - guarded.authentication.jws_token_authenticator
+           pattern: ^/api/ #your pattern
+           lazy: true
+           stateless: ~
+           custom_authenticators:
+                 authenticators:
+                      guarded.authentication.jws_token_authenticator
         main:
             pattern: ^/
-            anonymous: ~
-            guard:
-                authenticators:
-                     - guarded.authentication.login_form_authenticator
-                entry_point: guarded.authentication.login_form_authenticator
+            lazy: true
+            form_login:
+                failure_path: login #route name
+                login_path: /user_login #route
+            custom_authenticators:
+                  authenticators:
+                        guarded.authentication.login_form_authenticator
+                  entry_point: guarded.authentication.login_form_authenticator
             logout:
-                path: /logout
+               path: logout
+               target: homepage
             remember_me:
-                secret:   '%kernel.secret%'
-                lifetime: 604800 # 1 week in seconds
-                path:     /
+                 secret:   '%kernel.secret%'
+                 lifetime: 604800 # 1 week in seconds
+                 path:     /
     # ...
     
     access_control:
             # ...
-            - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-            - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+            - { path: ^/api/login, roles: PUBLIC_ACCESS }
+            - { path: ^/api/token/refresh, roles: PUBLIC_ACCESS }
             # ...            
 ```
 
@@ -106,150 +109,97 @@ Usage
 1- to create your won user entity and to make it implements
 ``` php
 Symfony\Component\Security\Core\User\UserInterface;
+Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
      
 ```
 
-2- the user repository has to implement :
-``` php
-Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
-```
-and the method `loadUserByUsername` to load the user by whatever you like
-for example it can looks like:
-
-```php
-     /**
-         *{@inheritdoc}
-         */
-        public function loadUserByUsername($parameter)
-        {
-            return $this->createQueryBuilder('u')
-                ->where('u.email = :username')
-                ->orWhere('u.userName = :username')
-                ->setParameter('username', $parameter)
-                ->getQuery()
-                ->getOneOrNullResult();
-        }
-```
-
-3- for login method in the controller you can use:
-```php
-   Jafar\Bundle\GuardedAuthenticationBundle\Form\GuardedLoginForm
-```
-and it can looks like:
+2- for login method in the controller
+can look like:
 
 ``` php
-use Jafar\Bundle\GuardedAuthenticationBundle\Form\GuardedLoginForm;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
 /**
- * Class LoginController
- */
-class LoginController extends AuthController
-{
-
-    /**
-     * @var AuthenticationUtils
+     * @param AuthenticationUtils $authenticationUtils
+     * @return RedirectResponse|Response
      */
-    private $authenticationUtils;
-
-    public function __construct(AuthenticationUtils $authenticationUtils)
+    public function loginPage(AuthenticationUtils $authenticationUtils): RedirectResponse|Response
     {
-        $this->authenticationUtils = $authenticationUtils;
+      $error = $authenticationUtils->getLastAuthenticationError();
+      $lastUsername = $authenticationUtils->getLastUsername();
+      return $this->render('auth/login_page.html.twig', ["error" => $error, "lastUsername" => $lastUsername]);
     }
-
-    /**
-     * @return Response
-     */
-    public function login()
-    {
-        $authUtils = $this->authenticationUtils; //$this->get('security.authentication_utils');
-        $error = $authUtils->getLastAuthenticationError();
-        $lastUsername = $authUtils->getLastUsername();
-        $form = $this->createForm(GuardedLoginForm::class, [
-            '_username' => $lastUsername,
-        ]);
-        return $this->render('auth/login.html.twig', [
-            'form' => $form->createView(),
-            'error' => $error,
-        ]);
-    }
-}
-
 
 ```
 
-- API login controller can look like:
-``` php
-use App\Repository\UserRepository;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiProblem;
-use Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory;
+3- login form html can be something like:
+
+```html
+{% if error %}
+<div class="yo_search_for">{{ error.messageKey }}</div>
+{% endif %}
+ <form class="login-form" action="{{ path('login') }}" method="post" tabindex="500">
+     <h3>{{ _('login_page.login') }}</h3>
+     <div class="mail">
+         <input type="text" name="_username" value="{{ lastUsername }}"/>
+         <label>{{ _('login_page.phone') }}</label>
+     </div>
+     <div class="passwd">
+         <input type="password" name="_password">
+         <label>{{ _('login_page.password') }}</label>
+     </div>
+     <div class="passwd">
+     <label>
+         <input type="checkbox" name="_remember_me" checked/>
+         Keep me logged in
+     </label>
+     </div>
+     <input type="hidden" name="_target_path" value="homepage"/> {#route name to which to redirect after login#}
+     <div class="submit">
+         <input type="submit" href="#" value="{{ _('login_page.login') }}" class="dark button-login-style loginmodal-submit" />
+     </div>
+     <div class="forgot-remember">
+         <div class="forgot">
+             <a href="#" class="forgot-password-button">{{ _('login_page.forgot_password') }}?</a>
+         </div>
+     </div>
+ </form>
+```
+
+- API login method in the controller you need to import:
+```php
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Jafar\Bundle\GuardedAuthenticationBundle\Api\JWSEncoder\JWSEncoderInterface;
 use Jafar\Bundle\GuardedAuthenticationBundle\Exception\ApiException;
-
-class ApiLoginController extends AuthController
-{
-     /**
-     * @var UserRepository
-     */
-    private $userRepository;
-
-    /**
-     * ApiLoginController constructor.
-     * @param UserRepository $userRepository
-     */
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
-
-    /**
-     * @param Request $request
-     * @param JWSEncoderInterface $JWSEncoder
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @return JsonResponse
-     * @throws NonUniqueResultException
-     */
-    public function index(Request $request, JWSEncoderInterface $JWSEncoder, UserPasswordEncoderInterface $passwordEncoder)
+```
+and it can look like:
+``` php
+ public function index(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordEncoder, JWSEncoderInterface $jwsTokenEncoder): JsonResponse
     {
         $username = $request->get('username');
         $password = $request->get('password');
-        $user = $this->userRepository->loadUserByUsername($username);
+        $user = $userRepository->loadUserByUsername($username);
         if (!$user) {
-            $apiProblem = new ApiProblem(401);
-            $apiProblem->set('detail', 'Invalid email');
-
-            return (new ApiResponseFactory())->createResponse($apiProblem);
+            return new JsonResponse('Invalid email', 401);
         }
         $passwordValid = $passwordEncoder->isPasswordValid($user, $password);
         if (!$passwordValid) {
-            $apiProblem = new ApiProblem(401);
-            $apiProblem->set('detail', 'Incorrect Password');
-
-            return (new ApiResponseFactory())->createResponse($apiProblem);
+            return new JsonResponse('Incorrect Password', 401);
         }
         try {
-            $token = $JWSEncoder->encode(['username' => $username], 'Main');
-            $refreshToken = $JWSEncoder->encode(
-                ['username' => $username],
-                'Refresh'
-            );
+            $jwsData = ['username' => $username, ....];
+            $token = $jwsTokenEncoder->encode($jwsData, 'Main');
+            $refreshToken = $jwsTokenEncoder->encode($jwsData, 'Refresh');
         } catch (ApiException $e) {
-            $apiProblem = new ApiProblem(401);
-            $apiProblem->set('detail', $e->getReason());
-            return (new ApiResponseFactory())->createResponse($apiProblem);
+            return new JsonResponse($e->getMessage(), 401);
         }
         return new JsonResponse([
             'status' => 'Success',
             'token' => 'Bearer '.$token,
             'refresh-token' => $refreshToken
         ]);
-    }
 }
 ```
-### with the above mentioned setting now your authentication system start to work
-after you create your routes for form login and API authentication and update `jafar_guarded_authentication.yaml`
+### with the above-mentioned setting now your authentication system start to work
+after you create your routes for form login and update `jafar_guarded_authentication.yaml`
 with real data
 Now you can submit the login form for authentication or send (curl or postman) request
 

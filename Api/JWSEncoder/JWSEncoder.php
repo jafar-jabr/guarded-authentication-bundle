@@ -38,7 +38,7 @@ class JWSEncoder implements JWSEncoderInterface
     /**
      * {@inheritdoc}
      */
-    public function encode(array $payload, string $type = 'Main')
+    public function encode(array $payload, string $type = 'Main'): string
     {
         try {
             $jws = $this->jwsProvider->create($payload, $type);
@@ -56,7 +56,7 @@ class JWSEncoder implements JWSEncoderInterface
     /**
      * {@inheritdoc}
      */
-    public function decode(string $token)
+    public function decode(string $token): array
     {
         try {
             $jws = $this->jwsProvider->load($token);

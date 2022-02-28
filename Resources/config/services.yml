@@ -41,20 +41,16 @@ services:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Guard\LoginFormAuthenticator
              public: true
              arguments:
-                  $formFactory: '@form.factory'
-                  $router: '@router'
-                  $passwordEncoder: '@security.password_encoder'
                   $loginRoute: '%jafar_guarded_authentication.login_route%'
-                  $homeRoute: '%jafar_guarded_authentication.home_page_route%'
+                  $router: '@router'
 
       guarded.authentication.jws_token_authenticator:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Guard\JwsAuthenticator
              public: true
              arguments:
                   $jwtEncoder: '@jafar_guarded_authentication.encoder'
-                  $router: '@router'
+                  $userProvider: '@Symfony\Component\Security\Core\User\UserProviderInterface'
                   $responseFactory: '@Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory'
-                  $loginRoute: '%jafar_guarded_authentication.api_login_route%'
 
       Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Api\ApiResponse\ApiResponseFactory
@@ -71,7 +67,7 @@ services:
       jafar.command.encrypt-password:
              class: Jafar\Bundle\GuardedAuthenticationBundle\Command\PasswordEncryptorCommand
              arguments:
-                   $encoder: '@security.password_encoder'
+                   $encoder: '@security.password_hasher'
              public: false
              tags:
                  - { name: console.command, command: jafar:encrypt-password }

@@ -48,7 +48,7 @@ final class ApiException extends Exception
     /**
      * @return string
      */
-    public function getReason()
+    public function getReason(): string
     {
         return $this->reason;
     }

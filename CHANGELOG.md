@@ -4,6 +4,8 @@ CHANGELOG
 For a diff between two versions https://github.com/jafaronly/guarded-authentication-bundle/compare/v1.0.0...v2.0.0
 
 
+## [v4.0.0](https://github.com/jafaronly/guarded-authentication-bundle/tree/v4.0.0) (2022-02-28)
+
 ## [v2.0.6](https://github.com/jafaronly/guarded-authentication-bundle/tree/v2.0.6) (2018-04-01)
 
 ## [v2.0.5](https://github.com/jafaronly/guarded-authentication-bundle/tree/v2.0.5) (2018-01-14)
@@ -38,3 +40,9 @@ For a diff between two versions https://github.com/jafaronly/guarded-authenticat
 
 ## [v1.0.0](https://github.com/jafaronly/guarded-authentication-bundle/tree/v1.0.0) (2017-12-24)
 
+#######################
+Jafar jabr
+@2021/03/08_14:26:07
+ON
+* master
+composer.json

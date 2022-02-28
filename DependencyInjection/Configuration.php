@@ -23,7 +23,7 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('jafar_guarded_authentication');
         $rootNode    = $treeBuilder->getRootNode();
@@ -32,9 +32,6 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('pass_phrase')->end()
             ->scalarNode('token_ttl')->end()
             ->scalarNode('login_route')->end()
-            ->scalarNode('home_page_route')->end()
-            ->scalarNode('api_login_route')->end()
-            ->scalarNode('api_home_page_route')->end()
             ->scalarNode('refresh_ttl')->end()
             ->end();
 
