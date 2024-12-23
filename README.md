@@ -23,7 +23,7 @@ See the [CONTRIBUTING](CONTRIBUTING.md) file.
 Credits
 -------
 
-* Jafar Jabr <Jafaronly@yahoo.com>
+* Jafar Jabr <jafar.jabr.dev@gmail.com>
 * [All contributors](https://github.com/jafaronly/guarded-authentication-bundle/graphs/contributors)
 
 License
